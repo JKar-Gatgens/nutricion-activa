@@ -1,6 +1,6 @@
 # Etapa 1: Compilación (Build)
 # Usamos una imagen de Maven con JDK 21 para compilar
-FROM maven:3.9.6-eclipse-temurin-25-alpine AS build
+FROM maven:3.9-eclipse-temurin-25 AS buildAS build
 WORKDIR /app
 
 # Copiamos solo el pom.xml primero para aprovechar la caché de capas de Docker
