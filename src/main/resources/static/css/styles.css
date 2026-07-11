@@ -1,0 +1,314 @@
+/* ============================================================
+   Nutrición Activa — styles.css
+   Design tokens y overrides de Bootstrap 5.
+   Fuente de verdad: design-system/MASTER.md
+   Cargar SIEMPRE después de /webjars/bootstrap/css/bootstrap.min.css
+   ============================================================ */
+
+:root {
+  /* Primitivos de marca */
+  --na-green: #00C050;
+  --na-green-teal: #00A870;
+  --na-green-dark: #007D3C;
+  --na-green-tint: #E6F9EE;
+  --na-black: #0A0A0A;
+  --na-gray-700: #3D4440;
+  --na-gray-500: #6B736E;
+  --na-gray-200: #DEE4E0;
+  --na-gray-100: #F4F7F5;
+  --na-white: #FFFFFF;
+  --na-whatsapp: #25D366;
+  --na-danger: #D93A3A;
+  --na-warning: #B45309;
+  --na-gradient-brand: linear-gradient(135deg, #00A870 0%, #00C050 100%);
+
+  /* Tipografía */
+  --na-font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --na-font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --na-fs-display: clamp(2.5rem, 6vw, 4.5rem);
+  --na-fs-h2: clamp(2rem, 4vw, 3rem);
+  --na-fs-h3: 1.5rem;
+  --na-fs-body: 1rem;
+  --na-fs-small: 0.875rem;
+  --na-fs-price: clamp(2rem, 3.5vw, 2.75rem);
+
+  /* Espaciado (sistema de 8px) */
+  --na-space-1: 4px;
+  --na-space-2: 8px;
+  --na-space-3: 16px;
+  --na-space-4: 24px;
+  --na-space-5: 32px;
+  --na-space-6: 48px;
+  --na-space-7: 64px;
+  --na-space-8: 96px;
+
+  /* Forma y elevación */
+  --na-radius-sm: 8px;
+  --na-radius-md: 16px;
+  --na-radius-pill: 999px;
+  --na-shadow-card: 0 4px 16px rgba(10, 10, 10, 0.08);
+  --na-shadow-card-hover: 0 10px 28px rgba(0, 192, 80, 0.18);
+
+  /* Movimiento */
+  --na-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --na-dur-fast: 150ms;
+  --na-dur-base: 250ms;
+
+  /* Overrides de Bootstrap 5 */
+  --bs-primary: #00C050;
+  --bs-primary-rgb: 0, 192, 80;
+  --bs-success: #007D3C;
+  --bs-success-rgb: 0, 125, 60;
+  --bs-danger: #D93A3A;
+  --bs-danger-rgb: 217, 58, 58;
+  --bs-dark: #0A0A0A;
+  --bs-dark-rgb: 10, 10, 10;
+  --bs-body-color: #3D4440;
+  --bs-body-color-rgb: 61, 68, 64;
+  --bs-body-bg: #FFFFFF;
+  --bs-body-font-family: var(--na-font-body);
+  --bs-body-line-height: 1.6;
+  --bs-link-color: #007D3C;
+  --bs-link-color-rgb: 0, 125, 60;
+  --bs-link-hover-color: #00A870;
+  --bs-link-hover-color-rgb: 0, 168, 112;
+  --bs-border-color: #DEE4E0;
+  --bs-border-radius: 8px;
+  --bs-border-radius-lg: 16px;
+}
+
+/* ------------------------------------------------------------
+   Tipografía base
+   ------------------------------------------------------------ */
+
+h1, h2, h3, h4,
+.display-1, .display-2, .display-3 {
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--na-black);
+}
+
+/* ------------------------------------------------------------
+   Botones — pill, verde de marca + texto negro (accesible)
+   ------------------------------------------------------------ */
+
+.btn {
+  border-radius: var(--na-radius-pill);
+  font-weight: 600;
+  transition: background-color var(--na-dur-base) var(--na-ease-out),
+              color var(--na-dur-base) var(--na-ease-out),
+              transform var(--na-dur-base) var(--na-ease-out);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--na-green);
+  --bs-btn-border-color: var(--na-green);
+  --bs-btn-color: var(--na-black);
+  --bs-btn-hover-bg: var(--na-green-dark);
+  --bs-btn-hover-border-color: var(--na-green-dark);
+  --bs-btn-hover-color: var(--na-white);
+  --bs-btn-active-bg: var(--na-green-dark);
+  --bs-btn-active-border-color: var(--na-green-dark);
+  --bs-btn-active-color: var(--na-white);
+  --bs-btn-focus-shadow-rgb: 0, 192, 80;
+  padding: 0.75rem 2rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* Secundario: outline negro */
+.btn-outline-dark {
+  --bs-btn-color: var(--na-black);
+  --bs-btn-border-color: var(--na-black);
+  --bs-btn-hover-bg: var(--na-black);
+  --bs-btn-hover-border-color: var(--na-black);
+  --bs-btn-hover-color: var(--na-white);
+  padding: 0.75rem 2rem;
+}
+
+/* Focus visible en todos los interactivos — nunca eliminar outline */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 3px solid rgba(0, 192, 80, 0.4);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   Navbar
+   ------------------------------------------------------------ */
+
+.na-navbar {
+  background-color: var(--na-white);
+  border-bottom: 1px solid var(--na-gray-200);
+  padding-top: var(--na-space-2);
+  padding-bottom: var(--na-space-2);
+}
+
+.na-navbar .navbar-brand {
+  font-family: var(--na-font-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--na-black);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.na-navbar .navbar-brand strong {
+  color: var(--na-green-dark);
+}
+
+.na-navbar .nav-link {
+  color: var(--na-black);
+  font-weight: 500;
+  position: relative;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Subrayado animado de izquierda a derecha (150ms) */
+.na-navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: var(--bs-navbar-nav-link-padding-x, 0.5rem);
+  right: var(--bs-navbar-nav-link-padding-x, 0.5rem);
+  bottom: 0.35rem;
+  height: 2px;
+  background: var(--na-green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--na-dur-fast) var(--na-ease-out);
+}
+
+.na-navbar .nav-link:hover::after,
+.na-navbar .nav-link:focus-visible::after,
+.na-navbar .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.na-navbar .navbar-toggler {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* ------------------------------------------------------------
+   Footer — sección oscura de marca
+   ------------------------------------------------------------ */
+
+.na-footer {
+  background-color: var(--na-black);
+  color: var(--na-gray-200);
+  padding-top: var(--na-space-7);
+  padding-bottom: var(--na-space-5);
+}
+
+.na-footer h2,
+.na-footer h3 {
+  color: var(--na-white);
+  font-size: var(--na-fs-h3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* El verde brillante sí es accesible sobre negro (8.6:1) */
+.na-footer a {
+  color: var(--na-green);
+  text-decoration: none;
+}
+
+.na-footer a:hover {
+  color: var(--na-white);
+  text-decoration: underline;
+}
+
+.na-footer .na-footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--na-gray-500);
+  border-radius: var(--na-radius-pill);
+  transition: border-color var(--na-dur-fast) var(--na-ease-out),
+              color var(--na-dur-fast) var(--na-ease-out);
+}
+
+.na-footer .na-footer-social a:hover {
+  border-color: var(--na-green);
+}
+
+.na-footer .na-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin-top: var(--na-space-6);
+  padding-top: var(--na-space-4);
+  font-size: var(--na-fs-small);
+  /* gray-500 solo es accesible sobre blanco; sobre negro se usa gray-200 */
+  color: var(--na-gray-200);
+}
+
+/* ------------------------------------------------------------
+   Secciones y hero provisional
+   ------------------------------------------------------------ */
+
+.na-section {
+  padding-top: var(--na-space-7);
+  padding-bottom: var(--na-space-7);
+}
+
+@media (min-width: 992px) {
+  .na-section {
+    padding-top: var(--na-space-8);
+    padding-bottom: var(--na-space-8);
+  }
+}
+
+.na-hero h1 {
+  font-size: var(--na-fs-display);
+  text-transform: uppercase;
+}
+
+.na-hero h1 .na-accent {
+  color: var(--na-green-dark);
+}
+
+.na-hero .na-lead {
+  font-size: 1.25rem;
+  color: var(--na-gray-500);
+  max-width: 65ch;
+}
+
+/* Eyebrow / badge de sección */
+.na-eyebrow {
+  display: inline-block;
+  background: var(--na-green-tint);
+  color: var(--na-green-dark);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: var(--na-radius-pill);
+  padding: var(--na-space-1) var(--na-space-3);
+}
+
+/* ------------------------------------------------------------
+   Accesibilidad: movimiento reducido
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

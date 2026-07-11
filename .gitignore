@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Python (scripts de skills) ###
+__pycache__/
