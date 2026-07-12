@@ -394,6 +394,17 @@ button:focus-visible,
   background: var(--na-gray-100);
 }
 
+/* Respiro para el FAB de WhatsApp (MASTER §7: no tapar CTAs): la banda del
+   FAB ocupa ~88px desde el borde inferior del viewport (24px de margen +
+   56px de botón + aire). En <992px la última card llega al borde derecho,
+   así que se garantiza ese espacio bajo el último "Agendar" al final del
+   scroll de la sección. */
+@media (max-width: 991.98px) {
+  .na-services {
+    padding-bottom: calc(var(--na-space-7) + 88px);
+  }
+}
+
 .na-service-card {
   position: relative;
   display: flex;
