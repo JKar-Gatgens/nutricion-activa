@@ -64,6 +64,27 @@ class HomeControllerTest {
         assertThat(contarOcurrencias(html, "na-card-featured")).isEqualTo(1);
     }
 
+    @Test
+    void construyeLosEnlacesDeWhatsappDesdeLasPropiedades() throws Exception {
+        MvcResult result = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String html = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        // El número vive en application.properties y llega a la vista vía
+        // GlobalModelAttributes (HU-03): FAB, footer (x2) y CTA del hero.
+        assertThat(html).contains("wa.me/50689592110?text=");
+
+        // El mensaje viaja URL-encodeado en UTF-8 simple: %C3%A9 es "é".
+        // Pin del bug real de doble codificación (los .properties son ISO-8859-1;
+        // el mensaje usa escapes unicode por eso).
+        assertThat(html).contains("%C3%A9");
+
+        // Botón flotante accesible presente en el layout compartido.
+        assertThat(html).contains("aria-label=\"Escribir por WhatsApp\"");
+    }
+
     private static int contarOcurrencias(String texto, String subcadena) {
         int contador = 0;
         int indice = 0;

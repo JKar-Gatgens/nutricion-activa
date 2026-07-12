@@ -519,6 +519,52 @@ button:focus-visible,
 }
 
 /* ------------------------------------------------------------
+   Botón flotante de WhatsApp (HU-03, MASTER §7)
+   ------------------------------------------------------------ */
+
+.na-whatsapp-fab {
+  position: fixed;
+  /* margen seguro: respeta la barra de gestos de iPhone (safe-area) */
+  right: max(var(--na-space-3), env(safe-area-inset-right, 0px));
+  bottom: max(var(--na-space-4), calc(env(safe-area-inset-bottom, 0px) + var(--na-space-3)));
+  z-index: 1030; /* sobre el contenido, bajo modales (1050) */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--na-radius-pill);
+  background: var(--na-whatsapp);
+  color: var(--na-white);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+  transition: transform var(--na-dur-fast) var(--na-ease-out);
+  /* aparición discreta tras el primer render: nunca desde scale(0) */
+  animation: na-fab-in 250ms var(--na-ease-out) 500ms backwards;
+}
+
+.na-whatsapp-fab:hover,
+.na-whatsapp-fab:focus-visible {
+  color: var(--na-white);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .na-whatsapp-fab:hover {
+    transform: scale(1.06);
+  }
+}
+
+.na-whatsapp-fab:active {
+  transform: scale(0.95);
+}
+
+@keyframes na-fab-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(8px);
+  }
+}
+
+/* ------------------------------------------------------------
    Accesibilidad: movimiento reducido
    ------------------------------------------------------------ */
 
@@ -535,5 +581,10 @@ button:focus-visible,
   .na-reveal {
     opacity: 1;
     transform: none;
+  }
+
+  /* sin entrada animada: el delay de la animación lo dejaría invisible 500ms */
+  .na-whatsapp-fab {
+    animation: none;
   }
 }

@@ -32,6 +32,18 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       conversión en cada commit. Agregarlo en el cierre del sprint.
       *(Origen: code review de HU-02, 2026-07-12)*
 
+- [ ] **Pulse del FAB de WhatsApp (MASTER §8)**: el spec pide un pulse sutil del anillo
+      cada ~6s (solo opacity/transform) que se detiene tras la primera interacción.
+      Quedó fuera del alcance de la HU-03; implementarlo en el sprint de pulido.
+      *(Origen: code review de HU-03, 2026-07-12)*
+- [ ] **Deduplicar icono y enlace de WhatsApp**: el path SVG está copiado 2 veces en
+      `fragments/layout.html` y la expresión wa.me 4 veces (FAB, footer ×2, hero).
+      Extraer un fragmento parametrizado (p. ej. `icono-whatsapp(size)`) y/o exponer
+      la URL ya construida desde `GlobalModelAttributes`. *(Origen: code review de HU-03, 2026-07-12)*
+- [ ] **Renombrar el fragmento `footer` de `layout.html`**: ahora devuelve footer + FAB,
+      el nombre ya no describe el contenido (p. ej. `footer-y-fab`). Coordinar con las
+      páginas que lo consumen. *(Origen: code review de HU-03, 2026-07-12)*
+
 ## Contenido / datos del PO
 
 - [ ] **URL real de Facebook**: el enlace del footer apunta al placeholder `https://www.facebook.com/`.

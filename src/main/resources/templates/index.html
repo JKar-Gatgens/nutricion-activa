@@ -25,7 +25,9 @@
                     <div class="d-flex flex-wrap align-items-center gap-3" data-reveal data-reveal-delay="120">
                         <!-- /agendar llega en el siguiente sprint; por ahora el CTA baja a servicios -->
                         <a class="btn btn-primary btn-lg" th:href="@{/#servicios}">Agendar mi cita</a>
-                        <a class="btn btn-outline-dark btn-lg" href="https://wa.me/50689592110"
+                        <a class="btn btn-outline-dark btn-lg"
+                           th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text=${whatsapp.mensaje})}"
+                           href="https://wa.me/50689592110"
                            target="_blank" rel="noopener noreferrer">Escribime por WhatsApp</a>
                     </div>
                 </div>
