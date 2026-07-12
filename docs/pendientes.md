@@ -14,9 +14,19 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       (barra de confianza del index) y Bootstrap Icons fill (redes del footer). MASTER §6
       exige un único set de trazo consistente. Hacerlo cuando se toque el layout en la
       HU-03 o en el sprint de pulido. *(Origen: code review de HU-01, 2026-07-11)*
-- [ ] **HU-02 — la sección de servicios debe usar exactamente `id="servicios"`**: las
+- [x] **HU-02 — la sección de servicios debe usar exactamente `id="servicios"`**: las
       anclas ya existentes (CTA del navbar, CTA "Agendar mi cita" del hero) apuntan a
-      `#servicios`; con otro id quedan muertas. *(Origen: code review de HU-01, 2026-07-11)*
+      `#servicios`; con otro id quedan muertas. *(Origen: code review de HU-01, 2026-07-11.
+      Resuelto en HU-02, 2026-07-12: la sección usa ese id y las anclas conectan.)*
+
+- [ ] **Desviación MASTER §7 — "3 cards máximo" vs 5 servicios**: la sección de
+      servicios embarca 5 cards porque el catálogo del PO tiene 5 servicios (nutrición
+      clínica podría fusionarse con la consulta inicial). Se resuelve cuando el PO
+      confirme el catálogo final; si quedan 5, actualizar el MASTER en vez del sitio.
+      *(Origen: code review de HU-02, 2026-07-12)*
+- [ ] **`.gitattributes` para normalizar finales de línea (LF/CRLF)**: git avisa
+      conversión en cada commit. Agregarlo en el cierre del sprint.
+      *(Origen: code review de HU-02, 2026-07-12)*
 
 ## Contenido / datos del PO
 

@@ -387,6 +387,87 @@ button:focus-visible,
 }
 
 /* ------------------------------------------------------------
+   Servicios y precios (HU-02)
+   ------------------------------------------------------------ */
+
+.na-services {
+  background: var(--na-gray-100);
+}
+
+.na-service-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--na-white);
+  border-radius: var(--na-radius-md);
+  box-shadow: var(--na-shadow-card);
+  padding: var(--na-space-4);
+  overflow: hidden; /* recorta la barra degradada de la card destacada */
+  transition: transform var(--na-dur-base) var(--na-ease-out),
+              box-shadow var(--na-dur-base) var(--na-ease-out);
+}
+
+/* Hover según MASTER §8: elevación con tinte verde + rise, 250ms */
+@media (hover: hover) and (pointer: fine) {
+  .na-service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--na-shadow-card-hover);
+  }
+}
+
+/* Card destacada: borde superior de 4px con el degradado de marca (MASTER §6) */
+.na-card-featured::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--na-gradient-brand);
+}
+
+.na-service-name {
+  font-size: var(--na-fs-h3);
+  margin-bottom: var(--na-space-2);
+}
+
+.na-service-desc {
+  color: var(--na-gray-500);
+  margin-bottom: var(--na-space-3);
+}
+
+/* Cifra protagonista (MASTER §3): Barlow Condensed + tabular-nums */
+.na-price {
+  font-family: var(--na-font-heading);
+  font-size: var(--na-fs-price);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--na-black);
+  white-space: nowrap; /* "₡30 000" usa espacio normal: que nunca parta línea */
+}
+
+.na-service-meta {
+  display: grid;
+  gap: var(--na-space-2);
+  margin: var(--na-space-3) 0 var(--na-space-4);
+  color: var(--na-gray-700);
+  font-size: var(--na-fs-small);
+}
+
+.na-service-meta li {
+  display: flex;
+  align-items: center;
+  gap: var(--na-space-2);
+}
+
+.na-service-meta svg {
+  color: var(--na-green-dark);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------
    Sobre mí
    ------------------------------------------------------------ */
 
@@ -420,6 +501,7 @@ button:focus-visible,
   border: 1px dashed var(--na-warning);
   border-radius: var(--na-radius-sm);
   padding: 0 var(--na-space-2);
+  font-family: var(--na-font-body); /* no hereda la condensada dentro de .na-price */
   font-size: var(--na-fs-small);
   font-weight: 600;
 }

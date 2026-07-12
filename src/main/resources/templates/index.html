@@ -83,6 +83,69 @@
         </div>
     </section>
 
+    <!-- ========== SERVICIOS Y PRECIOS (HU-02) ========== -->
+    <section id="servicios" class="na-section na-services">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="na-eyebrow mb-0" data-reveal>Servicios y precios</p>
+                <h2 class="na-section-title mt-3 mb-2" data-reveal data-reveal-delay="40">
+                    Elegí cómo empezar
+                </h2>
+                <p class="mb-0" data-reveal data-reveal-delay="80">
+                    Precios en colones costarricenses (CRC).
+                </p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-md-6 col-lg-4"
+                     th:each="servicio, stat : ${servicios}"
+                     data-reveal th:attr="data-reveal-delay=${(stat.index % 3) * 40}">
+                    <article class="na-service-card"
+                             th:classappend="${servicio.destacado} ? 'na-card-featured'">
+                        <span class="na-eyebrow mb-3 align-self-start"
+                              th:if="${servicio.destacado}">Recomendado</span>
+                        <h3 class="na-service-name" th:text="${servicio.nombre}">Consulta de nutrición</h3>
+                        <p class="na-service-desc" th:text="${servicio.descripcion}">
+                            Evaluación inicial completa para construir tu plan personalizado.
+                        </p>
+                        <p class="na-price mb-0">
+                            <span th:if="${servicio.precioColones != null}"
+                                  th:text="|₡${#numbers.formatInteger(servicio.precioColones, 1, 'WHITESPACE')}|">₡30 000</span>
+                            <mark class="na-pending" th:if="${servicio.precioColones == null}">[PRECIO PENDIENTE]</mark>
+                        </p>
+                        <ul class="na-service-meta list-unstyled">
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                                <span th:if="${servicio.duracionMinutos != null}"
+                                      th:text="|Sesión de ${servicio.duracionMinutos} min|">Sesión de 90 min</span>
+                                <mark class="na-pending" th:if="${servicio.duracionMinutos == null}">[DURACIÓN PENDIENTE]</mark>
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                    <line x1="8" y1="21" x2="16" y2="21"/>
+                                    <line x1="12" y1="17" x2="12" y2="21"/>
+                                </svg>
+                                <span th:text="${servicio.modalidad}">Virtual o a domicilio</span>
+                            </li>
+                        </ul>
+                        <!-- /agendar llega en el siguiente sprint: enlace preparado del backlog -->
+                        <a class="btn mt-auto"
+                           th:classappend="${servicio.destacado} ? 'btn-primary' : 'btn-outline-dark'"
+                           th:href="@{/agendar(servicio=${servicio.id})}"
+                           th:attr="aria-label=|Agendar ${servicio.nombre}|">Agendar</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== SOBRE MÍ (HU-01) ========== -->
     <section id="sobre-mi" class="na-section">
         <div class="container">
