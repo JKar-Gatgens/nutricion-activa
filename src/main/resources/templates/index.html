@@ -8,22 +8,114 @@
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
 <main>
-    <!-- Hero provisional — se reemplaza por el hero definitivo en el siguiente sprint -->
+
+    <!-- ========== HERO (HU-01) ========== -->
     <section class="na-section na-hero">
         <div class="container">
-            <span class="na-eyebrow">Nutrición deportiva online</span>
-            <h1 class="mt-3 mb-3">Alimenta tu <span class="na-accent">potencial</span></h1>
-            <p class="na-lead mb-4">
-                Planes de nutrición para deportistas que quieren perder grasa y ganar músculo,
-                con seguimiento personalizado en toda Latinoamérica.
-            </p>
-            <div class="d-flex flex-wrap gap-3">
-                <!-- /agendar llega en el siguiente sprint; por ahora el CTA baja a servicios -->
-                <a class="btn btn-primary" th:href="@{/#servicios}">Agendar mi cita</a>
-                <a class="btn btn-outline-dark" th:href="@{/#servicios}">Ver servicios</a>
+            <div class="row align-items-center gy-5">
+                <div class="col-12 col-lg-7">
+                    <p class="na-eyebrow mb-0" data-reveal>Alimenta tu potencial</p>
+                    <h1 class="mt-3 mb-3" data-reveal data-reveal-delay="40">
+                        Perdé grasa y <span class="na-accent">ganá músculo</span> con un plan hecho para vos
+                    </h1>
+                    <p class="na-lead mb-4" data-reveal data-reveal-delay="80">
+                        Nutrición deportiva online para deportistas y personas activas
+                        de toda Latinoamérica, con seguimiento personalizado.
+                    </p>
+                    <div class="d-flex flex-wrap align-items-center gap-3" data-reveal data-reveal-delay="120">
+                        <!-- /agendar llega en el siguiente sprint; por ahora el CTA baja a servicios -->
+                        <a class="btn btn-primary btn-lg" th:href="@{/#servicios}">Agendar mi cita</a>
+                        <a class="btn btn-outline-dark btn-lg" href="https://wa.me/50689592110"
+                           target="_blank" rel="noopener noreferrer">Escribime por WhatsApp</a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5">
+                    <!-- Composición de marca: aro degradado que ecoa el círculo del logo -->
+                    <div class="na-hero-visual" aria-hidden="true" data-reveal data-reveal-delay="80">
+                        <div class="na-hero-ring"></div>
+                        <img th:src="@{/img/logo.png}" src="../static/img/logo.png" alt="" loading="eager">
+                        <span class="na-hero-dot"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- ========== BARRA DE CONFIANZA ========== -->
+    <section class="na-trustbar" aria-label="Credenciales y disponibilidad">
+        <div class="container">
+            <ul class="row list-unstyled gy-4 mb-0">
+                <li class="col-12 col-md-4">
+                    <div class="na-trust-item" data-reveal>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="8" r="7"/>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                        </svg>
+                        <span>Nutricionista colegiado <mark class="na-pending">[CODIGO_CPN]</mark></span>
+                    </div>
+                </li>
+                <li class="col-12 col-md-4">
+                    <div class="na-trust-item" data-reveal data-reveal-delay="40">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <span>Atención virtual a toda Latinoamérica</span>
+                    </div>
+                </li>
+                <li class="col-12 col-md-4">
+                    <div class="na-trust-item" data-reveal data-reveal-delay="80">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>Lun–Sáb 8am–6pm (hora Costa Rica, GMT-6)</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ========== SOBRE MÍ (HU-01) ========== -->
+    <section id="sobre-mi" class="na-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-12 col-md-5 col-lg-4" data-reveal>
+                    <!-- Reemplazar por <img src="/img/andres.jpg"> cuando llegue la foto real -->
+                    <figure class="na-photo-placeholder mb-0">
+                        <img th:src="@{/img/logo.png}" src="../static/img/logo.png" alt="Logo de Nutrición Activa">
+                        <figcaption>
+                            <mark class="na-pending">[FOTO_PENDIENTE: static/img/andres.jpg]</mark>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="col-12 col-md-7 offset-lg-1">
+                    <p class="na-eyebrow mb-0" data-reveal>Sobre mí</p>
+                    <h2 class="na-section-title mt-3 mb-3" data-reveal data-reveal-delay="40">
+                        Andrés — Nutrición Activa
+                    </h2>
+                    <div data-reveal data-reveal-delay="80">
+                        <p><mark class="na-pending">[HISTORIA_PENDIENTE — reemplazar por la historia real de Andrés]</mark></p>
+                        <p class="mb-0" style="max-width: 65ch;">
+                            Soy Andrés, nutricionista deportivo. Acompaño a deportistas y personas
+                            activas de toda Latinoamérica que quieren transformar su composición
+                            corporal: perder grasa, ganar músculo y rendir mejor. Trabajo con planes
+                            personalizados basados en evidencia, ajustados a tu deporte, tus horarios
+                            y tu forma de comer — sin dietas genéricas ni restricciones imposibles.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
