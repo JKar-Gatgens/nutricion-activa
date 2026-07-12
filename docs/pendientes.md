@@ -53,5 +53,13 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
 
 ## Contenido / datos del PO
 
-- [ ] **URL real de Facebook**: el enlace del footer apunta al placeholder `https://www.facebook.com/`.
-      Pedir la URL de la página al PO y actualizarla en `fragments/layout.html`. *(Origen: code review de `feature/base-ui`, 2026-07-11)*
+- [x] **URL real de Facebook**: el enlace del footer apunta al placeholder `https://www.facebook.com/`.
+      Pedir la URL de la página al PO y actualizarla en `fragments/layout.html`.
+      *(Origen: code review de `feature/base-ui`, 2026-07-11. Resuelto 2026-07-12: la URL
+      nunca llegó y no se publican enlaces muertos — el icono se retiró del footer.)*
+- [ ] **Restaurar el icono de Facebook en el footer** si el PO confirma que tiene página,
+      con su URL real. El SVG retirado era el de Bootstrap Icons (`facebook`, viewBox 0 0 16 16).
+      *(Origen: correcciones de contenido pre-producción, 2026-07-12)*
+- [ ] **Correo de marca en el footer**: hoy publica `andresht0502@gmail.com` (personal,
+      autorizado por el PO como interino). Reemplazarlo cuando el PO confirme el correo
+      de marca definitivo. *(Origen: correcciones de contenido pre-producción, 2026-07-12)*
