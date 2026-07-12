@@ -7,6 +7,10 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
 - [ ] **Logo optimizado**: `static/img/logo.png` pesa 151 KB y no es cuadrado (517×616 px).
       Exportar un recorte cuadrado optimizado en WebP (más un PNG pequeño para favicon)
       y actualizar las referencias en `fragments/layout.html`. *(Origen: code review de `feature/base-ui`, 2026-07-11)*
+- [ ] **Foto de "Sobre mí" a WebP**: `static/img/andres.jpg` (98 KB, 720×887) funciona,
+      pero MASTER §9 pide WebP para fotografía. Convertirla en el sprint de pulido y
+      actualizar la referencia en `index.html` (mantener `width`/`height` declarados).
+      *(Origen: HU-01/HU-02, foto real incorporada el 2026-07-12)*
 
 ## UI / próximas HU
 
