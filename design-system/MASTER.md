@@ -247,7 +247,7 @@ Patrón *Before–After Transformation* (optimizado a conversión para servicios
 3. **Barra de confianza** — cifras rápidas: años de experiencia, clientes transformados, países atendidos.
 4. **Transformaciones (before–after)** — comparativas reales con métricas concretas; antes en gris desaturado, después a color con acentos verdes. La sección de mayor peso visual (fondo negro).
 5. **Cómo funciona** — 3 pasos: 1) Agenda tu evaluación → 2) Recibe tu plan personalizado → 3) Seguimiento y ajustes. Iconos + números grandes.
-6. **Servicios y precios** — cards de planes (3 máx.), plan recomendado destacado con borde degradado y badge; precio en grande, lista de incluye, CTA por card. Aclarar moneda (USD/CRC) por el público LATAM.
+6. **Servicios y precios** — cards de planes (4, catálogo final del PO 2026-07-12), plan recomendado destacado con borde degradado y badge; precio en grande, lista de incluye, CTA por card. Aclarar moneda (USD/CRC) por el público LATAM.
 7. **Testimonios** — citas breves con foto, nombre, deporte y resultado medible.
 8. **FAQ** — accordion de Bootstrap: consultas online, formas de pago, tiempos de resultados.
 9. **CTA final** — franja negra o degradado, eslogan + botón "Agendar cita" + botón WhatsApp.

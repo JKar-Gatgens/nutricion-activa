@@ -23,11 +23,18 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       `#servicios`; con otro id quedan muertas. *(Origen: code review de HU-01, 2026-07-11.
       Resuelto en HU-02, 2026-07-12: la sección usa ese id y las anclas conectan.)*
 
-- [ ] **Desviación MASTER §7 — "3 cards máximo" vs 5 servicios**: la sección de
+- [x] **Desviación MASTER §7 — "3 cards máximo" vs 5 servicios**: la sección de
       servicios embarca 5 cards porque el catálogo del PO tiene 5 servicios (nutrición
       clínica podría fusionarse con la consulta inicial). Se resuelve cuando el PO
       confirme el catálogo final; si quedan 5, actualizar el MASTER en vez del sitio.
-      *(Origen: code review de HU-02, 2026-07-12)*
+      *(Origen: code review de HU-02, 2026-07-12. Resuelto 2026-07-12: el catálogo
+      final del PO quedó en 4 servicios — Nutrición clínica fuera de la oferta — y
+      MASTER §7 se actualizó de "3 máx." a 4.)*
+- [ ] **Restaurar el ítem de colegiatura en la trustbar**: se retiró "Nutricionista
+      colegiado [CODIGO_CPN]" (reemplazado por "Hábitos sostenibles, no dietas de
+      moda") porque esa afirmación no se publica hasta que el PO entregue el código
+      CPN real. Restaurarlo con el código cuando exista. *(Origen: datos finales del
+      PO, 2026-07-12)*
 - [ ] **`.gitattributes` para normalizar finales de línea (LF/CRLF)**: git avisa
       conversión en cada commit. Agregarlo en el cierre del sprint.
       *(Origen: code review de HU-02, 2026-07-12)*

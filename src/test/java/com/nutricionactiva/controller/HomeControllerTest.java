@@ -35,30 +35,35 @@ class HomeControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void devuelveVistaIndexConLosCincoServiciosDelCatalogo() throws Exception {
+    void devuelveVistaIndexConLosCuatroServiciosDelCatalogo() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(model().attributeExists("servicios"))
-                .andExpect(model().attribute("servicios", hasSize(5)));
+                .andExpect(model().attribute("servicios", hasSize(4)));
     }
 
     @Test
-    void renderizaUnaTarjetaPorServicioConLosMarcadoresDePendienteYElDestacadoCorrectos() throws Exception {
+    void renderizaUnaTarjetaPorServicioSinMarcadoresPendientesYConElDestacado() throws Exception {
         MvcResult result = mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String html = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-        // 1 tarjeta <article class="na-service-card"> por cada uno de los 5 servicios.
-        assertThat(contarOcurrencias(html, "na-service-card")).isEqualTo(5);
+        // 1 tarjeta <article class="na-service-card"> por cada uno de los 4 servicios
+        // del catálogo definitivo del PO (2026-07-12).
+        assertThat(contarOcurrencias(html, "na-service-card")).isEqualTo(4);
 
-        // precioColones == null -> consulta-seguimiento y nutricion-clinica.
-        assertThat(contarOcurrencias(html, "[PRECIO PENDIENTE]")).isEqualTo(2);
-
-        // duracionMinutos == null -> protocolo-competencias, rutina-entrenamiento y nutricion-clinica.
-        assertThat(contarOcurrencias(html, "[DURACIÓN PENDIENTE]")).isEqualTo(3);
+        // Catálogo final: todos los precios confirmados y la duración null significa
+        // "no aplica" (la vista omite el metadato). No queda ningún marcador pendiente
+        // en toda la página.
+        assertThat(html).doesNotContain("[PRECIO PENDIENTE]");
+        assertThat(html).doesNotContain("[DURACIÓN PENDIENTE]");
+        assertThat(html)
+                .as("ningún marcador pendiente (.na-pending) debe llegar al HTML publicado; "
+                        + "si esto falla, un dato volvió a estado pendiente o se reutilizó el chip")
+                .doesNotContain("na-pending");
 
         // Único servicio destacado (consulta-nutricion) -> exactamente una tarjeta con clase extra.
         assertThat(contarOcurrencias(html, "na-card-featured")).isEqualTo(1);

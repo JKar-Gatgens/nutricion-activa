@@ -52,10 +52,10 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                              stroke-linejoin="round" aria-hidden="true">
-                            <circle cx="12" cy="8" r="7"/>
-                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
                         </svg>
-                        <span>Nutricionista colegiado <mark class="na-pending">[CODIGO_CPN]</mark></span>
+                        <span>Hábitos sostenibles, no dietas de moda</span>
                     </div>
                 </li>
                 <li class="col-12 col-md-4">
@@ -98,9 +98,9 @@
                 </p>
             </div>
             <div class="row g-4 justify-content-center">
-                <div class="col-12 col-md-6 col-lg-4"
+                <div class="col-12 col-md-6 col-xl-3"
                      th:each="servicio, stat : ${servicios}"
-                     data-reveal th:attr="data-reveal-delay=${(stat.index % 3) * 40}">
+                     data-reveal th:attr="data-reveal-delay=${(stat.index % 4) * 40}">
                     <article class="na-service-card"
                              th:classappend="${servicio.destacado} ? 'na-card-featured'">
                         <span class="na-eyebrow mb-3 align-self-start"
@@ -115,16 +115,15 @@
                             <mark class="na-pending" th:if="${servicio.precioColones == null}">[PRECIO PENDIENTE]</mark>
                         </p>
                         <ul class="na-service-meta list-unstyled">
-                            <li>
+                            <!-- duración null = no aplica (servicios tipo plan): se omite el metadato -->
+                            <li th:if="${servicio.duracionMinutos != null}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                      stroke-linejoin="round" aria-hidden="true">
                                     <circle cx="12" cy="12" r="10"/>
                                     <polyline points="12 6 12 12 16 14"/>
                                 </svg>
-                                <span th:if="${servicio.duracionMinutos != null}"
-                                      th:text="|Sesión de ${servicio.duracionMinutos} min|">Sesión de 90 min</span>
-                                <mark class="na-pending" th:if="${servicio.duracionMinutos == null}">[DURACIÓN PENDIENTE]</mark>
+                                <span th:text="|Sesión de ${servicio.duracionMinutos} min|">Sesión de 90 min</span>
                             </li>
                             <li>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -165,13 +164,13 @@
                         Andrés — Nutrición Activa
                     </h2>
                     <div data-reveal data-reveal-delay="80">
-                        <p><mark class="na-pending">[HISTORIA_PENDIENTE — reemplazar por la historia real de Andrés]</mark></p>
+                        <!-- Texto basado en las palabras del PO; validación final en la demo -->
                         <p class="mb-0" style="max-width: 65ch;">
-                            Soy Andrés, nutricionista deportivo. Acompaño a deportistas y personas
-                            activas de toda Latinoamérica que quieren transformar su composición
-                            corporal: perder grasa, ganar músculo y rendir mejor. Trabajo con planes
-                            personalizados basados en evidencia, ajustados a tu deporte, tus horarios
-                            y tu forma de comer — sin dietas genéricas ni restricciones imposibles.
+                            Me apasiona ayudar a las personas a alcanzar sus objetivos a través de la
+                            alimentación. Mi enfoque no son las dietas de moda: es construir hábitos
+                            sostenibles que se adapten a tu vida — ya sea que busqués perder grasa,
+                            ganar músculo o rendir mejor en tu deporte. Te acompaño de forma
+                            personalizada, virtual desde cualquier país o a domicilio en Costa Rica.
                         </p>
                     </div>
                 </div>

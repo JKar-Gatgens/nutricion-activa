@@ -15,6 +15,8 @@ import com.nutricionactiva.model.Servicio;
 @Service
 public class CatalogoServicios {
 
+    // Catálogo definitivo confirmado por el PO (2026-07-12). "Nutrición clínica"
+    // quedó fuera de la oferta final.
     private static final List<Servicio> SERVICIOS = List.of(
             new Servicio(
                     "consulta-nutricion",
@@ -31,7 +33,7 @@ public class CatalogoServicios {
                     "Consulta de seguimiento",
                     "Ajustes del plan según tu progreso: mediciones, revisión de adherencia "
                             + "y nuevas metas.",
-                    null, // precio pendiente de confirmación del PO
+                    30_000,
                     40,
                     "Virtual o a domicilio",
                     false,
@@ -42,7 +44,7 @@ public class CatalogoServicios {
                     "Plan de 3 días para llegar a tu competencia en el punto ideal: carga de "
                             + "energía, hidratación y timing de comidas.",
                     22_000,
-                    null, // duración de la sesión pendiente (los 3 días son el alcance del plan)
+                    null, // sin duración de sesión: es un plan con alcance de 3 días
                     "Virtual",
                     false,
                     3),
@@ -52,22 +54,10 @@ public class CatalogoServicios {
                     "Rutina de fuerza o acondicionamiento alineada con tu plan nutricional "
                             + "y tus objetivos.",
                     15_000,
-                    null, // duración de la sesión pendiente
+                    null, // sin duración de sesión: es un plan personalizado
                     "Virtual",
                     false,
-                    4),
-            // Servicio sujeto a confirmación del PO: podría fusionarse con la
-            // consulta de nutrición.
-            new Servicio(
-                    "nutricion-clinica",
-                    "Nutrición clínica",
-                    "Abordaje nutricional de condiciones de salud con un enfoque activo, "
-                            + "integrado a tu entrenamiento y estilo de vida.",
-                    null, // precio pendiente de confirmación del PO
-                    null, // duración pendiente de confirmación del PO
-                    "Virtual o a domicilio",
-                    false,
-                    5));
+                    4));
 
     /**
      * Devuelve el catálogo completo ordenado ascendentemente por

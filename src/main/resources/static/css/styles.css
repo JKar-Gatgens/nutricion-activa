@@ -498,7 +498,9 @@ button:focus-visible,
   border-radius: calc(var(--na-radius-md) - 4px);
 }
 
-/* Marcador visible de contenido pendiente ([CODIGO_CPN], [HISTORIA_PENDIENTE]…) */
+/* Marcador visible de dato pendiente. Único uso vivo: el [PRECIO PENDIENTE]
+   defensivo de las cards (precio null = pendiente del PO), ruta que vuelve a
+   ser posible cuando el catálogo migre a base de datos en Sprint 2. */
 .na-pending {
   display: inline-block;
   background: #FFF3CD;
