@@ -79,21 +79,21 @@ Pareja atlética/condensada, ideal para marcas deportivas (recomendación del mo
 
 | Rol | Fuente | Pesos |
 |---|---|---|
-| Titulares (h1–h4, precios, cifras) | **Barlow Condensed** | 500, 600, 700 |
-| Cuerpo, botones, formularios | **Barlow** | 400, 500, 600, 700 |
+| Titulares (h1–h4, precios, cifras) | **Barlow Condensed** | 600 (brand), 700 |
+| Cuerpo, botones, formularios | **Barlow** | 400, 500, 600 |
 
 **Import (colocar en el `<head>` del layout Thymeleaf, antes del CSS propio):**
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 ```
 
 Alternativa en CSS:
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap');
 ```
 
 **Escala tipográfica** (base 16px, cuerpo con `line-height: 1.6`; titulares 1.1–1.2):
@@ -288,7 +288,7 @@ Patrón *Before–After Transformation* (optimizado a conversión para servicios
 - [ ] Botón primario verde siempre con texto negro
 - [ ] Targets táctiles ≥ 44×44px (botones, navbar, WhatsApp flotante)
 - [ ] Labels visibles en el formulario de citas (no solo placeholder); errores bajo el campo con `role="alert"`; tipos semánticos (`email`, `tel`, `date`)
-- [ ] Focus visible en todos los interactivos (anillo `rgba(0,192,80,.4)`, 3px) — no eliminar outline
+- [ ] Focus visible en todos los interactivos (anillo sólido `#007D3C`, 3px — el translúcido `rgba(0,192,80,.4)` rendía ~1.4:1 y falla WCAG 1.4.11) — no eliminar outline
 - [ ] Un solo H1 (hero); jerarquía h1→h2→h3 sin saltos
 - [ ] `alt` descriptivo en fotos de transformaciones; `aria-label` en botones de solo icono
 - [ ] Imágenes WebP con dimensiones declaradas; lazy load bajo el fold; CLS < 0.1

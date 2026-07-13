@@ -14,13 +14,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${pageTitle} ?: 'Nutrición Activa — Alimenta tu potencial'">Nutrición Activa</title>
-    <meta name="description" content="Nutrición deportiva online para deportistas de toda Latinoamérica. Pierde grasa, gana músculo: alimenta tu potencial.">
-    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
+    <meta name="description" content="Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.">
+
+    <!-- Open Graph: preview del enlace en WhatsApp (canal principal del negocio) y redes.
+         og:url y og:image exigen URL absoluta: viene de app.sitio.base-url. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nutrición Activa">
+    <meta property="og:title" content="Nutrición Activa — Alimenta tu potencial">
+    <meta property="og:description" content="Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.">
+    <meta property="og:locale" content="es_CR">
+    <meta property="og:url" th:content="|${sitio.baseUrl}/|" content="http://localhost/">
+    <meta property="og:image" th:content="|${sitio.baseUrl}/img/og.png|" content="http://localhost/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Logo de Nutrición Activa: figura atlética dentro del aro verde, con el eslogan Alimenta tu potencial">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicons multi-tamaño (emblema de marca) -->
+    <link rel="icon" th:href="@{/favicon.ico}" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/img/favicon-32.png}">
+    <link rel="icon" type="image/png" sizes="192x192" th:href="@{/img/favicon-192.png}">
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/img/apple-touch-icon.png}">
 
     <!-- Google Fonts: Barlow Condensed (titulares) + Barlow (cuerpo) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Solo los pesos en uso: Condensed 600 (brand) y 700 (titulares/cifras);
+         Barlow 400 (cuerpo), 500 (nav/meta) y 600 (botones/labels) -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Bootstrap (WebJars) y luego los tokens/overrides de la marca -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
@@ -29,11 +50,15 @@
 
 <body>
 
-<!-- Navbar: sticky, blanca, logo a la izquierda, CTA siempre visible -->
-<nav th:fragment="navbar" class="navbar navbar-expand-lg sticky-top na-navbar" aria-label="Navegación principal">
+<!-- Navbar: sticky, blanca, logo a la izquierda, CTA siempre visible.
+     El bloque incluye el skip link para teclado (WCAG 2.4.1); las páginas
+     deben tener <main id="contenido">. -->
+<th:block th:fragment="navbar">
+<a class="na-skip-link" href="#contenido">Saltar al contenido</a>
+<nav class="navbar navbar-expand-lg sticky-top na-navbar" aria-label="Navegación principal">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
-            <img th:src="@{/img/logo.png}" src="../../static/img/logo.png" alt="Logo de Nutrición Activa" width="37" height="44">
+            <img th:src="@{/img/logo.webp}" src="../../static/img/logo.webp" alt="Logo de Nutrición Activa" width="44" height="44">
             <span>Nutrición <strong>Activa</strong></span>
         </a>
         <!-- CTA fuera del collapse: siempre visible en móvil (MASTER §7) -->
@@ -53,6 +78,7 @@
         </div>
     </div>
 </nav>
+</th:block>
 
 <!-- Footer + botón flotante de WhatsApp: contacto, redes, copyright y FAB.
      El fragmento devuelve ambos elementos: toda página con footer lleva el FAB. -->
@@ -62,7 +88,7 @@
         <div class="row gy-5">
             <div class="col-12 col-md-4">
                 <a class="d-inline-flex align-items-center gap-2 mb-3" th:href="@{/}">
-                    <img th:src="@{/img/logo.png}" src="../../static/img/logo.png" alt="Logo de Nutrición Activa" width="37" height="44">
+                    <img th:src="@{/img/logo.webp}" src="../../static/img/logo.webp" alt="Logo de Nutrición Activa" width="44" height="44">
                     <span class="text-white fw-semibold">Nutrición Activa</span>
                 </a>
                 <p class="mb-0">Alimenta tu potencial. Nutrición deportiva online para toda Latinoamérica.</p>

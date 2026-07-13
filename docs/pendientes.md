@@ -4,13 +4,17 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
 
 ## Marca / assets
 
-- [ ] **Logo optimizado**: `static/img/logo.png` pesa 151 KB y no es cuadrado (517×616 px).
+- [x] **Logo optimizado**: `static/img/logo.png` pesa 151 KB y no es cuadrado (517×616 px).
       Exportar un recorte cuadrado optimizado en WebP (más un PNG pequeño para favicon)
-      y actualizar las referencias en `fragments/layout.html`. *(Origen: code review de `feature/base-ui`, 2026-07-11)*
-- [ ] **Foto de "Sobre mí" a WebP**: `static/img/andres.jpg` (98 KB, 720×887) funciona,
+      y actualizar las referencias en `fragments/layout.html`. *(Origen: code review de
+      `feature/base-ui`, 2026-07-11. Resuelto 2026-07-12 en /impeccable polish: emblema
+      cuadrado sin wordmark en `logo.webp` (15 KB, 320px) + `favicon.png` (4 KB, 48px);
+      la fuente completa sigue en `design-system/brand/logo.png`.)*
+- [x] **Foto de "Sobre mí" a WebP**: `static/img/andres.jpg` (98 KB, 720×887) funciona,
       pero MASTER §9 pide WebP para fotografía. Convertirla en el sprint de pulido y
       actualizar la referencia en `index.html` (mantener `width`/`height` declarados).
-      *(Origen: HU-01/HU-02, foto real incorporada el 2026-07-12)*
+      *(Origen: HU-01/HU-02, foto real incorporada el 2026-07-12. Resuelto 2026-07-12:
+      `andres.webp` de 36 KB, misma resolución; el JPG original queda en el historial git.)*
 
 ## UI / próximas HU
 
@@ -50,6 +54,11 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
 - [ ] **Renombrar el fragmento `footer` de `layout.html`**: ahora devuelve footer + FAB,
       el nombre ya no describe el contenido (p. ej. `footer-y-fab`). Coordinar con las
       páginas que lo consumen. *(Origen: code review de HU-03, 2026-07-12)*
+
+- [ ] **Configurar `APP_SITIO_BASEURL` en Render** con el dominio público real cuando
+      exista. Los meta tags Open Graph (og:url, og:image del preview de WhatsApp)
+      exigen URL absoluta; en local cae al default `http://localhost`, que NO sirve
+      para compartir en producción. *(Origen: /impeccable harden, 2026-07-13)*
 
 ## Contenido / datos del PO
 

@@ -40,7 +40,8 @@ public class CatalogoServicios {
                     2),
             new Servicio(
                     "protocolo-competencias",
-                    "Protocolo para competencias deportivas",
+                    // Nombre corto para la card; el detalle vive en la descripción
+                    "Protocolo de competencia",
                     "Plan de 3 días para llegar a tu competencia en el punto ideal: carga de "
                             + "energía, hidratación y timing de comidas.",
                     22_000,

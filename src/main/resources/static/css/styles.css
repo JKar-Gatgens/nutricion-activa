@@ -20,6 +20,8 @@
   --na-whatsapp: #25D366;
   --na-danger: #D93A3A;
   --na-warning: #B45309;
+  --na-warning-tint: #FFF3CD; /* fondo del marcador .na-pending */
+  --na-warning-ink: #7A4A08;  /* texto del marcador .na-pending (6.8:1 sobre el tint) */
   --na-gradient-brand: linear-gradient(135deg, #00A870 0%, #00C050 100%);
 
   /* Tipografía */
@@ -28,9 +30,15 @@
   --na-fs-display: clamp(2.5rem, 6vw, 4.5rem);
   --na-fs-h2: clamp(2rem, 4vw, 3rem);
   --na-fs-h3: 1.5rem;
+  --na-fs-lead: 1.25rem;
   --na-fs-body: 1rem;
   --na-fs-small: 0.875rem;
   --na-fs-price: clamp(2rem, 3.5vw, 2.75rem);
+
+  /* Tracking para MAYÚSCULAS: las caps necesitan aire; a menor tamaño, más tracking.
+     El display condensado es la excepción deliberada (0.01em, no romper la condensación). */
+  --na-tracking-caps: 0.06em;    /* caps a tamaño title (brand del navbar, headings del footer) */
+  --na-tracking-caps-sm: 0.08em; /* caps a tamaño label (chips) */
 
   /* Espaciado (sistema de 8px) */
   --na-space-1: 4px;
@@ -78,8 +86,13 @@
 }
 
 /* ------------------------------------------------------------
-   Tipografía base
+   Base
    ------------------------------------------------------------ */
+
+/* Las anclas (#servicios, #sobre-mi) no deben quedar bajo el navbar sticky (~62px) */
+html {
+  scroll-padding-top: 5rem;
+}
 
 h1, h2, h3, h4,
 .display-1, .display-2, .display-3 {
@@ -87,6 +100,11 @@ h1, h2, h3, h4,
   font-weight: 700;
   line-height: 1.15;
   color: var(--na-black);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 /* ------------------------------------------------------------
@@ -146,13 +164,34 @@ h1, h2, h3, h4,
   --bs-btn-padding-x: 2.5rem;
 }
 
-/* Focus visible en todos los interactivos — nunca eliminar outline */
+/* Focus visible en todos los interactivos — nunca eliminar outline.
+   Sólido: el anillo translúcido rendía ~1.4:1 y fallaba WCAG 1.4.11.
+   Verde Profundo pasa sobre blanco (5.2:1) y sobre negro (3.7:1). */
 a:focus-visible,
 button:focus-visible,
 .btn:focus-visible,
 .nav-link:focus-visible {
-  outline: 3px solid rgba(0, 192, 80, 0.4);
+  outline: 3px solid var(--na-green-dark);
   outline-offset: 2px;
+}
+
+/* Skip link (WCAG 2.4.1): oculto fuera del viewport hasta recibir foco */
+.na-skip-link {
+  position: fixed;
+  top: var(--na-space-2);
+  left: var(--na-space-2);
+  z-index: 1050; /* sobre navbar sticky y FAB */
+  background: var(--na-black);
+  color: var(--na-white);
+  font-weight: 600;
+  padding: var(--na-space-2) var(--na-space-3);
+  border-radius: var(--na-radius-sm);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.na-skip-link:focus {
+  transform: none;
 }
 
 /* ------------------------------------------------------------
@@ -168,11 +207,11 @@ button:focus-visible,
 
 .na-navbar .navbar-brand {
   font-family: var(--na-font-heading);
-  font-size: 1.5rem;
+  font-size: var(--na-fs-h3);
   font-weight: 600;
   color: var(--na-black);
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--na-tracking-caps);
 }
 
 .na-navbar .navbar-brand strong {
@@ -224,12 +263,11 @@ button:focus-visible,
   padding-bottom: var(--na-space-5);
 }
 
-.na-footer h2,
-.na-footer h3 {
+.na-footer h2 {
   color: var(--na-white);
   font-size: var(--na-fs-h3);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--na-tracking-caps);
 }
 
 /* El verde brillante sí es accesible sobre negro (8.6:1) */
@@ -287,6 +325,7 @@ button:focus-visible,
 .na-hero h1 {
   font-size: var(--na-fs-display);
   text-transform: uppercase;
+  letter-spacing: 0.01em; /* excepción deliberada: display condensado, tracking mínimo */
 }
 
 .na-hero h1 .na-accent {
@@ -294,7 +333,7 @@ button:focus-visible,
 }
 
 .na-hero .na-lead {
-  font-size: 1.25rem;
+  font-size: var(--na-fs-lead);
   color: var(--na-gray-500);
   max-width: 65ch;
 }
@@ -357,9 +396,31 @@ button:focus-visible,
   background: var(--na-green);
 }
 
-/* Títulos de sección (MASTER §3) */
+/* Títulos de sección (MASTER §3) con la Barra de Impulso: el kicker del
+   sistema es una barra píldora con el degradado del aro bajo el h2 — el
+   chip .na-eyebrow queda reservado al eslogan del hero y al badge. */
 .na-section-title {
   font-size: var(--na-fs-h2);
+}
+
+.na-section-title::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 4px;
+  margin-top: var(--na-space-3);
+  border-radius: var(--na-radius-pill);
+  background: var(--na-gradient-brand);
+}
+
+/* En cabeceras centradas, la barra se centra con el título */
+.text-center .na-section-title::after {
+  margin-inline: auto;
+}
+
+/* Medida de lectura para párrafos largos (MASTER §3: 60–75 caracteres) */
+.na-measure {
+  max-width: 65ch;
 }
 
 /* ------------------------------------------------------------
@@ -438,8 +499,24 @@ button:focus-visible,
   background: var(--na-gradient-brand);
 }
 
+/* Rieles horizontales entre cards (todas miden igual por h-100 + stretch):
+   1) fila de badge de altura fija en todas las cards,
+   2) título con reserva de 2 líneas,
+   3) precio anclado al fondo con margin-top:auto (única margen auto de la card),
+   4) metadatos con reserva de 2 filas.
+   Así títulos, precios, metadatos y botones quedan alineados sin alturas fijas
+   en px: todo se deriva de tokens y de líneas de texto (em). */
+
+/* Altura = la del eyebrow (fuente small × line-height 1.6 + padding vertical) */
+.na-card-badge {
+  min-height: calc(var(--na-fs-small) * 1.6 + 2 * var(--na-space-1));
+  margin-bottom: var(--na-space-3);
+}
+
 .na-service-name {
   font-size: var(--na-fs-h3);
+  line-height: 1.2;
+  min-height: 2.4em; /* reserva de 2 líneas de título */
   margin-bottom: var(--na-space-2);
 }
 
@@ -457,6 +534,7 @@ button:focus-visible,
   line-height: 1.1;
   color: var(--na-black);
   white-space: nowrap; /* "₡30 000" usa espacio normal: que nunca parta línea */
+  margin-top: auto; /* ancla precio+meta+botón al fondo: riel de precios parejo */
 }
 
 .na-service-meta {
@@ -465,6 +543,9 @@ button:focus-visible,
   margin: var(--na-space-3) 0 var(--na-space-4);
   color: var(--na-gray-700);
   font-size: var(--na-fs-small);
+  /* reserva de 2 filas (1.6 = line-height) aunque la card tenga 1 metadato:
+     mantiene el riel de botones sin depender del contenido */
+  min-height: calc(2 * 1.6em + var(--na-space-2));
 }
 
 .na-service-meta li {
@@ -503,8 +584,8 @@ button:focus-visible,
    ser posible cuando el catálogo migre a base de datos en Sprint 2. */
 .na-pending {
   display: inline-block;
-  background: #FFF3CD;
-  color: #7A4A08;
+  background: var(--na-warning-tint);
+  color: var(--na-warning-ink);
   border: 1px dashed var(--na-warning);
   border-radius: var(--na-radius-sm);
   padding: 0 var(--na-space-2);

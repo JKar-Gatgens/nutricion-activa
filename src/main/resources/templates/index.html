@@ -7,7 +7,7 @@
 
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
-<main>
+<main id="contenido">
 
     <!-- ========== HERO (HU-01) ========== -->
     <section class="na-section na-hero">
@@ -35,7 +35,7 @@
                     <!-- Composición de marca: aro degradado que ecoa el círculo del logo -->
                     <div class="na-hero-visual" aria-hidden="true" data-reveal data-reveal-delay="80">
                         <div class="na-hero-ring"></div>
-                        <img th:src="@{/img/logo.png}" src="../static/img/logo.png" alt="" loading="eager">
+                        <img th:src="@{/img/logo.webp}" src="../static/img/logo.webp" alt="" width="320" height="320" loading="eager">
                         <span class="na-hero-dot"></span>
                     </div>
                 </div>
@@ -46,7 +46,8 @@
     <!-- ========== BARRA DE CONFIANZA ========== -->
     <section class="na-trustbar" aria-label="Credenciales y disponibilidad">
         <div class="container">
-            <ul class="row list-unstyled gy-4 mb-0">
+            <!-- role="list": list-unstyled quita la semántica de lista en VoiceOver -->
+            <ul class="row list-unstyled gy-4 mb-0" role="list">
                 <li class="col-12 col-md-4">
                     <div class="na-trust-item" data-reveal>
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
@@ -89,11 +90,10 @@
     <section id="servicios" class="na-section na-services">
         <div class="container">
             <div class="text-center mb-5">
-                <p class="na-eyebrow mb-0" data-reveal>Servicios y precios</p>
-                <h2 class="na-section-title mt-3 mb-2" data-reveal data-reveal-delay="40">
+                <h2 class="na-section-title mb-3" data-reveal>
                     Elegí cómo empezar
                 </h2>
-                <p class="mb-0" data-reveal data-reveal-delay="80">
+                <p class="mb-0" data-reveal data-reveal-delay="40">
                     Precios en colones costarricenses (CRC).
                 </p>
             </div>
@@ -103,8 +103,11 @@
                      data-reveal th:attr="data-reveal-delay=${(stat.index % 4) * 40}">
                     <article class="na-service-card"
                              th:classappend="${servicio.destacado} ? 'na-card-featured'">
-                        <span class="na-eyebrow mb-3 align-self-start"
-                              th:if="${servicio.destacado}">Recomendado</span>
+                        <!-- Fila de badge presente en todas las cards: reserva la misma
+                             altura tenga o no badge, para que los títulos arranquen parejos -->
+                        <div class="na-card-badge">
+                            <span class="na-eyebrow" th:if="${servicio.destacado}">Recomendado</span>
+                        </div>
                         <h3 class="na-service-name" th:text="${servicio.nombre}">Consulta de nutrición</h3>
                         <p class="na-service-desc" th:text="${servicio.descripcion}">
                             Evaluación inicial completa para construir tu plan personalizado.
@@ -114,7 +117,7 @@
                                   th:text="|₡${#numbers.formatInteger(servicio.precioColones, 1, 'WHITESPACE')}|">₡30 000</span>
                             <mark class="na-pending" th:if="${servicio.precioColones == null}">[PRECIO PENDIENTE]</mark>
                         </p>
-                        <ul class="na-service-meta list-unstyled">
+                        <ul class="na-service-meta list-unstyled" role="list">
                             <!-- duración null = no aplica (servicios tipo plan): se omite el metadato -->
                             <li th:if="${servicio.duracionMinutos != null}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -137,7 +140,7 @@
                             </li>
                         </ul>
                         <!-- /agendar llega en el siguiente sprint: enlace preparado del backlog -->
-                        <a class="btn mt-auto"
+                        <a class="btn"
                            th:classappend="${servicio.destacado} ? 'btn-primary' : 'btn-outline-dark'"
                            th:href="@{/agendar(servicio=${servicio.id})}"
                            th:attr="aria-label=|Agendar ${servicio.nombre}|">Agendar</a>
@@ -153,19 +156,18 @@
             <div class="row align-items-center gy-5">
                 <div class="col-12 col-md-5 col-lg-4" data-reveal>
                     <div class="na-photo-frame">
-                        <img th:src="@{/img/andres.jpg}" src="../static/img/andres.jpg"
+                        <img th:src="@{/img/andres.webp}" src="../static/img/andres.webp"
                              alt="Andrés, nutricionista de Nutrición Activa"
                              width="720" height="887" loading="lazy" decoding="async">
                     </div>
                 </div>
                 <div class="col-12 col-md-7 offset-lg-1">
-                    <p class="na-eyebrow mb-0" data-reveal>Sobre mí</p>
-                    <h2 class="na-section-title mt-3 mb-3" data-reveal data-reveal-delay="40">
+                    <h2 class="na-section-title mb-3" data-reveal>
                         Andrés — Nutrición Activa
                     </h2>
-                    <div data-reveal data-reveal-delay="80">
+                    <div data-reveal data-reveal-delay="40">
                         <!-- Texto basado en las palabras del PO; validación final en la demo -->
-                        <p class="mb-0" style="max-width: 65ch;">
+                        <p class="mb-0 na-measure">
                             Me apasiona ayudar a las personas a alcanzar sus objetivos a través de la
                             alimentación. Mi enfoque no son las dietas de moda: es construir hábitos
                             sostenibles que se adapten a tu vida — ya sea que busqués perder grasa,
