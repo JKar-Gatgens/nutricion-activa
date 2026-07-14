@@ -7,22 +7,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.nio.charset.StandardCharsets;
+import static org.mockito.Mockito.when;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.nutricionactiva.model.ServicioEntity;
+import com.nutricionactiva.repository.ServicioRepository;
 import com.nutricionactiva.service.CatalogoServicios;
 
 /**
- * Test de contrato de la página principal ("/"): fija, ANTES de la migración
- * del catálogo a base de datos (Sprint 2), el contrato observable entre
- * {@link HomeController}, {@link CatalogoServicios} (implementación en
- * memoria REAL, no mockeada) y la plantilla {@code index.html}.
+ * Test de contrato de la página principal ("/"): fija el contrato observable
+ * entre {@link HomeController}, {@link CatalogoServicios} y la plantilla
+ * {@code index.html}. Desde Sprint 2, {@link CatalogoServicios} lee de
+ * {@link ServicioRepository} (base de datos); acá se mockea con los mismos 4
+ * servicios y el mismo orden que sembró Flyway V1, así que el contrato queda
+ * igual de real que con la implementación en memoria de Sprint 1.
  *
  * <p>Cualquier cambio de implementación del catálogo que rompa este test
  * rompe también el contrato con la vista.
@@ -33,6 +42,38 @@ class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private ServicioRepository servicioRepository;
+
+    @BeforeEach
+    void configurarCatalogo() {
+        when(servicioRepository.findAllByOrderByOrdenAsc()).thenReturn(List.of(
+                new ServicioEntity(
+                        "consulta-nutricion",
+                        "Consulta de nutrición",
+                        "Evaluación inicial completa: composición corporal, hábitos y objetivos "
+                                + "para construir tu plan personalizado.",
+                        30_000, 90, "Virtual o a domicilio", true, 1, true),
+                new ServicioEntity(
+                        "consulta-seguimiento",
+                        "Consulta de seguimiento",
+                        "Ajustes del plan según tu progreso: mediciones, revisión de adherencia "
+                                + "y nuevas metas.",
+                        30_000, 40, "Virtual o a domicilio", false, 2, true),
+                new ServicioEntity(
+                        "protocolo-competencias",
+                        "Protocolo de competencia",
+                        "Plan de 3 días para llegar a tu competencia en el punto ideal: carga de "
+                                + "energía, hidratación y timing de comidas.",
+                        22_000, null, "Virtual", false, 3, false),
+                new ServicioEntity(
+                        "rutina-entrenamiento",
+                        "Rutina de entrenamiento",
+                        "Rutina de fuerza o acondicionamiento alineada con tu plan nutricional "
+                                + "y tus objetivos.",
+                        15_000, null, "Virtual", false, 4, false)));
+    }
 
     @Test
     void devuelveVistaIndexConLosCuatroServiciosDelCatalogo() throws Exception {
