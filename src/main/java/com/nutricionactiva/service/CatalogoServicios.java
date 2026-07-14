@@ -27,7 +27,8 @@ public class CatalogoServicios {
                     90,
                     "Virtual o a domicilio",
                     true,
-                    1),
+                    1,
+                    true),
             new Servicio(
                     "consulta-seguimiento",
                     "Consulta de seguimiento",
@@ -37,7 +38,8 @@ public class CatalogoServicios {
                     40,
                     "Virtual o a domicilio",
                     false,
-                    2),
+                    2,
+                    true),
             new Servicio(
                     "protocolo-competencias",
                     // Nombre corto para la card; el detalle vive en la descripción
@@ -48,7 +50,8 @@ public class CatalogoServicios {
                     null, // sin duración de sesión: es un plan con alcance de 3 días
                     "Virtual",
                     false,
-                    3),
+                    3,
+                    false),
             new Servicio(
                     "rutina-entrenamiento",
                     "Rutina de entrenamiento",
@@ -58,7 +61,8 @@ public class CatalogoServicios {
                     null, // sin duración de sesión: es un plan personalizado
                     "Virtual",
                     false,
-                    4));
+                    4,
+                    false));
 
     /**
      * Devuelve el catálogo completo ordenado ascendentemente por
@@ -69,6 +73,17 @@ public class CatalogoServicios {
     public List<Servicio> obtenerTodos() {
         return SERVICIOS.stream()
                 .sorted(Comparator.comparingInt(Servicio::orden))
+                .toList();
+    }
+
+    /**
+     * Subconjunto de {@link #obtenerTodos()} con los servicios que se reservan
+     * con horario propio (HU-04). Los que no son agendables se solicitan por
+     * WhatsApp.
+     */
+    public List<Servicio> obtenerAgendables() {
+        return obtenerTodos().stream()
+                .filter(Servicio::agendable)
                 .toList();
     }
 }

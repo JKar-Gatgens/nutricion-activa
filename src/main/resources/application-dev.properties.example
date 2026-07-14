@@ -1,0 +1,12 @@
+# Plantilla del perfil "dev" para MySQL local. Copiar como
+# application-dev.properties (mismo directorio) y reemplazar el placeholder
+# por la contrasena real del usuario na_app en tu MySQL local. Ese archivo
+# NO se commitea (ver .gitignore).
+#
+# Activar el perfil al correr la app localmente:
+#   ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+# o con la variable de entorno SPRING_PROFILES_ACTIVE=dev.
+
+spring.datasource.url=jdbc:mysql://localhost:3306/nutricion_activa?useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=na_app
+spring.datasource.password=REEMPLAZAR_CON_TU_CONTRASENA_LOCAL

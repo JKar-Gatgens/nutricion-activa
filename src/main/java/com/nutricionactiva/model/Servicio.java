@@ -11,6 +11,10 @@ package com.nutricionactiva.model;
  * <p>
  * {@code destacado} marca el servicio recomendado (la vista no conoce ids) y
  * {@code orden} define la posición de exhibición en el catálogo.
+ * <p>
+ * {@code agendable} indica si el servicio se reserva con horario propio
+ * (consultas) o se solicita por WhatsApp (planes tipo protocolo/rutina, sin
+ * sesión de duración fija).
  */
 public record Servicio(
         String id,
@@ -20,6 +24,7 @@ public record Servicio(
         Integer duracionMinutos,
         String modalidad,
         boolean destacado,
-        int orden
+        int orden,
+        boolean agendable
 ) {
 }

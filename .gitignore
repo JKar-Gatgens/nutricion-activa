@@ -34,3 +34,8 @@ build/
 
 ### Python (scripts de skills) ###
 __pycache__/
+
+### Credenciales locales ###
+# Contiene la contrasena real de MySQL local; el repo solo versiona el
+# .example sin credenciales (ver docs/arquitectura-agendamiento.md).
+application-dev.properties
