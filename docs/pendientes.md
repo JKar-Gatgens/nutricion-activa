@@ -2,6 +2,23 @@
 
 Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
 
+## ⚠️ Bloqueantes de deploy
+
+- [ ] **BLOQUEANTE — `connectionTimeZone=UTC` debe llegar a la variable `APP_DB_URL`
+      de Render, no solo al default local**: `application.properties` solo aplica
+      `connectionTimeZone=UTC` en su valor por defecto (`jdbc:mysql://localhost:...`);
+      en Render la variable de entorno `APP_DB_URL` sobreescribe la URL COMPLETA hacia
+      Aiven, no la extiende — así que el fix del paso 4 (ver sección 4 de
+      `docs/arquitectura-agendamiento.md`) no llega a producción a menos que se
+      actualice esa variable manualmente, fuera del repo. **Antes de desplegar con
+      Aiven en la FASE 4, la variable `APP_DB_URL` en Render DEBE incluir
+      `connectionTimeZone=UTC`, o el bug de corrupción de zona horaria (6h) resucita
+      en producción** — cada `DATETIME` guardado en `cita` quedaría corrido 6 horas de
+      forma silenciosa, sin ningún error visible. Verificar con un round-trip real
+      contra Aiven (mismo principio que `CitaRepositoryTest`, pero apuntando a
+      producción) al menos una vez antes de dar HU-04 por desplegada.
+      *(Origen: code review de `feature/hu04-disponibilidad` paso 4, 2026-07-14)*
+
 ## Marca / assets
 
 - [x] **Logo optimizado**: `static/img/logo.png` pesa 151 KB y no es cuadrado (517×616 px).
@@ -89,6 +106,22 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       orden se rompe silenciosamente para ese segundo datasource. Agregar un comentario en
       la clase advirtiendo esto antes de que alguien tropiece con el bug.
       *(Origen: code review de `feature/db-fundacion`, 2026-07-14)*
+- [ ] **Bajar `DisponibilidadService.aInstante` a visibilidad de paquete**: hoy es
+      `private`, así que `DisponibilidadServiceTest` reimplementa la misma fórmula
+      (`ZonedDateTime.of(fecha, hora, ZONA_NEGOCIO).toInstant()`) a mano en vez de
+      llamar al método real. No es una divergencia hoy (es exactamente la misma
+      expresión), pero si `aInstante` cambia más adelante, los tests no lo reflejarían
+      automáticamente. Como el test está en el mismo paquete, bajarlo a visibilidad de
+      paquete permite que lo llamen directamente y elimina el riesgo.
+      *(Origen: code review de `feature/hu04-disponibilidad` paso 4, 2026-07-14)*
+- [ ] **`creado_en DEFAULT CURRENT_TIMESTAMP` en `V2__crear_tabla_cita_y_agenda_dia.sql`
+      es un artefacto muerto**: el constructor de `Cita` siempre setea
+      `creadoEn = Instant.now()` en Java antes de persistir (correcto y consistente con
+      la decisión de que toda conversión de tiempo pasa por Java, no por MySQL — confiar
+      en el DEFAULT del servidor usaría su zona de sesión, no necesariamente UTC). Sin
+      riesgo real, pero el DEFAULT en la migración sugiere una garantía que la app no
+      usa. Agregar un comentario aclaratorio en la migración.
+      *(Origen: code review de `feature/hu04-disponibilidad` paso 4, 2026-07-14)*
 
 ## Contenido / datos del PO
 

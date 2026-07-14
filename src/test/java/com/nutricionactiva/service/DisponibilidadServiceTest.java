@@ -92,6 +92,21 @@ class DisponibilidadServiceTest {
     }
 
     @Test
+    void servicioAgendableSinDuracionLanzaExcepcionEnVezDeNpe() {
+        // Invariante rota a proposito: agendable=true pero duracion nula. No
+        // deberia pasar con el seed real (V1), pero si algun dia se rompe, no
+        // debe explotar con un NullPointerException al deshacer el boxing.
+        Servicio agendableMalConfigurado = new Servicio(
+                "consulta-corrupta", "Consulta corrupta", "desc", 30_000, null,
+                "Virtual o a domicilio", false, 5, true);
+        when(catalogoServicios.buscarPorId("consulta-corrupta"))
+                .thenReturn(Optional.of(agendableMalConfigurado));
+
+        assertThatThrownBy(() -> servicio.calcularSlotsDisponibles("consulta-corrupta", proximoLunes()))
+                .isInstanceOf(ServicioNoAgendableException.class);
+    }
+
+    @Test
     void domingoNoOfreceHorarios() {
         when(catalogoServicios.buscarPorId("consulta-nutricion")).thenReturn(Optional.of(CONSULTA_NUTRICION));
 

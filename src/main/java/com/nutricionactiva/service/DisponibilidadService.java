@@ -71,7 +71,15 @@ public class DisponibilidadService {
             return List.of();
         }
 
-        int duracionMinutos = servicio.duracionMinutos();
+        Integer duracionMinutosServicio = servicio.duracionMinutos();
+        if (duracionMinutosServicio == null) {
+            // Invariante del catálogo: agendable=true implica duración no nula
+            // (V1__crear_tabla_servicio.sql). Si algún día se rompe (nueva
+            // migración, panel de admin), fallar con una excepción de negocio
+            // clara en vez de un NullPointerException al deshacer el boxing.
+            throw new ServicioNoAgendableException(servicioId);
+        }
+        int duracionMinutos = duracionMinutosServicio;
         int aperturaMinutos = APERTURA.toSecondOfDay() / 60;
         int cierreMinutos = CIERRE.toSecondOfDay() / 60;
 
