@@ -111,7 +111,12 @@ public class DisponibilidadService {
         return libres;
     }
 
-    private static Instant aInstante(LocalDate fecha, LocalTime hora) {
+    /**
+     * Empaquetado (no privado): {@link ReservaCitaService} lo reusa para
+     * convertir el {@link FranjaHoraria} elegido a los instantes UTC que
+     * persiste en {@code Cita}, sin duplicar la conversión CR→UTC.
+     */
+    static Instant aInstante(LocalDate fecha, LocalTime hora) {
         return ZonedDateTime.of(fecha, hora, ZONA_NEGOCIO).toInstant();
     }
 

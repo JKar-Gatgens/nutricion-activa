@@ -9,11 +9,10 @@ import jakarta.persistence.Table;
 /**
  * Fila de sincronización por día (tabla {@code agenda_dia}, Flyway V2). No
  * representa ningún concepto de negocio — solo existe para que
- * {@code ReservaCitaService} (paso 5) pueda tomar un candado
- * ({@code SELECT ... FOR UPDATE}) sobre un día concreto y serializar
- * reservas concurrentes de ese día
- * (docs/arquitectura-agendamiento.md, sección 3). En este paso solo se
- * modela la entidad; el candado se implementa en el paso 5.
+ * {@code ReservaCitaService} pueda tomar, vía
+ * {@link com.nutricionactiva.repository.AgendaDiaRepository#asegurarFilaConCandado},
+ * el candado exclusivo de un día concreto y serializar reservas concurrentes
+ * de ese día (docs/arquitectura-agendamiento.md, sección 3).
  */
 @Entity
 @Table(name = "agenda_dia")

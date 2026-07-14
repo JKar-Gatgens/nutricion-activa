@@ -117,7 +117,7 @@ Sin ningún mecanismo pasaría esto: ambos consultan disponibilidad antes de que
 
 Cómo el diseño lo evita:
 
-1. **Ana llega primero (por una fracción de segundo).** Su solicitud abre una transacción que: (a) se asegura de que exista una fila en `AgendaDia` para el 20 de julio (la crea si no existe), y (b) le pide a la base de datos el candado exclusivo de esa fila (`SELECT ... FOR UPDATE`) — como agarrar la única llave de una puerta.
+1. **Ana llega primero (por una fracción de segundo).** Su solicitud abre una transacción que le pide a la base de datos, en una sola sentencia nativa (`INSERT ... ON DUPLICATE KEY UPDATE`), que exista una fila en `AgendaDia` para el 20 de julio (la crea si no existe, o la "actualiza a sí misma" si ya existe) y que le entregue el candado exclusivo de esa fila — como agarrar la única llave de una puerta.
 2. **Beto llega justo después.** Su solicitud también intenta agarrar el candado de esa misma fila. Ana ya lo tiene, así que la base de datos hace **esperar** a Beto — su transacción se congela hasta que Ana termine.
 3. **Con el candado en mano, Ana recalcula los horarios libres del 20 de julio.** Todavía no hay ninguna cita ese día, las 14:00 sigue libre. Guarda su cita; su transacción termina y libera el candado.
 4. **Beto obtiene el candado.** Recalcula los horarios libres — ahora sí ve la cita de Ana ya guardada. Las 14:00 ya no aparece libre. El sistema le informa que ese horario acaba de ocuparse, sin dejarlo reservar.
@@ -129,6 +129,8 @@ Detalle clave: el candado es **sobre el día completo**, no sobre el horario esp
 Se descartaron: optimistic locking (no resuelve inserts nuevos que se solapan entre sí), check-then-insert sin lock (riesgo real de doble-booking con tráfico bajo pero no nulo), y confiar en gap locks de InnoDB sobre rangos vacíos (frágil, difícil de verificar con confianza).
 
 El test de concurrencia debe correr contra MySQL real (Testcontainers, no H2) porque el upsert de `AgendaDia` usa sintaxis nativa de MySQL.
+
+**Nota de implementación (paso 5, 14 de julio de 2026):** el diseño original de este paso (arriba) describía el punto 1 como dos sentencias separadas — un `INSERT IGNORE` para asegurar la fila, seguido de un `SELECT ... FOR UPDATE` para tomar el candado. El test de concurrencia real (`ReservaCitaServiceConcurrenciaTest`, 10 hilos contra el mismo slot, Testcontainers) expuso que esa combinación **deadlockea bajo contención alta**: cuando varias transacciones ejecutan el `INSERT IGNORE` a la vez sobre una fila que ya existe, MySQL les da a todas un candado *compartido* para el chequeo de duplicado, y la sentencia siguiente de cada una necesita subirlo a *exclusivo* — con varias transacciones sosteniendo el candado compartido simultáneamente, ninguna puede subir, y MySQL resuelve el ciclo matando transacciones con `Deadlock found`. Con solo dos competidores (el escenario Ana/Beto de arriba) esto es raro; con diez simultáneos, ocurría en casi todas las corridas. Se corrigió fusionando ambos pasos en una sola sentencia (`INSERT ... ON DUPLICATE KEY UPDATE fecha = fecha`, `AgendaDiaRepository.asegurarFilaConCandado`), que toma el candado exclusivo directamente sin paso intermedio de candado compartido que subir. Verificado: el test de concurrencia pasa de forma determinística en corridas repetidas tras el cambio.
 
 ---
 
