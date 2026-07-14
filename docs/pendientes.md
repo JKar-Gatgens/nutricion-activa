@@ -60,6 +60,36 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       exigen URL absoluta; en local cae al default `http://localhost`, que NO sirve
       para compartir en producción. *(Origen: /impeccable harden, 2026-07-13)*
 
+## Backend / base de datos
+
+- [ ] **`mvn test` ya no es autosuficiente**: `NutricionActivaApplicationTests`
+      (`@SpringBootTest` + `@ActiveProfiles("dev")`) requiere MySQL local corriendo y
+      `application-dev.properties` con credenciales reales (gitignorado). Un clon nuevo
+      del repo, o una futura CI, fallarían este test sin esa configuración. El paso 5 del
+      plan de HU-04 (`docs/arquitectura-agendamiento.md`) ya prevé Testcontainers para el
+      test de concurrencia — evaluar en ese momento si conviene migrar también este smoke
+      test a Testcontainers, o documentar el requisito de MySQL local si se agrega CI antes.
+      *(Origen: code review de `feature/db-fundacion`, 2026-07-14)*
+- [ ] **Mejoras a `DatabaseConfig`**: (1) inyectar `DataSourceProperties` de Spring Boot
+      en vez de tres `@Value` sueltos para `url`/`username`/`password` — hoy se pierde el
+      soporte estándar de `spring.datasource.hikari.*`, JMX y métricas de pool que trae la
+      autoconfiguración nativa de `DataSource` (confirmado que sí existe en esta versión,
+      solo Flyway carece de autoconfiguración); (2) quitar el `@Primary` del bean
+      `dataSource()` — no hay otro `DataSource` compitiendo en el contexto, así que sugiere
+      una ambigüedad que no existe; (3) envolver `Flyway...migrate()` en un `try/catch` que
+      loguee una línea clara antes de relanzar — hoy, si Flyway falla, el error real queda
+      enterrado en varias capas de `BeanCreationException`, más difícil de depurar rápido
+      en un incidente de producción (Aiven). *(Origen: code review de `feature/db-fundacion`,
+      2026-07-14)*
+- [ ] **Comentario de advertencia en `DatabaseConfig` sobre el riesgo de un segundo
+      `DataSource`**: la garantía de que Flyway migra antes de que Hibernate toque el
+      esquema depende de que este sea el ÚNICO bean capaz de producir un `DataSource` en el
+      contexto (verificado, hoy lo es). Si en el futuro se agrega otro `@Bean DataSource`
+      (p. ej. una réplica de lectura) sin pasar por este mismo mecanismo, la garantía de
+      orden se rompe silenciosamente para ese segundo datasource. Agregar un comentario en
+      la clase advirtiendo esto antes de que alguien tropiece con el bug.
+      *(Origen: code review de `feature/db-fundacion`, 2026-07-14)*
+
 ## Contenido / datos del PO
 
 - [x] **URL real de Facebook**: el enlace del footer apunta al placeholder `https://www.facebook.com/`.

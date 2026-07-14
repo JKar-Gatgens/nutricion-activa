@@ -33,6 +33,12 @@ public class DatabaseConfig {
                 .password(password)
                 .build();
 
+        // Flyway.configure().load() NO lee el Environment de Spring: ninguna
+        // property spring.flyway.* (locations, baseline-on-migrate, etc.) tiene
+        // efecto aqui. Usa el default nativo de Flyway (classpath:db/migration),
+        // que hoy coincide con nuestra estructura de carpetas por convencion, no
+        // porque este cableado. Si hace falta otra ubicacion o alguna opcion de
+        // spring.flyway.*, hay que pasarla explicitamente en este builder.
         Flyway.configure()
                 .dataSource(dataSource)
                 .load()
