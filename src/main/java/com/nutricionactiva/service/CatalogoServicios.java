@@ -1,6 +1,7 @@
 package com.nutricionactiva.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,14 @@ public class CatalogoServicios {
         return obtenerTodos().stream()
                 .filter(Servicio::agendable)
                 .toList();
+    }
+
+    /**
+     * Usado por {@link DisponibilidadService} para validar el servicio antes
+     * de calcular horarios.
+     */
+    public Optional<Servicio> buscarPorId(String id) {
+        return servicioRepository.findById(id).map(CatalogoServicios::aServicio);
     }
 
     private static Servicio aServicio(ServicioEntity entity) {

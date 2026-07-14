@@ -159,6 +159,8 @@ LocalDate hoyCR = ahoraUtc.atZone(ZONA_NEGOCIO).toLocalDate();
 
 **Por qué evita el bug de medianoche**: si se sacara la fecha directamente de un timestamp UTC sin pasar por la zona CR, cerca de la medianoche de Costa Rica se asignarían horas a la fecha equivocada (CR es UTC-6, así que la noche de un día en CR cae en la madrugada UTC del día siguiente). La regla "construir primero en `LocalDate`/`LocalTime` de CR, convertir a UTC al final" elimina esa clase de error. Como Costa Rica no tiene horario de verano, no existen los casos de "esta hora local ocurre dos veces" o "no existe" que sí complican zonas con DST — la conversión es aritmética simple y determinística.
 
+**Nota de implementación (paso 4, 14 de julio de 2026):** la conversión Java es solo la mitad del problema — el driver JDBC (MySQL Connector/J) también decide una zona horaria al traducir `Instant` a las columnas `DATETIME` de `cita`. Por defecto (`connectionTimeZone=LOCAL`) usa la zona por defecto de la JVM, que en las máquinas de este equipo es `America/Costa_Rica`, no UTC — se verificó explícitamente. Sin corregirlo, cada hora guardada habría quedado corrida 6 horas de forma silenciosa (ningún error, ningún test lo detecta a simple vista). Se agregó `connectionTimeZone=UTC` a la URL JDBC en `application.properties` y `application-dev.properties(.example)`, y se agregó `CitaRepositoryTest` (`src/test/java/com/nutricionactiva/repository/`), que guarda una `Cita` con un `Instant` conocido, limpia el contexto de persistencia (`entityManager.clear()`) para forzar una lectura real desde MySQL, y confirma que el `Instant` releído es idéntico al original.
+
 ---
 
 ## 5. Decisión de esquema: Flyway (no `ddl-auto`)

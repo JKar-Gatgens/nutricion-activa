@@ -7,6 +7,6 @@
 #   ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 # o con la variable de entorno SPRING_PROFILES_ACTIVE=dev.
 
-spring.datasource.url=jdbc:mysql://localhost:3306/nutricion_activa?useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.url=jdbc:mysql://localhost:3306/nutricion_activa?useSSL=false&allowPublicKeyRetrieval=true&connectionTimeZone=UTC
 spring.datasource.username=na_app
 spring.datasource.password=REEMPLAZAR_CON_TU_CONTRASENA_LOCAL
