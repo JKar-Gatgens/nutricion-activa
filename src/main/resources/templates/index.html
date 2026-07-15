@@ -85,6 +85,41 @@
         </div>
     </section>
 
+    <!-- ========== SOBRE MÍ (HU-01) ==========
+         Reordenada antes de Servicios en HU-11 (paso 7, D-14): flujo estilo
+         Pía hero -> sobre mí -> servicios -> testimonios -> cierre -> footer.
+         La barra de confianza queda pegada al hero (no forma parte del orden
+         que pidió el PO en docs/comparativo-pia.md; es señal de credibilidad
+         inmediata al hero, no una parada propia del recorrido). -->
+    <section id="sobre-mi" class="na-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-12 col-md-5 col-lg-4" data-reveal>
+                    <div class="na-photo-frame">
+                        <img th:src="@{/img/andres.webp}" src="../static/img/andres.webp"
+                             alt="Andrés, nutricionista de Nutrición Activa"
+                             width="720" height="887" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="col-12 col-md-7 offset-lg-1">
+                    <h2 class="na-section-title mb-3" data-reveal>
+                        Andrés Herrera
+                    </h2>
+                    <div data-reveal data-reveal-delay="40">
+                        <!-- Texto basado en las palabras del PO; validación final en la demo -->
+                        <p class="mb-0 na-measure">
+                            Me apasiona ayudar a las personas a alcanzar sus objetivos a través de la
+                            alimentación. Mi enfoque no son las dietas de moda: es construir hábitos
+                            sostenibles que se adapten a tu vida — ya sea que busqués perder grasa,
+                            ganar músculo o rendir mejor en tu deporte. Te acompaño de forma
+                            personalizada, virtual desde cualquier país o a domicilio en Costa Rica.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== SERVICIOS Y PRECIOS (HU-02) ========== -->
     <section id="servicios" class="na-section na-services">
         <div class="container">
@@ -155,32 +190,63 @@
         </div>
     </section>
 
-    <!-- ========== SOBRE MÍ (HU-01) ========== -->
-    <section id="sobre-mi" class="na-section">
+    <!--/* ========== TESTIMONIOS (HU-10) — data-ready ==========
+         th:if sobre la lista completa: con testimonios vacíos (hoy, sin
+         material real con permiso del PO) esta sección no emite NADA al
+         HTML, ni siquiera un contenedor vacío. Activar = TestimonioService
+         deja de devolver List.of(); cero cambios acá.
+         Este bloque usa el comentario de nivel de parser de Thymeleaf, que
+         el motor elimina antes de renderizar (a diferencia de un comentario
+         HTML normal, que sí habría llegado al output publicado aunque el
+         section con th:if no se imprimiera). No anidar aquí dentro otro
+         comentario con esa misma sintaxis: el primer cierre encontrado
+         termina el bloque completo antes de tiempo. */-->
+    <section id="testimonios" class="na-section" th:if="${not #lists.isEmpty(testimonios)}">
         <div class="container">
-            <div class="row align-items-center gy-5">
-                <div class="col-12 col-md-5 col-lg-4" data-reveal>
-                    <div class="na-photo-frame">
-                        <img th:src="@{/img/andres.webp}" src="../static/img/andres.webp"
-                             alt="Andrés, nutricionista de Nutrición Activa"
-                             width="720" height="887" loading="lazy" decoding="async">
-                    </div>
-                </div>
-                <div class="col-12 col-md-7 offset-lg-1">
-                    <h2 class="na-section-title mb-3" data-reveal>
-                        Andrés — Nutrición Activa
-                    </h2>
-                    <div data-reveal data-reveal-delay="40">
-                        <!-- Texto basado en las palabras del PO; validación final en la demo -->
-                        <p class="mb-0 na-measure">
-                            Me apasiona ayudar a las personas a alcanzar sus objetivos a través de la
-                            alimentación. Mi enfoque no son las dietas de moda: es construir hábitos
-                            sostenibles que se adapten a tu vida — ya sea que busqués perder grasa,
-                            ganar músculo o rendir mejor en tu deporte. Te acompaño de forma
-                            personalizada, virtual desde cualquier país o a domicilio en Costa Rica.
+            <div class="text-center mb-5">
+                <h2 class="na-section-title mb-3" data-reveal>
+                    Lo que dicen quienes ya empezaron
+                </h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4"
+                     th:each="testimonio, stat : ${testimonios}"
+                     data-reveal th:attr="data-reveal-delay=${(stat.index % 3) * 40}">
+                    <article class="na-testimonio-card">
+                        <svg class="na-testimonio-quote" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                             viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V18h6.83v-6.83H4.83c0-1.31 1.06-2.37 2.34-2.37zm10 0A5.17 5.17 0 0 0 12 11.17V18h6.83v-6.83h-4a2.34 2.34 0 0 1 2.34-2.34z"/>
+                        </svg>
+                        <p class="na-testimonio-texto" th:text="${testimonio.texto}">
+                            Texto del testimonio.
                         </p>
-                    </div>
+                        <div class="na-testimonio-autor">
+                            <span class="na-testimonio-nombre" th:text="${testimonio.nombrePublico}">Nombre</span>
+                            <span class="na-testimonio-detalle" th:if="${testimonio.detalle != null}"
+                                  th:text="${testimonio.detalle}">Perdió 8kg en 4 meses</span>
+                        </div>
+                    </article>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA DE CIERRE (HU-11) ========== -->
+    <section class="na-section na-cierre">
+        <div class="container">
+            <h2 class="na-section-title mb-3" data-reveal>
+                Empezá tu cambio hoy
+            </h2>
+            <p class="na-lead mb-4" data-reveal data-reveal-delay="40">
+                Agendá tu consulta y arrancá un plan hecho a tu medida.
+            </p>
+            <div class="d-flex flex-wrap align-items-center justify-content-center gap-3"
+                 data-reveal data-reveal-delay="80">
+                <a class="btn btn-primary btn-lg" th:href="@{/agendar}">Agendar mi cita</a>
+                <a class="btn btn-outline-light btn-lg"
+                   th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text=${whatsapp.mensaje})}"
+                   href="https://wa.me/50689592110"
+                   target="_blank" rel="noopener noreferrer">Escribime por WhatsApp</a>
             </div>
         </div>
     </section>

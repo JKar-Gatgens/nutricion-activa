@@ -579,6 +579,84 @@ button:focus-visible,
   border-radius: calc(var(--na-radius-md) - 4px);
 }
 
+/* ------------------------------------------------------------
+   Testimonios (HU-10, paso 7) — data-ready, oculta sin datos
+   ------------------------------------------------------------ */
+
+.na-testimonio-card {
+  height: 100%;
+  background: var(--na-white);
+  border-radius: var(--na-radius-md);
+  box-shadow: var(--na-shadow-card);
+  padding: var(--na-space-5) var(--na-space-4) var(--na-space-4);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Comilla decorativa: eco del aro, nunca más de un acento por card */
+.na-testimonio-quote {
+  color: var(--na-green);
+  margin-bottom: var(--na-space-2);
+}
+
+.na-testimonio-texto {
+  color: var(--na-gray-700);
+  font-size: var(--na-fs-lead);
+  margin-bottom: var(--na-space-4);
+}
+
+.na-testimonio-autor {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--na-space-1);
+}
+
+.na-testimonio-nombre {
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-size: var(--na-fs-h3);
+}
+
+.na-testimonio-detalle {
+  color: var(--na-green-dark);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps-sm);
+}
+
+/* ------------------------------------------------------------
+   CTA de cierre — franja negra antes del footer (MASTER §7.9)
+   ------------------------------------------------------------ */
+
+.na-cierre {
+  background: var(--na-black);
+  color: var(--na-white);
+  text-align: center;
+}
+
+.na-cierre .na-section-title {
+  color: var(--na-white);
+}
+
+.na-cierre .na-lead {
+  color: var(--na-gray-200);
+  margin-inline: auto;
+}
+
+/* Outline claro para el CTA secundario sobre fondo negro: el outline-dark
+   normal (borde/texto negro) sería invisible acá. */
+.na-cierre .btn-outline-light {
+  --bs-btn-color: var(--na-white);
+  --bs-btn-border-color: var(--na-white);
+  --bs-btn-hover-bg: var(--na-white);
+  --bs-btn-hover-border-color: var(--na-white);
+  --bs-btn-hover-color: var(--na-black);
+  --bs-btn-padding-y: 0.875rem;
+  --bs-btn-padding-x: 2.5rem;
+}
+
 /* Marcador visible de dato pendiente. Único uso vivo: el [PRECIO PENDIENTE]
    defensivo de las cards (precio null = pendiente del PO), ruta que vuelve a
    ser posible cuando el catálogo migre a base de datos en Sprint 2. */

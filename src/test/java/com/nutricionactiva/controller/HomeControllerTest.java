@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.nutricionactiva.model.ServicioEntity;
 import com.nutricionactiva.repository.ServicioRepository;
 import com.nutricionactiva.service.CatalogoServicios;
+import com.nutricionactiva.service.TestimonioService;
 
 /**
  * Test de contrato de la página principal ("/"): fija el contrato observable
@@ -32,12 +33,14 @@ import com.nutricionactiva.service.CatalogoServicios;
  * {@link ServicioRepository} (base de datos); acá se mockea con los mismos 4
  * servicios y el mismo orden que sembró Flyway V1, así que el contrato queda
  * igual de real que con la implementación en memoria de Sprint 1.
+ * {@link TestimonioService} se importa real (sin mock): hoy siempre devuelve
+ * lista vacía, que es exactamente el escenario que este test cubre (HU-10).
  *
  * <p>Cualquier cambio de implementación del catálogo que rompa este test
  * rompe también el contrato con la vista.
  */
 @WebMvcTest(HomeController.class)
-@Import(CatalogoServicios.class)
+@Import({ CatalogoServicios.class, TestimonioService.class })
 class HomeControllerTest {
 
     @Autowired
@@ -129,6 +132,21 @@ class HomeControllerTest {
 
         // Botón flotante accesible presente en el layout compartido.
         assertThat(html).contains("aria-label=\"Escribir por WhatsApp\"");
+    }
+
+    @Test
+    void noRenderizaNadaDeLaSeccionDeTestimoniosMientrasNoHayaDatos() throws Exception {
+        MvcResult result = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String html = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        // HU-10 "data-ready": con TestimonioService.obtenerTodos() vacío (hoy,
+        // sin material real con permiso del PO) no debe llegar al HTML ni la
+        // sección ni un contenedor vacío — el th:if cubre el <section> entero.
+        assertThat(html).doesNotContain("id=\"testimonios\"");
+        assertThat(html).doesNotContain("na-testimonio-card");
     }
 
     private static int contarOcurrencias(String texto, String subcadena) {
