@@ -58,6 +58,15 @@ public class DisponibilidadService {
         this.reloj = reloj;
     }
 
+    /**
+     * Primera fecha reservable (hoy + el mínimo de anticipación), en hora de
+     * Costa Rica. La usa la capa web para fijar el atributo {@code min} del
+     * selector de fecha sin duplicar la regla de negocio.
+     */
+    public LocalDate fechaMinimaReservable() {
+        return LocalDate.now(reloj).plusDays(ANTICIPACION_MINIMA_DIAS);
+    }
+
     public List<FranjaHoraria> calcularSlotsDisponibles(String servicioId, LocalDate fechaCR) {
         Servicio servicio = catalogoServicios.buscarPorId(servicioId)
                 .filter(Servicio::agendable)

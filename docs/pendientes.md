@@ -19,6 +19,28 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       producción) al menos una vez antes de dar HU-04 por desplegada.
       *(Origen: code review de `feature/hu04-disponibilidad` paso 4, 2026-07-14)*
 
+## Seguridad
+
+- [ ] **`POST /agendar` no tiene rate limiting ni CAPTCHA — el honeypot solo
+      frena bots ingenuos**: `AgendarController` valida en servidor (campos
+      obligatorios, correo, horario realmente libre) y descarta envíos con
+      el campo honeypot (`paginaWeb`) relleno, pero eso solo detecta bots que
+      completan cualquier campo presente en el DOM. Un atacante que arma el
+      POST a mano (sin pasar por el HTML) simplemente omite ese campo — Spring
+      lo deja en `null`, indistinguible de un envío legítimo — y nada más lo
+      frena: no hay límite por IP, ni CAPTCHA, ni verificación de
+      correo/teléfono en ningún punto del proyecto. Con la disponibilidad
+      recalculándose correctamente en servidor (no hay forma de reservar un
+      horario inválido), el riesgo real es de **negación de servicio por
+      reserva masiva**: un script podría recorrer servicio × fecha × horario
+      y llenar la agenda completa con datos inventados, bloqueando a clientes
+      reales. Abordarlo en Sprint 3 cuando entra el agente `security-auditor`
+      a endurecer toda la superficie del formulario (coincide con los tokens
+      de confirmación/reprogramación ya planeados para esa etapa — ver
+      `docs/arquitectura-agendamiento.md`); una opción liviana es rate
+      limiting por IP sobre `POST /agendar` (p. ej. Bucket4j).
+      *(Origen: code review de `feature/hu04-agendar-ui` paso 6, 2026-07-14)*
+
 ## Marca / assets
 
 - [x] **Logo optimizado**: `static/img/logo.png` pesa 151 KB y no es cuadrado (517×616 px).

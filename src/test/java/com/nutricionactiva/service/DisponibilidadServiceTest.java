@@ -175,4 +175,9 @@ class DisponibilidadServiceTest {
         assertThat(capturados.get(1)).isEqualTo(esperadoFin);
         assertThat(esperadoInicio.toString()).contains("14:00:00Z");
     }
+
+    @Test
+    void fechaMinimaReservableEsHoyMasUnDia() {
+        assertThat(servicio.fechaMinimaReservable()).isEqualTo(hoyCR().plusDays(1));
+    }
 }

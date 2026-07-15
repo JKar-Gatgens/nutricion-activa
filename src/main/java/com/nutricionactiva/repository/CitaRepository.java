@@ -2,6 +2,7 @@ package com.nutricionactiva.repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,14 @@ import org.springframework.data.repository.query.Param;
 import com.nutricionactiva.model.Cita;
 
 public interface CitaRepository extends JpaRepository<Cita, Long> {
+
+    /**
+     * Usada por la página pública de confirmación
+     * ({@code /agendar/confirmacion/{token}}): busca por el UUID opaco, no
+     * por el {@code id} autoincremental (enumerable), para que nadie pueda
+     * ver la cita de otra persona iterando números.
+     */
+    Optional<Cita> findByTokenConfirmacion(String tokenConfirmacion);
 
     /**
      * Citas confirmadas cuyo rango se solapa con la ventana

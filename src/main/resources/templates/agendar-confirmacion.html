@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Cita confirmada — Nutrición Activa')}">
+    <title>Cita confirmada — Nutrición Activa</title>
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main id="contenido">
+
+    <section class="na-section na-confirmacion">
+        <div class="container">
+            <div class="na-confirmacion-card" data-reveal>
+
+                <div class="na-confirmacion-icono" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+
+                <h1 class="text-center mb-3">¡Cita confirmada!</h1>
+                <p class="text-center na-lead mb-4">
+                    Quedó reservada tu cita de
+                    <strong th:text="${servicio != null ? servicio.nombre : cita.servicioId}">Consulta de nutrición</strong>.
+                </p>
+
+                <dl class="na-confirmacion-resumen mb-0">
+                    <div>
+                        <dt>Fecha</dt>
+                        <dd th:text="${fechaFormateada}">lunes 20 de julio de 2026</dd>
+                    </div>
+                    <div>
+                        <dt>Horario (Costa Rica, GMT-6)</dt>
+                        <dd th:text="|${horaInicio} – ${horaFin}|">14:00 – 15:30</dd>
+                    </div>
+                    <div>
+                        <dt>A nombre de</dt>
+                        <dd th:text="${cita.clienteNombre}">María Pérez</dd>
+                    </div>
+                </dl>
+
+                <p class="na-confirmacion-aviso mt-4">
+                    Te contactaremos por WhatsApp o correo si necesitás hacer algún cambio.
+                </p>
+
+                <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                    <a class="btn btn-outline-dark" th:href="@{/}">Volver al inicio</a>
+                    <a class="btn btn-primary"
+                       th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text=|Hola Andrés, acabo de agendar una cita de ${servicio != null ? servicio.nombre : cita.servicioId}|)}"
+                       target="_blank" rel="noopener noreferrer">Escribime por WhatsApp</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+</body>
+</html>

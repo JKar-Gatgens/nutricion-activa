@@ -1,6 +1,7 @@
 package com.nutricionactiva.model;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +23,14 @@ import jakarta.persistence.Table;
  * {@code fechaHoraInicioUtc}/{@code fechaHoraFinUtc} siempre están en UTC —
  * la conversión a/desde hora de Costa Rica vive solo en
  * {@link com.nutricionactiva.service.DisponibilidadService}.
+ *
+ * <p>{@code tokenConfirmacion} es un UUID generado en Java al construir la
+ * cita (igual que {@code creadoEn}), usado como identificador de la URL
+ * pública de confirmación (paso 6) en vez del {@code id} autoincremental:
+ * el id es secuencial y enumerable (cualquiera podría iterar
+ * {@code /agendar/confirmacion/1}, {@code /2}... sin autenticación y ver
+ * nombre, fecha/hora y servicio de citas ajenas — hallazgo de code review,
+ * 2026-07-14). El UUID no es adivinable por enumeración.
  */
 @Entity
 @Table(name = "cita")
@@ -62,6 +71,9 @@ public class Cita {
     @Column(name = "creado_en", nullable = false)
     private Instant creadoEn;
 
+    @Column(name = "token_confirmacion", nullable = false, unique = true, length = 36)
+    private String tokenConfirmacion;
+
     protected Cita() {
         // JPA
     }
@@ -85,6 +97,7 @@ public class Cita {
         this.fechaHoraFinUtc = fechaHoraFinUtc;
         this.estado = EstadoCita.CONFIRMADA;
         this.creadoEn = Instant.now();
+        this.tokenConfirmacion = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -129,5 +142,9 @@ public class Cita {
 
     public Instant getCreadoEn() {
         return creadoEn;
+    }
+
+    public String getTokenConfirmacion() {
+        return tokenConfirmacion;
     }
 }

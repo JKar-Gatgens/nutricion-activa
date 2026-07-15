@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Agendá tu cita — Nutrición Activa')}">
+    <title>Agendá tu cita — Nutrición Activa</title>
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main id="contenido">
+
+    <section class="na-section na-agendar">
+        <div class="container">
+
+            <div class="text-center mb-5">
+                <h1 class="mb-3" data-reveal>Agendá tu cita</h1>
+                <p class="na-lead na-measure mx-auto mb-3" data-reveal data-reveal-delay="40">
+                    Elegí tu servicio, la fecha y el horario que mejor te acomode. Confirmamos al instante.
+                </p>
+                <p class="na-agendar-nota mb-0" data-reveal data-reveal-delay="80">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Horarios en hora de Costa Rica (GMT-6)
+                </p>
+            </div>
+
+            <div th:if="${errorGeneral}" class="alert alert-danger na-agendar-alerta" role="alert" data-reveal>
+                <span th:text="${errorGeneral}">No se pudo completar la reserva.</span>
+            </div>
+
+            <!-- ========== PASO 1: servicio ========== -->
+            <div class="na-step" data-reveal>
+                <h2 class="na-step-title"><span class="na-step-num" aria-hidden="true">1</span> Elegí tu servicio</h2>
+                <div class="na-servicio-picker" role="list">
+                    <a th:each="s : ${serviciosAgendables}"
+                       role="listitem"
+                       class="na-servicio-opcion"
+                       th:classappend="${servicioSeleccionado != null and servicioSeleccionado.id == s.id} ? 'is-selected'"
+                       th:href="@{/agendar(servicio=${s.id})}"
+                       th:attr="aria-current=${servicioSeleccionado != null and servicioSeleccionado.id == s.id} ? 'true'">
+                        <h3 th:text="${s.nombre}">Consulta de nutrición</h3>
+                        <p th:text="|Sesión de ${s.duracionMinutos} min|">Sesión de 90 min</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ========== PASO 2: fecha (solo con servicio elegido) ========== -->
+            <div class="na-step" th:if="${servicioSeleccionado != null}" data-reveal>
+                <h2 class="na-step-title"><span class="na-step-num" aria-hidden="true">2</span> Elegí la fecha</h2>
+                <form method="get" th:action="@{/agendar}" class="na-fecha-form row g-3 align-items-end">
+                    <input type="hidden" name="servicio" th:value="${servicioSeleccionado.id}">
+                    <div class="col-12 col-sm-auto">
+                        <label class="form-label" for="fecha">Fecha</label>
+                        <input type="date" id="fecha" name="fecha" class="form-control"
+                               th:min="${fechaMinima}" th:value="${fechaSeleccionada}" required>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <button type="submit" class="btn btn-outline-dark">Ver horarios</button>
+                    </div>
+                    <div class="col-12">
+                        <p class="na-fs-small text-body-secondary mb-0">Atendemos de lunes a sábado, 8:00–18:00.</p>
+                        <p id="fecha-aviso-domingo" class="text-danger na-fs-small mb-0" role="alert" hidden>
+                            Los domingos no atendemos — elegí otro día.
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ========== PASO 3: horario y datos (solo con servicio + fecha) ========== -->
+            <div class="na-step" th:if="${servicioSeleccionado != null and fechaSeleccionada != null}" data-reveal>
+                <h2 class="na-step-title"><span class="na-step-num" aria-hidden="true">3</span> Horario y tus datos</h2>
+
+                <div th:if="${slotsDisponibles == null or #lists.isEmpty(slotsDisponibles)}" class="na-sin-horarios">
+                    <p class="mb-0">
+                        No hay horarios disponibles para el <strong th:text="${fechaSeleccionada}">2026-07-20</strong>.
+                        Probá con otra fecha.
+                    </p>
+                </div>
+
+                <form th:unless="${slotsDisponibles == null or #lists.isEmpty(slotsDisponibles)}"
+                      method="post" th:action="@{/agendar}" th:object="${reservaCitaForm}"
+                      class="na-form-reserva" data-reserva-form novalidate>
+
+                    <input type="hidden" th:field="*{servicioId}">
+                    <input type="hidden" th:field="*{fecha}">
+
+                    <fieldset class="mb-4">
+                        <legend class="form-label">Horario disponible</legend>
+                        <div class="na-slots" role="radiogroup" aria-label="Horarios disponibles">
+                            <label class="na-slot" th:each="franja : ${slotsDisponibles}">
+                                <input type="radio" th:field="*{horaInicio}" th:value="${franja.inicio()}">
+                                <span th:text="${franja.inicio()}">08:00</span>
+                            </label>
+                        </div>
+                        <div class="invalid-feedback d-block" role="alert"
+                             th:if="${#fields.hasErrors('horaInicio')}" th:errors="*{horaInicio}">Elegí un horario.</div>
+                    </fieldset>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="nombre">Nombre completo</label>
+                            <input type="text" id="nombre" class="form-control" th:field="*{nombre}"
+                                   th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'"
+                                   autocomplete="name">
+                            <div class="invalid-feedback" role="alert" th:errors="*{nombre}">Requerido.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="correo">Correo electrónico</label>
+                            <input type="email" id="correo" class="form-control" th:field="*{correo}"
+                                   th:classappend="${#fields.hasErrors('correo')} ? 'is-invalid'"
+                                   autocomplete="email">
+                            <div class="invalid-feedback" role="alert" th:errors="*{correo}">Requerido.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="telefono">Teléfono (WhatsApp)</label>
+                            <input type="tel" id="telefono" class="form-control" th:field="*{telefono}"
+                                   th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid'"
+                                   autocomplete="tel">
+                            <div class="invalid-feedback" role="alert" th:errors="*{telefono}">Requerido.</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="motivo">Contanos tu objetivo</label>
+                            <textarea id="motivo" class="form-control" rows="3" maxlength="500" th:field="*{motivo}"
+                                      th:classappend="${#fields.hasErrors('motivo')} ? 'is-invalid'"></textarea>
+                            <div class="invalid-feedback" role="alert" th:errors="*{motivo}">Requerido.</div>
+                        </div>
+                    </div>
+
+                    <!-- Honeypot anti-bots: invisible para visitantes reales y lectores de pantalla -->
+                    <div class="na-honeypot" aria-hidden="true">
+                        <label for="paginaWeb">Dejá este campo vacío</label>
+                        <input type="text" id="paginaWeb" th:field="*{paginaWeb}" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg mt-4" data-submit-btn>
+                        <span class="na-btn-spinner" aria-hidden="true" hidden></span>
+                        <span data-submit-btn-texto>Confirmar cita</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+<script th:src="@{/js/agendar.js}" defer></script>
+
+</body>
+</html>

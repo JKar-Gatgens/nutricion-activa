@@ -23,8 +23,7 @@
                         de toda Latinoamérica, con seguimiento personalizado.
                     </p>
                     <div class="d-flex flex-wrap align-items-center gap-3" data-reveal data-reveal-delay="120">
-                        <!-- /agendar llega en el siguiente sprint; por ahora el CTA baja a servicios -->
-                        <a class="btn btn-primary btn-lg" th:href="@{/#servicios}">Agendar mi cita</a>
+                        <a class="btn btn-primary btn-lg" th:href="@{/agendar}">Agendar mi cita</a>
                         <a class="btn btn-outline-dark btn-lg"
                            th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text=${whatsapp.mensaje})}"
                            href="https://wa.me/50689592110"
@@ -139,11 +138,17 @@
                                 <span th:text="${servicio.modalidad}">Virtual o a domicilio</span>
                             </li>
                         </ul>
-                        <!-- /agendar llega en el siguiente sprint: enlace preparado del backlog -->
-                        <a class="btn"
+                        <a th:if="${servicio.agendable}"
+                           class="btn"
                            th:classappend="${servicio.destacado} ? 'btn-primary' : 'btn-outline-dark'"
                            th:href="@{/agendar(servicio=${servicio.id})}"
                            th:attr="aria-label=|Agendar ${servicio.nombre}|">Agendar</a>
+                        <!-- No agendable (protocolo/rutina, HU-04): se piden por WhatsApp, no tienen horario propio -->
+                        <a th:unless="${servicio.agendable}"
+                           class="btn btn-outline-dark"
+                           th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text=|Hola Andrés, quiero información sobre ${servicio.nombre}|)}"
+                           target="_blank" rel="noopener noreferrer"
+                           th:attr="aria-label=|Solicitar ${servicio.nombre} por WhatsApp|">Solicitar por WhatsApp</a>
                     </article>
                 </div>
             </div>

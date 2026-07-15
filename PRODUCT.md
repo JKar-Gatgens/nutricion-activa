@@ -14,7 +14,7 @@ Deportistas y personas activas que buscan una transformación física concreta (
 
 ## Product Purpose
 
-Landing de Nutrición Activa, la consulta de nutrición deportiva online de Andrés (Costa Rica, atención virtual a toda LATAM y a domicilio local): presenta los servicios con precios en colones, construye confianza en la persona y su método, y convierte la visita en una cita agendada o una conversación de WhatsApp. Éxito = citas agendadas; el agendamiento online (/agendar) llega en el próximo sprint, mientras tanto el flujo cierra por WhatsApp.
+Landing de Nutrición Activa, la consulta de nutrición deportiva online de Andrés (Costa Rica, atención virtual a toda LATAM y a domicilio local): presenta los servicios con precios en colones, construye confianza en la persona y su método, y convierte la visita en una cita agendada o una conversación de WhatsApp. Éxito = citas agendadas; el agendamiento online (/agendar) ya está en vivo (Sprint 2, HU-04) para los servicios con horario propio (consultas), y el flujo cierra por WhatsApp para los que se solicitan a medida (protocolos/rutinas).
 
 ## Positioning
 
@@ -22,7 +22,7 @@ Hábitos sostenibles, no dietas de moda. Cada sección refuerza esa afirmación:
 
 ## Conversion & proof
 
-- CTA primario: "Agendar cita" (hoy ancla a #servicios; ruta /agendar en el próximo sprint). Secundario: escribir por WhatsApp (FAB global + CTA del hero).
+- CTA primario: "Agendar cita" → `/agendar` (selección de servicio agendable, fecha, horario y datos de contacto). Secundario: escribir por WhatsApp (FAB global, CTA del hero, y único camino para los servicios sin horario propio).
 - La línea que el visitante recuerda a los 10 segundos: **"Alimenta tu potencial"**.
 - Escalera de creencias: 1) esto funciona (resultados/transformaciones) → 2) hay un método serio (cómo funciona) → 3) confío en Andrés (sobre mí) → 4) puedo pagarlo y agendar es fácil (precios + CTA). Es el orden de secciones del MASTER §7.
 - Prueba en mano: **ninguna todavía.** No hay testimonios, fotos antes/después ni capturas autorizadas; el PO las irá entregando (carpeta sugerida: `.impeccable/assets/proof/`). Hasta entonces no se diseña prueba social inventada — la sección de transformaciones del MASTER espera material real. Igual aplica a credenciales: la colegiatura no se publica sin el código CPN (ya anotado en docs/pendientes.md).

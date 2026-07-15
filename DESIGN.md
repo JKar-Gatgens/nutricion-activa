@@ -194,7 +194,7 @@ Táctiles y con impulso: todo lo interactivo se siente físico, como equipamient
 - **Border:** ninguno; la destacada lleva barra superior de 4px con el degradado del aro (nunca lateral).
 - **Internal Padding:** 24px; contenido en rieles (badge-row fija, título a 2 líneas, precio anclado abajo con `margin-top: auto`, metadatos con reserva de 2 filas).
 
-### Inputs / Fields (previstos para /agendar)
+### Inputs / Fields (implementados en /agendar, Sprint 2 HU-04)
 - **Style:** borde Gris Borde, radio 8px, labels siempre visibles (nunca solo placeholder).
 - **Focus:** ring verde de 3px, sin eliminar outline.
 - **Error:** Rojo Error bajo el campo con `role="alert"`.
