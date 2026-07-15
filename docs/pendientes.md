@@ -157,3 +157,10 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
 - [ ] **Correo de marca en el footer**: hoy publica `andresht0502@gmail.com` (personal,
       autorizado por el PO como interino). Reemplazarlo cuando el PO confirme el correo
       de marca definitivo. *(Origen: correcciones de contenido pre-producción, 2026-07-12)*
+- [x] **Apellido de Andrés en "Sobre mí"**: el h2 de la sección pasó de "Andrés — Nutrición
+      Activa" a "Andrés Herrera" en el paso 7 (HU-11, `feature/hu11-reorden`). El
+      code-reviewer marcó el cambio por no tener nota de trazabilidad, a diferencia del
+      resto del texto de la sección (ya anotado como "basado en las palabras del PO;
+      validación final en la demo"). El apellido "Herrera" fue pedido y confirmado
+      directamente por el PO. *(Origen: code review del paso 7, 2026-07-15. Confirmado
+      por el PO el mismo día.)*

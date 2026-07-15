@@ -149,6 +149,21 @@ class HomeControllerTest {
         assertThat(html).doesNotContain("na-testimonio-card");
     }
 
+    @Test
+    void renderizaLaSeccionDeCierreConAmbosCta() throws Exception {
+        MvcResult result = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String html = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        // Franja de cierre nueva del paso 7 (HU-11, MASTER §7.9): siempre visible
+        // (a diferencia de testimonios, no depende de datos del PO).
+        assertThat(html).contains("na-cierre");
+        assertThat(html).contains("Empezá tu cambio hoy");
+        assertThat(html).contains("href=\"/agendar\"");
+    }
+
     private static int contarOcurrencias(String texto, String subcadena) {
         int contador = 0;
         int indice = 0;

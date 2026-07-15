@@ -332,10 +332,16 @@ button:focus-visible,
   color: var(--na-green-dark);
 }
 
-.na-hero .na-lead {
+/* Base compartida: agendar.html y agendar-confirmacion.html también usan
+   .na-lead "pelado" (sin envolver en .na-hero) y hasta ahora quedaban sin
+   font-size/max-width propios — code review del paso 7 (HU-11, 2026-07-15). */
+.na-lead {
   font-size: var(--na-fs-lead);
-  color: var(--na-gray-500);
   max-width: 65ch;
+}
+
+.na-hero .na-lead {
+  color: var(--na-gray-500);
 }
 
 /* Eyebrow / badge de sección */
