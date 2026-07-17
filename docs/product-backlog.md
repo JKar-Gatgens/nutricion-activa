@@ -1,164 +1,143 @@
 # Product Backlog — Nutrición Activa
 
-> **Versión 2.0** · Actualizado el 14 de julio de 2026
-> **Product Owner:** Andrés (Nutricionista) · **Desarrollo:** Johan Gätgens
+> **Versión 3.0** · Actualizado el 16 de julio de 2026
+> **Product Owner:** Andrés Herrera (Nutricionista) · **Desarrollo:** Johan Gätgens
 > **Metodología:** Scrum, sprints de 2 semanas
-> **Stack:** Spring Boot 3 · Thymeleaf · Bootstrap 5 (WebJars) · MySQL (Aiven) · Render
-> **Producción:** https://nutricion-activa.onrender.com
+> **Stack:** Spring Boot 3 · Thymeleaf · Bootstrap 5 (WebJars) · MySQL (Aiven) · Render · Flyway
+> **Producción:** https://nutricion-activa.onrender.com — **con agendamiento en línea funcional**
 
-Este documento es la fuente de verdad del proyecto. Se actualiza al cierre de cada sprint con lo aprendido y lo decidido por el Product Owner.
+Este documento es la fuente de verdad del proyecto. La v3.0 incorpora el programa "Fuerte y Definido" (nueva propuesta del PO) y reestructura el mapa de sprints.
 
 ---
 
 ## 1. Visión del producto
 
-Un sitio web profesional para Nutrición Activa que permita a cualquier persona de Latinoamérica conocer los servicios del nutricionista, entender su propuesta de valor ("Alimenta tu potencial": perder grasa y ganar músculo con acompañamiento profesional y hábitos sostenibles), y agendar una cita en línea sin fricción, mientras el nutricionista administra su agenda desde un panel privado.
+Un sitio web profesional para Nutrición Activa que permita a cualquier persona de Latinoamérica conocer los servicios del nutricionista, descubrir su producto estrella (el programa "Fuerte y Definido" de 90 días), y agendar una cita en línea sin fricción, mientras el nutricionista administra su agenda y hace crecer su oferta a medida que su negocio se desarrolla.
 
 ---
 
 ## 2. Decisiones registradas
 
-Decisiones del Product Owner y del equipo, con su fecha. Cada una tiene un ID trazable (`D-##`) que se referencia en las historias.
-
 ### Del levantamiento inicial (9-10 de julio)
 
-- **D-01** — El formulario de admisión con datos de salud se descarta: los datos clínicos se toman en consulta. Solo se solicita el motivo de consulta al agendar.
-- **D-02** — El MVP se lanza sin pago en línea. El cobro se realiza en consulta. El adelanto con pasarela de pagos se pospone a Fase 2.
-- **D-03** — Las notificaciones al nutricionista serán por correo y panel de administración. Se descarta WhatsApp automático por su costo de API.
-- **D-04** — El recordatorio 24h antes incluirá acciones de confirmación y reprogramación por parte del cliente.
-- **D-05** — Correo del remitente: Gmail personal del PO (andresht0502@gmail.com) durante el MVP, vía contraseña de aplicación en variables de entorno. Se cambiará al correo de marca cuando esté disponible.
-- **D-06** — Las cuentas de cliente (historial y descarga de planes PDF) se aprueban para Fase 2 con prioridad baja: el flujo actual de entrega personal por WhatsApp funciona para el PO.
-- **D-07** — Agendar cita no requiere registro: solo nombre, correo, teléfono y motivo de consulta.
+- **D-01** — Sin formulario de admisión con datos de salud: solo motivo de consulta al agendar.
+- **D-02** — MVP sin pago en línea; el cobro se realiza en consulta.
+- **D-03** — Notificaciones al nutricionista por correo y panel; sin WhatsApp automático (costo de API).
+- **D-04** — El recordatorio 24h incluirá acciones de confirmación y reprogramación.
+- **D-05** — Remitente de correo: Gmail personal del PO durante el MVP, vía contraseña de aplicación en variables de entorno. Cambiable al correo de marca en minutos (solo variables).
+- **D-06** — Cuentas de cliente: Fase 2, prioridad baja.
+- **D-07** — Agendar sin registro: nombre, correo, teléfono y motivo.
 
-### Del Sprint 1 y sus datos finales (10-13 de julio)
+### Del Sprint 1 (10-13 de julio)
 
-- **D-08** — **El catálogo definitivo son 4 servicios, no 5.** El PO listó su oferta final sin incluir "Nutrición clínica" tras consultársele explícitamente dos veces; se descarta como servicio independiente (queda integrada en la consulta normal).
-- **D-09** — **Precios y duraciones confirmados:** Consulta de nutrición inicial (90 min, ₡30.000) y de seguimiento (40 min, ₡30.000) — mismo precio por decisión del PO. Protocolo para competencias deportivas (plan de 3 días, ₡22.000). Rutina de entrenamiento (₡15.000). Protocolo y rutina son planes, no sesiones con horario fijo.
-- **D-10** — **Los precios van públicos** en la página (confirmado por el PO al aportarlos).
-- **D-11** — **Integridad de credenciales ("sin prueba, sin promesa"):** no se publica ninguna afirmación sin respaldo. El código de colegiado se retiró de la barra de confianza porque el PO aún no lo tiene; se restaurará cuando lo aporte. La sección de testimonios permanece oculta hasta tener casos reales con permiso.
-- **D-12** — **Facebook retirado del footer:** el PO no aportó URL. Se restaura solo si confirma que tiene página. Instagram sí está publicado (nutricion_activa_cr).
-- **D-13** — Identidad visual: paleta verde/negro del logo real, tipografía Barlow, eslogan "Alimenta tu potencial". Elemento propio del sistema ("Barra de Impulso", eco del aro del logo) en lugar de patrones genéricos. Documentado en `design-system/MASTER.md` y `DESIGN.md`.
+- **D-08** — Catálogo definitivo: 4 servicios (se descartó "Nutrición clínica").
+- **D-09** — Precios confirmados: consulta inicial 90 min ₡30.000; seguimiento 40 min ₡30.000; protocolo de competencia ₡22.000; rutina de entrenamiento ₡15.000. Protocolo y rutina son planes (no agendables; se solicitan por WhatsApp).
+- **D-10** — Precios públicos en la página.
+- **D-11** — "Sin prueba, sin promesa": nada se publica sin respaldo real (código CPN retirado hasta que exista; testimonios ocultos hasta tener casos reales con permiso).
+- **D-12** — Facebook retirado (sin URL); Instagram publicado (nutricion_activa_cr).
+- **D-13** — Identidad visual propia (verde/negro del logo, Barlow, "Barra de Impulso") en design-system/MASTER.md.
 
-### Del feedback de Sprint Review (13 de julio)
+### Del Sprint Review 1 y Sprint 2 (13-16 de julio)
 
-- **D-14** — El PO pidió que el ORDEN y las secciones sigan el modelo de su referencia (pia-nutricion.com). Se adopta la *lógica* de orden, NO una copia literal (inapropiado legalmente y contraproducente sin el contenido que la sostiene). Genera la HU-11.
-- **D-15** — El PO ya tiene clientes con resultados, pero solo fotos de progreso en Instagram, sin testimonios escritos ni permiso para uso web. Se le entregó una plantilla para solicitar testimonios + permiso explícito. La sección se activará cuando lleguen.
+- **D-14** — Orden de secciones estilo referencia del PO (pia-nutricion.com): implementado en HU-11.
+- **D-15** — Testimonios: sección data-ready construida y oculta; el PO gestiona testimonios reales con plantilla de permiso entregada.
+
+### De la propuesta del programa "Fuerte y Definido" (16 de julio)
+
+- **D-16** — **Se incorpora el programa "Fuerte y Definido" como producto estrella de la página:** 3 módulos × 30 días (90 días), nutrición + entrenamiento, ₡105.000 el programa completo (precio corregido por el PO), población 16+ que entrena 3+ veces/semana, online o presencial (CR y extranjero). Incluye: sesiones de seguimiento, guía de suplementación deportiva, listas de intercambio de alimentos, plan nutricional personalizado, guía de entrenamiento estructurado y atención en tiempo real. Mensaje de venta: "cambio físico en 90 días sin dietas restrictivas, con planes ajustados a tu rutina diaria".
+- **D-17** — **El pago en línea del programa se pospone hasta tener una base de clientes suficiente** (decisión del PO, refuerza D-02). Mientras tanto, la venta se cierra por WhatsApp: el CTA del programa es "Quiero más información" → chat directo con el PO.
+- **D-18** — **Temática visual del programa: GYM** (aclarado por el PO). Se aplica en el sprint de identidad visual (Sprint 4), donde el programa recibe presencia protagónica y estética diferenciada.
+- **D-19** — **Construcción por fases acompañando la producción de contenido del PO:** el programa está ~30% desarrollado por su lado (avanza ~3h/semana). La página se construye data-ready: la estructura existe desde ya y el detalle de los módulos se agrega como datos a medida que el PO los diseñe, sin tocar código. Solo se publica el nivel de detalle que ya existe (principio D-11).
+- **D-20** — **Los correos de notificación (HU-05) se priorizan de inmediato:** el agendamiento está vivo en producción y el PO debe enterarse de cada reserva sin depender de revisión manual de la base de datos.
 
 ---
 
-## 3. Dirección de diseño
+## 3. Historias de usuario
 
-Referencias aprobadas por el PO: pia-nutricion.com (favorita), larisawellness.com, y directorios médicos (Hospital CIMA, Medismart). Patrones adoptados: el profesional como rostro de la marca, servicios en tarjetas con CTA, WhatsApp como canal principal (botón flotante), propuesta de valor prominente en el hero, estética limpia con espacio en blanco, y flujo de secciones hero → sobre mí → servicios → prueba social → agendar.
-
-La identidad NO se copia de las referencias: es propia (verde eléctrico sobre negro, energía fitness), lo que diferencia a Nutrición Activa en el nicho. La credibilidad se construye con el enfoque de hábitos sostenibles y — cuando existan — testimonios y credencial de colegiado reales.
-
----
-
-## 4. Historias de usuario
-
-Estado: ✅ hecha · 🔨 en curso · 📋 pendiente · 💤 preparada pero inactiva
-
-### MVP
+Estado: ✅ hecha · 🔨 en curso · 📋 pendiente · 💤 preparada/inactiva
 
 | ID | Historia | Prioridad | Sprint | Estado |
 |---|---|---|---|---|
-| HU-01 | Conocer la propuesta de valor (hero, confianza, sobre mí) | Must | 1 | ✅ |
-| HU-02 | Ver servicios y precios (4 tarjetas) | Must | 1 | ✅ |
-| HU-03 | Contactar por WhatsApp (botón flotante) | Must | 1 | ✅ |
-| HU-04 | Agendar una cita en línea sin registro | Must | 2 | 🔨 |
-| HU-05 | Recibir confirmación de la cita por correo | Must | 3 | 📋 |
-| HU-06 | Recordatorio 24h con confirmar/reprogramar | Must | 3 | 📋 |
-| HU-07 | Reprogramar desde el enlace del recordatorio | Should | 3 | 📋 |
-| HU-08 | Panel de administración de citas (con login) | Must | 3 | 📋 |
-| HU-09 | Pulido visual y auditoría de seguridad | Should | 3-4 | 📋 |
-| HU-10 | Sección de testimonios | Could | 2-3 | 💤 |
-| HU-11 | Reorden de secciones al flujo estilo Pía | Should | 2 | 📋 |
+| HU-01 | Conocer la propuesta de valor | Must | 1 | ✅ |
+| HU-02 | Ver servicios y precios | Must | 1 | ✅ |
+| HU-03 | Contactar por WhatsApp | Must | 1 | ✅ |
+| HU-04 | Agendar una cita en línea (con BD, concurrencia y token) | Must | 2 | ✅ |
+| HU-11 | Reorden de secciones estilo referencia del PO | Should | 2 | ✅ |
+| HU-05 | Confirmación por correo (cliente y nutricionista) | Must | 3 | 📋 |
+| HU-12 | Vitrina del programa "Fuerte y Definido" (landing + página dedicada) | Must | 3 | 📋 |
+| HU-09a | Identidad visual audaz (temática gym, rediseño coherente) | Should | 4 | 📋 |
+| HU-13 | Detalle progresivo de módulos del programa (data-driven) | Should | 4+ | 📋 |
+| HU-08 | Panel de administración de citas (Spring Security) | Must | 5 | 📋 |
+| HU-06 | Recordatorio 24h con confirmar/reprogramar (tokens) | Must | 5 | 📋 |
+| HU-07 | Reprogramar desde el enlace del recordatorio | Should | 5 | 📋 |
+| HU-09b | Auditoría de seguridad completa (security-auditor, rate limiting) | Must | 5 | 📋 |
+| HU-10 | Testimonios (activación al tener material real) | Could | — | 💤 |
+| HU-14 | Inscripción y pago en línea del programa | Won't (por ahora) | Fase C | 📋 |
 
-### Detalle de las historias activas y próximas
-
-**HU-04 — Agendar una cita en línea** (Sprint 2, en curso)
-Como cliente, quiero seleccionar un servicio, ver los horarios disponibles y reservar con mis datos básicos, para asegurar mi espacio sin crear cuenta.
-- Solo se muestran servicios agendables (las consultas); protocolo y rutina se solicitan por WhatsApp (pendiente de confirmación del PO en FASE 0 del Sprint 2).
-- Solo horarios realmente libres, según agenda y duración del servicio.
-- Reglas: L-S 8:00-18:00 GMT-6; la cita termina dentro del horario; anticipación mínima 1 día; sin solapamiento de rangos.
-- Formulario: nombre, correo, teléfono, motivo (D-01, D-07). Validación en servidor + anti-bots.
-- El horario se bloquea al confirmar (control de concurrencia). Zona horaria de CR indicada explícitamente.
-- Estado inicial de la cita: CONFIRMADA. La cita persiste en base de datos.
-
-**HU-11 — Reorden estilo Pía** (Sprint 2, nueva — D-14)
-Como visitante, quiero que la página fluya en un orden natural que me lleve de conocer al profesional hasta agendar, para tener una experiencia clara.
-- Orden: hero → sobre mí → servicios → testimonios (oculta) → CTA de cierre → footer.
-- Navbar y scroll-padding ajustados al nuevo orden.
-- No rompe los tests de contrato existentes.
-
-**HU-10 — Sección de testimonios** (preparada, inactiva — D-11, D-15)
-Como visitante, quiero leer experiencias de otros clientes, para reforzar mi confianza.
-- Estructura "data-ready": se renderiza solo si hay testimonios cargados; con lista vacía no aparece en el HTML.
-- Solo casos reales con permiso explícito del cliente para uso web. Foto de progreso solo con permiso separado y acompañando texto + nombre/inicial.
-- Activar = agregar datos, cero cambios de código.
+### Detalle de las historias próximas
 
 **HU-05 — Confirmación por correo** (Sprint 3)
-Cliente y nutricionista reciben correo al crearse la cita (D-03, D-05). Remitente configurable por variable de entorno; ninguna credencial en el repo.
+Como cliente y como nutricionista, queremos recibir un correo automático al crearse una cita, para tener constancia inmediata sin revisar la base de datos.
+- El cliente recibe correo con: servicio, fecha y hora (en hora de Costa Rica, GMT-6), modalidad y contacto del nutricionista.
+- El nutricionista recibe aviso con los datos del cliente y el motivo.
+- El envío NO bloquea la reserva: si el correo falla, la cita igual queda guardada (el correo es secundario, se registra el fallo).
+- Remitente y credenciales SMTP por variables de entorno (D-05); ninguna credencial en el repo.
+- El aviso "te contactaremos" de la página de confirmación se actualiza para reflejar que ahora sí llega correo.
 
-**HU-06 — Recordatorio con acciones** (Sprint 3 — D-04)
-Proceso programado envía recordatorio 24h antes, una vez por cita, con botones "Confirmo" / "Necesito reprogramar" vía enlace con token único sin login.
+**HU-12 — Vitrina del programa "Fuerte y Definido"** (Sprint 3)
+Como visitante, quiero descubrir el programa estrella desde la primera pantalla y conocer todo lo que incluye, para decidir si pedir información.
+- Sección destacada en la landing (posición protagónica cerca del hero) que presenta el programa y enlaza a su página.
+- Página dedicada /programa con: qué es (90 días, 3 módulos), qué incluye (los 6 elementos de D-16), el precio (₡105.000), la población objetivo, el mensaje "sin dietas restrictivas", y CTA "Quiero más información" → WhatsApp con mensaje precargado del programa (D-17).
+- Estructura data-ready (ProgramaService): los módulos se muestran a nivel de estructura (Módulo 1/2/3 · 30 días); el detalle se agrega como datos cuando el PO lo produzca (D-19). No se publica detalle inexistente.
+- Enlace en el navbar. Tests de contrato para /programa.
+- El diseño de esta fase es estructural y dentro del MASTER actual; la temática gym llega en el Sprint 4 (D-18).
 
-**HU-07 — Reprogramar desde el enlace** (Sprint 3)
-El enlace de reprogramación reutiliza las reglas de disponibilidad de la HU-04; libera el horario viejo, bloquea el nuevo, notifica a ambas partes; el token se invalida tras usarse.
+**HU-09a — Identidad visual audaz** (Sprint 4 — el "sprint de diseño")
+Con la página completa (agendamiento + programa + reorden), se reemplaza la dirección estética conservadora del Sprint 0 por una audaz con temática gym/fitness, conservando colores del logo, eslogan, estructura y funcionalidad. Se generan variaciones para que el PO elija. Incluye la presencia visual diferenciada del programa (D-18).
 
-**HU-08 — Panel de administración** (Sprint 3)
-Acceso con login (Spring Security), solo rol administrador en el MVP. Lista citas por día/semana con datos, estado y motivo. El nutricionista puede cancelar (notifica al cliente). Es donde entra el security-auditor.
-
-**HU-09 — Pulido y seguridad** (Sprint 3-4)
-Auditoría de diseño (impeccable) y de seguridad (security-auditor) sobre la superficie completa; hallazgos críticos resueltos antes de considerar el producto listo.
+**HU-13 — Detalle progresivo de módulos** (Sprint 4 en adelante, según produzca el PO)
+A medida que el PO diseñe cada módulo (contenido, enfoque, entregables), su detalle se agrega a la página como datos. Activación sin cambios de código.
 
 ---
 
-## 5. Mapa de sprints
+## 4. Mapa de sprints (reestructurado en v3.0)
 
 | Sprint | Meta | Historias | Estado |
 |---|---|---|---|
-| **Sprint 0** | Fundaciones: proyecto, repo, deploy continuo, skills, sistema de diseño | — | ✅ Completado |
-| **Sprint 1** | La vitrina: propuesta de valor, servicios, WhatsApp. Cerró con 19/20 en auditoría | HU-01, HU-02, HU-03 | ✅ Completado |
-| **Sprint 2** | El corazón: agendamiento con BD real + reorden estilo Pía | HU-04, HU-11, HU-10 (prep) | 🔨 En curso |
-| **Sprint 3** | Comunicación y administración: correos, recordatorios con tokens, panel privado, auditoría de seguridad | HU-05, HU-06, HU-07, HU-08, HU-09 | 📋 Pendiente |
-| **Sprint 4** | Pulido final, testimonios activos (si hay material), rendimiento | HU-09, HU-10 | 📋 Pendiente |
+| **Sprint 0** | Fundaciones: proyecto, repo, CI/CD, skills, sistema de diseño | — | ✅ |
+| **Sprint 1** | La vitrina: propuesta de valor, servicios, WhatsApp (19/20 en auditoría) | HU-01/02/03 | ✅ |
+| **Sprint 2** | El corazón: agendamiento con BD (Aiven), concurrencia probada, deploy en producción | HU-04, HU-11 | ✅ |
+| **Sprint 3** | **Avisos y vitrina del programa:** correos de confirmación + programa Fuerte y Definido (fase vitrina) | HU-05, HU-12 | 📋 Próximo |
+| **Sprint 4** | **Identidad visual:** rediseño audaz con temática gym, página completa, variaciones para el PO | HU-09a (+HU-13 si hay contenido) | 📋 |
+| **Sprint 5** | **Administración y blindaje:** panel admin con login, recordatorios con tokens, reprogramación, auditoría de seguridad completa | HU-08, HU-06, HU-07, HU-09b | 📋 |
+| **Fase C** | Inscripción y pago en línea del programa (cuando exista base de clientes y el programa esté completo) | HU-14 | 📋 Futuro |
 
 ---
 
-## 6. Fase 2 — Fuera del alcance del MVP
+## 5. Fuera del alcance actual (Fase 2 / futuro)
 
-Clasificación *Won't have* por ahora (aprobado o discutido con el PO, pospuesto):
-
-- Pago de adelanto mediante pasarela (Tilopay/ONVO local; PayPal internacional) — D-02.
-- Cuentas de cliente con historial y descarga de planes PDF (Firebase Storage) — D-06, prioridad baja.
-- Notificaciones automáticas por WhatsApp (API de Meta/Twilio) — D-03.
-- Blog de contenido (tips y recetas) — presente en las referencias del PO, requiere que él genere contenido.
+- Pago en línea (pasarela Tilopay/ONVO local, PayPal internacional) — D-02, D-17.
+- Cuentas de cliente con historial y descarga de PDFs — D-06.
+- WhatsApp automático (API Meta/Twilio) — D-03.
+- Blog de tips y recetas (requiere contenido del PO).
 - Detección de zona horaria del visitante.
 - Dominio propio (GitHub Student Pack) y correo de marca definitivo.
-- Migración de fotos/logo a WebP optimizado (parcialmente resuelto en Sprint 1).
 
 ---
 
-## 7. Definición de Terminado (DoD)
+## 6. Definición de Terminado (DoD)
 
-Una historia está terminada cuando:
-
-- Todos sus criterios de aceptación se cumplen y fueron verificados.
-- El código pasó por el agente **code-reviewer** y los hallazgos críticos están resueltos.
-- La lógica de negocio tiene pruebas unitarias en verde (agente **test-automator**, desde Sprint 2).
-- Los cambios están en `develop`, desplegados desde `main` en Render y verificados en producción.
-- El Product Owner validó la funcionalidad en la demo del sprint.
-- No se versionó ninguna credencial ni secreto en el repositorio.
+- Criterios de aceptación cumplidos y verificados.
+- Código revisado por **code-reviewer**; hallazgos críticos resueltos.
+- Lógica de negocio con pruebas en verde (**test-automator** donde aplique).
+- Cambios en develop, desplegados desde main en Render, verificados en producción.
+- El PO validó en la demo del sprint.
+- Ninguna credencial versionada en el repositorio.
 
 ---
 
-## 8. Deuda técnica y pendientes conocidos
+## 7. Consideraciones registradas
 
-Trackeados en `docs/pendientes.md` dentro del repo:
-- Restaurar credencial de colegiado con el código real (depende del PO — D-11).
-- Restaurar Facebook si el PO aporta URL (D-12).
-- Cambiar al correo de marca cuando exista (D-05).
-- Unificar todo el sitio en un solo set de íconos (Lucide) — en curso.
-- Optimización WebP de assets pendientes.
-- Recorte de peso 700 de Barlow si no se usa.
+- **Menores de edad (16-17):** la web informativa no requiere nada especial; cuando exista inscripción formal (Fase C), el proceso debe contemplar consentimiento de padres/tutores. Es además práctica profesional del PO en su atención.
+- **Zona horaria verificada en producción:** la reserva de las 8:00 AM CR se persiste como 14:00 UTC — el diseño UTC/CR y el bloqueante connectionTimeZone=UTC funcionan correctamente (verificado 16 de julio).
+- **Deuda técnica activa:** ver docs/pendientes.md (rate limiting → Sprint 5; server.port=80 → revisar; hardening de certificado CA de Aiven → futuro; DatabaseConfig mejoras → menor).
