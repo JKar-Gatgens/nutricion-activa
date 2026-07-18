@@ -144,6 +144,19 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       riesgo real, pero el DEFAULT en la migración sugiere una garantía que la app no
       usa. Agregar un comentario aclaratorio en la migración.
       *(Origen: code review de `feature/hu04-disponibilidad` paso 4, 2026-07-14)*
+- [ ] **Pool de `@Async` (correos HU-05) con cola no acotada**: `AsyncConfig` solo
+      trae `@EnableAsync`, sin `@Bean Executor` propio, así que Spring Boot resuelve
+      el executor con sus defaults (`core-size=8`, `queue-capacity=Integer.MAX_VALUE`,
+      verificado en el jar de `spring-boot-autoconfigure-4.1.0`). Eso evita una
+      explosión de hilos (nunca pasan de 8 concurrentes enviando correo), pero la
+      cola ilimitada significa que si el SMTP de Gmail se degrada de forma sostenida,
+      las tareas de envío se acumulan en memoria sin límite ni rechazo — nadie
+      decidió esto explícitamente, no hay ninguna línea `spring.task.execution.pool.*`
+      en `application.properties`. Acotar `queue-capacity` (con una política de
+      rechazo tipo `CallerRunsPolicy`) cuando el volumen de reservas lo justifique;
+      para el tráfico actual del MVP no es urgente, mismo tratamiento que el rate
+      limiting de `POST /agendar` de la sección Seguridad. *(Origen: code review de
+      HU-05, 2026-07-17)*
 
 ## Contenido / datos del PO
 

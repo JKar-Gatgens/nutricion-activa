@@ -1,6 +1,7 @@
 package com.nutricionactiva.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,19 +12,26 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.nutricionactiva.model.Cita;
 import com.nutricionactiva.repository.CitaRepository;
+
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  * Caso 7 del catálogo de 8 casos (docs/arquitectura-agendamiento.md): la
@@ -33,10 +41,20 @@ import com.nutricionactiva.repository.CitaRepository;
  * son comportamiento específico de MySQL. Diez hilos compiten por el mismo
  * servicio/fecha/hora: exactamente uno debe reservar, los otros nueve deben
  * recibir {@link SlotNoDisponibleException}, nunca un error genérico.
+ *
+ * <p>{@link JavaMailSender} se mockea (HU-05): sin esto, la única reserva
+ * exitosa dispara -en el hilo async de {@link NotificacionCitaListener}- un
+ * intento real de conexión SMTP contra {@code smtp.gmail.com} (falla rápido
+ * por falta de credenciales gracias al try/catch del listener, pero sigue
+ * siendo una llamada de red real e innecesaria en un test que antes corría
+ * 100% contra Testcontainers, sin salir a internet).
  */
 @Testcontainers
 @SpringBootTest
 class ReservaCitaServiceConcurrenciaTest {
+
+    @MockitoBean
+    private JavaMailSender mailSender;
 
     @Container
     static final MySQLContainer<?> MYSQL = new MySQLContainer<>("mysql:8.0")
@@ -60,6 +78,12 @@ class ReservaCitaServiceConcurrenciaTest {
 
     private static final String SERVICIO_ID = "consulta-nutricion";
     private static final LocalTime HORA_INICIO = LocalTime.of(10, 0);
+
+    @BeforeEach
+    void mailSenderCreaMensajesReales() {
+        when(mailSender.createMimeMessage())
+                .thenAnswer(invocacion -> new MimeMessage(Session.getDefaultInstance(new Properties())));
+    }
 
     /**
      * Para que este test pruebe contención real (los 10 hilos peleando por el

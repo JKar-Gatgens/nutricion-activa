@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,14 @@ import com.nutricionactiva.repository.CitaRepository;
  * no sobre el horario específico: la segunda transacción que compite por
  * cualquier horario de ese mismo día espera, y al recalcular ve la cita recién
  * guardada por la primera.
+ *
+ * <p>Al final, dentro de la misma transacción, publica
+ * {@link CitaReservadaEvent} (HU-05): {@link NotificacionCitaListener} lo
+ * recibe recién después del commit ({@code @TransactionalEventListener(AFTER_COMMIT)})
+ * y envía los correos de forma asíncrona, así que un fallo de envío o un
+ * SMTP lento nunca afectan esta transacción ni la respuesta al visitante, y
+ * si la reserva termina en rollback (p. ej. {@link SlotNoDisponibleException})
+ * ningún correo sale.
  */
 @Service
 public class ReservaCitaService {
@@ -29,14 +38,17 @@ public class ReservaCitaService {
     private final AgendaDiaRepository agendaDiaRepository;
     private final DisponibilidadService disponibilidadService;
     private final CitaRepository citaRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public ReservaCitaService(
             AgendaDiaRepository agendaDiaRepository,
             DisponibilidadService disponibilidadService,
-            CitaRepository citaRepository) {
+            CitaRepository citaRepository,
+            ApplicationEventPublisher eventPublisher) {
         this.agendaDiaRepository = agendaDiaRepository;
         this.disponibilidadService = disponibilidadService;
         this.citaRepository = citaRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -68,6 +80,8 @@ public class ReservaCitaService {
                 motivo,
                 inicioUtc,
                 finUtc);
-        return citaRepository.save(cita);
+        Cita citaGuardada = citaRepository.save(cita);
+        eventPublisher.publishEvent(new CitaReservadaEvent(citaGuardada.getId()));
+        return citaGuardada;
     }
 }

@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationEventPublisher;
 
 import com.nutricionactiva.model.FranjaHoraria;
 import com.nutricionactiva.repository.AgendaDiaRepository;
@@ -30,9 +31,10 @@ class ReservaCitaServiceTest {
     private final AgendaDiaRepository agendaDiaRepository = mock(AgendaDiaRepository.class);
     private final DisponibilidadService disponibilidadService = mock(DisponibilidadService.class);
     private final CitaRepository citaRepository = mock(CitaRepository.class);
+    private final ApplicationEventPublisher eventPublisher = mock(ApplicationEventPublisher.class);
 
     private final ReservaCitaService reservaCitaService =
-            new ReservaCitaService(agendaDiaRepository, disponibilidadService, citaRepository);
+            new ReservaCitaService(agendaDiaRepository, disponibilidadService, citaRepository, eventPublisher);
 
     @Test
     void slotYaNoDisponibleLanzaExcepcionYNoGuardaNada() {
@@ -51,5 +53,39 @@ class ReservaCitaServiceTest {
 
         verify(agendaDiaRepository).asegurarFilaConCandado(fecha);
         verify(citaRepository, never()).save(any());
+        verify(eventPublisher, never()).publishEvent(any());
+    }
+
+    @Test
+    void reservaExitosaPublicaEventoConElIdDeLaCitaGuardada() {
+        LocalDate fecha = LocalDate.of(2026, 7, 20);
+        LocalTime horaSolicitada = LocalTime.of(14, 0);
+
+        when(disponibilidadService.calcularSlotsDisponibles("consulta-nutricion", fecha))
+                .thenReturn(List.of(new FranjaHoraria(horaSolicitada, LocalTime.of(15, 30))));
+
+        com.nutricionactiva.model.Cita citaGuardada = new com.nutricionactiva.model.Cita(
+                "consulta-nutricion", 90, "Ana", "ana@correo.com", "8888-0000", "motivo",
+                java.time.Instant.parse("2026-07-20T20:00:00Z"),
+                java.time.Instant.parse("2026-07-20T21:30:00Z"));
+        setId(citaGuardada, 42L);
+        when(citaRepository.save(any())).thenReturn(citaGuardada);
+
+        reservaCitaService.reservar(
+                "consulta-nutricion", fecha, horaSolicitada,
+                "Ana", "ana@correo.com", "8888-0000", "motivo");
+
+        verify(eventPublisher).publishEvent(new CitaReservadaEvent(42L));
+    }
+
+    /** La Cita real solo asigna {@code id} vía JPA al persistir; en un test unitario sin BD se fija a mano. */
+    private static void setId(com.nutricionactiva.model.Cita cita, Long id) {
+        try {
+            var campo = com.nutricionactiva.model.Cita.class.getDeclaredField("id");
+            campo.setAccessible(true);
+            campo.set(cita, id);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
