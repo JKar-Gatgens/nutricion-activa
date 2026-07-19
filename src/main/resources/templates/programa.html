@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Programa Fuerte y Definido — Nutrición Activa')}">
+    <title>Programa Fuerte y Definido — Nutrición Activa</title>
+</head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main id="contenido">
+
+    <!-- ========== HERO DEL PROGRAMA (HU-12) ==========
+         Estructural dentro del MASTER actual: la temática gym llega en el
+         Sprint 4 (D-18). El chip lleva el eslogan del hero (uso permitido
+         por DESIGN.md); la cifra 90 es la Regla de la Cifra Protagonista
+         aplicada al hecho central del producto.
+         na-programa-hero no tiene estilos todavía a propósito: es el hook
+         reservado para la estética gym diferenciada del Sprint 4 (D-18) —
+         no eliminarla como "clase muerta". -->
+    <section class="na-section na-programa-hero">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-12 col-lg-7">
+                    <p class="na-eyebrow mb-0" data-reveal th:text="${programa.eslogan}">
+                        Nutrición + entrenamiento · 90 días</p>
+                    <h1 class="mt-3 mb-3" data-reveal data-reveal-delay="40"
+                        th:text="${programa.nombre}">Fuerte y Definido</h1>
+                    <p class="na-lead mb-4" data-reveal data-reveal-delay="80"
+                       th:text="${programa.mensajeVenta}">
+                        Cambio físico en 90 días sin dietas restrictivas, con planes
+                        ajustados a tu rutina diaria.
+                    </p>
+                    <div class="d-flex flex-wrap align-items-center gap-3" data-reveal data-reveal-delay="120">
+                        <!-- D-17: sin pago ni inscripción en línea — la venta cierra por WhatsApp -->
+                        <a class="btn btn-primary btn-lg"
+                           th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text='Hola Andrés, quiero información del programa Fuerte y Definido 💪')}"
+                           href="https://wa.me/50689592110"
+                           target="_blank" rel="noopener noreferrer">Quiero más información</a>
+                        <a class="btn btn-outline-dark btn-lg" href="#como-funciona">Ver cómo funciona</a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5">
+                    <!-- Cifra Protagonista: el dato central del programa, no decoración -->
+                    <div class="na-programa-cifra" data-reveal data-reveal-delay="80">
+                        <span class="na-programa-cifra-num" th:text="${programa.duracionDias}">90</span>
+                        <span class="na-programa-cifra-label"
+                              th:text="|días · ${#lists.size(programa.modulos)} módulos|">días · 3 módulos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CÓMO FUNCIONA: LOS MÓDULOS ==========
+         Los módulos son una secuencia temporal real (30+30+30 días): la
+         numeración porta información, no decoración. Módulo sin descripcion
+         (null) ni detalles: se muestra SOLO la estructura, sin ningún texto
+         de relleno anunciando contenido futuro (D-19/D-11); el detalle llega
+         como datos en ProgramaService cuando el PO lo produzca (HU-13).
+         Ojo: este comentario SÍ viaja al HTML publicado — no escribir acá
+         las palabras que los tests de contrato prohíben en la página. -->
+    <section id="como-funciona" class="na-section na-programa-modulos">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="na-section-title mb-3" data-reveal>¿Cómo funciona?</h2>
+                <p class="mb-0" data-reveal data-reveal-delay="40"
+                   th:text="|${#lists.size(programa.modulos)} módulos consecutivos, ${programa.duracionDias} días de acompañamiento.|">
+                    3 módulos consecutivos, 90 días de acompañamiento.
+                </p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-md-4"
+                     th:each="modulo, stat : ${programa.modulos}"
+                     data-reveal th:attr="data-reveal-delay=${(stat.index % 3) * 40}">
+                    <article class="na-modulo-card">
+                        <span class="na-modulo-num" th:text="${modulo.numero}">1</span>
+                        <h3 class="na-modulo-nombre" th:text="${modulo.nombre}">Módulo 1</h3>
+                        <p class="na-modulo-dias" th:text="|${modulo.duracionDias} días|">30 días</p>
+                        <p class="na-modulo-desc" th:if="${modulo.descripcion != null}"
+                           th:text="${modulo.descripcion}">Descripción del módulo.</p>
+                        <ul class="na-modulo-detalles list-unstyled" role="list"
+                            th:if="${not #lists.isEmpty(modulo.detalles)}">
+                            <li th:each="detalle : ${modulo.detalles}" th:text="${detalle}">Detalle</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== QUÉ INCLUYE ==========
+         Iconos Lucide (stroke, un solo set — MASTER §6) elegidos por posición:
+         si la lista de incluye crece, los ítems nuevos reciben el icono de
+         check por defecto sin romper nada. -->
+    <section class="na-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="na-section-title mb-3" data-reveal>¿Qué incluye?</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4"
+                     th:each="item, stat : ${programa.incluye}"
+                     data-reveal th:attr="data-reveal-delay=${(stat.index % 3) * 40}">
+                    <div class="na-incluye-item">
+                        <span class="na-incluye-icono" th:switch="${stat.index}">
+                            <!-- clipboard-list: plan nutricional -->
+                            <svg th:case="0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                <path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>
+                            </svg>
+                            <!-- dumbbell: entrenamiento -->
+                            <svg th:case="1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M14.4 14.4 9.6 9.6"/>
+                                <path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/>
+                                <path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/>
+                                <path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/>
+                            </svg>
+                            <!-- calendar-check: sesiones de seguimiento -->
+                            <svg th:case="2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M8 2v4"/><path d="M16 2v4"/>
+                                <rect width="18" height="18" x="3" y="4" rx="2"/>
+                                <path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>
+                            </svg>
+                            <!-- arrow-right-left: intercambio de alimentos -->
+                            <svg th:case="3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="m16 3 4 4-4 4"/><path d="M20 7H4"/>
+                                <path d="m8 21-4-4 4-4"/><path d="M4 17h16"/>
+                            </svg>
+                            <!-- pill: suplementación -->
+                            <svg th:case="4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/>
+                                <path d="m8.5 8.5 7 7"/>
+                            </svg>
+                            <!-- message-circle: atención en tiempo real -->
+                            <svg th:case="5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+                            </svg>
+                            <!-- check-circle por defecto para ítems futuros -->
+                            <svg th:case="*" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" aria-hidden="true">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </span>
+                        <span class="na-incluye-texto" th:text="${item}">Plan nutricional personalizado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PARA QUIÉN ES + PRECIO ========== -->
+    <section class="na-section na-programa-precio">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-12 col-lg-6">
+                    <h2 class="na-section-title mb-3" data-reveal>¿Para quién es?</h2>
+                    <p class="na-measure mb-0" data-reveal data-reveal-delay="40"
+                       th:text="${programa.poblacion}">
+                        Hombres y mujeres de 16 años o más que entrenan al menos 3 veces
+                        por semana, de Costa Rica o el extranjero.
+                    </p>
+                </div>
+                <div class="col-12 col-lg-5 offset-lg-1">
+                    <!-- na-card-featured: barra degradada superior del sistema (producto estrella) -->
+                    <div class="na-programa-precio-card na-card-featured" data-reveal data-reveal-delay="80">
+                        <p class="na-programa-precio-label mb-1">Programa completo</p>
+                        <p class="na-price mb-1"
+                           th:text="|₡${#numbers.formatInteger(programa.precioColones, 1, 'WHITESPACE')}|">₡105 000</p>
+                        <p class="na-programa-precio-detalle"
+                           th:text="|${#lists.size(programa.modulos)} módulos · ${programa.duracionDias} días|">
+                            3 módulos · 90 días</p>
+                        <a class="btn btn-primary"
+                           th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text='Hola Andrés, quiero información del programa Fuerte y Definido 💪')}"
+                           href="https://wa.me/50689592110"
+                           target="_blank" rel="noopener noreferrer">Quiero más información</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CIERRE (reutiliza la franja negra del sistema) ========== -->
+    <section class="na-section na-cierre">
+        <div class="container">
+            <h2 class="na-section-title mb-3" data-reveal>Empezá tus 90 días</h2>
+            <p class="na-lead mb-4" data-reveal data-reveal-delay="40"
+               th:text="${programa.descripcion}">
+                Un programa de 90 días en 3 módulos de 30: plan nutricional y
+                entrenamiento estructurado con seguimiento y atención en tiempo
+                real, online o presencial.
+            </p>
+            <div class="d-flex flex-wrap align-items-center justify-content-center gap-3"
+                 data-reveal data-reveal-delay="80">
+                <a class="btn btn-primary btn-lg"
+                   th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text='Hola Andrés, quiero información del programa Fuerte y Definido 💪')}"
+                   href="https://wa.me/50689592110"
+                   target="_blank" rel="noopener noreferrer">Quiero más información</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+</body>
+</html>

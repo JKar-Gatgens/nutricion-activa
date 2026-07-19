@@ -87,9 +87,14 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       Quedó fuera del alcance de la HU-03; implementarlo en el sprint de pulido.
       *(Origen: code review de HU-03, 2026-07-12)*
 - [ ] **Deduplicar icono y enlace de WhatsApp**: el path SVG está copiado 2 veces en
-      `fragments/layout.html` y la expresión wa.me 4 veces (FAB, footer ×2, hero).
-      Extraer un fragmento parametrizado (p. ej. `icono-whatsapp(size)`) y/o exponer
-      la URL ya construida desde `GlobalModelAttributes`. *(Origen: code review de HU-03, 2026-07-12)*
+      `fragments/layout.html` y la expresión wa.me ya va 7 veces (FAB, footer ×2,
+      hero del index, y ×3 en `programa.html` — hero, card de precio y cierre de
+      HU-12, siempre con el mismo mensaje literal del programa repetido). Extraer
+      un fragmento parametrizado (p. ej. `icono-whatsapp(size)`) y/o exponer la URL
+      ya construida desde `GlobalModelAttributes`; el mensaje precargado del
+      programa pertenece conceptualmente a los datos (`ProgramaService` o
+      properties), no a la plantilla. *(Origen: code review de HU-03, 2026-07-12;
+      conteo actualizado en code review de HU-12, 2026-07-18)*
 - [ ] **Renombrar el fragmento `footer` de `layout.html`**: ahora devuelve footer + FAB,
       el nombre ya no describe el contenido (p. ej. `footer-y-fab`). Coordinar con las
       páginas que lo consumen. *(Origen: code review de HU-03, 2026-07-12)*
@@ -170,6 +175,14 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
 - [ ] **Correo de marca en el footer**: hoy publica `andresht0502@gmail.com` (personal,
       autorizado por el PO como interino). Reemplazarlo cuando el PO confirme el correo
       de marca definitivo. *(Origen: correcciones de contenido pre-producción, 2026-07-12)*
+- [ ] **Validar con el PO el emoji 💪 del mensaje precargado del programa**: los 3 CTA
+      de `/programa` precargan "Hola Andrés, quiero información del programa Fuerte y
+      Definido 💪", mientras el resto de los mensajes wa.me del sitio (hero, cards de
+      servicios, footer, FAB) no llevan emoji. No viola la regla de "no emojis como
+      iconos" (es contenido conversacional del mensaje, nunca se renderiza en la
+      página), pero es una inconsistencia de voz: validar en la demo del sprint y
+      unificar (quitarlo o agregarlo en todos). *(Origen: code review de HU-12,
+      2026-07-18)*
 - [x] **Apellido de Andrés en "Sobre mí"**: el h2 de la sección pasó de "Andrés — Nutrición
       Activa" a "Andrés Herrera" en el paso 7 (HU-11, `feature/hu11-reorden`). El
       code-reviewer marcó el cambio por no tener nota de trazabilidad, a diferencia del

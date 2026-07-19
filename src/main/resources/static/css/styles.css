@@ -1006,6 +1006,168 @@ button:focus-visible,
 }
 
 /* ------------------------------------------------------------
+   Programa "Fuerte y Definido" (HU-12) — banner del index + /programa
+   Estructural dentro del MASTER actual; la temática gym llega en
+   Sprint 4 (D-18).
+   ------------------------------------------------------------ */
+
+/* Banner del index: única sección Verde Tinte de la página (jerarquía de
+   producto estrella con tokens existentes). Compacta: presenta y enlaza. */
+.na-programa-banner {
+  background: var(--na-green-tint);
+  padding-top: var(--na-space-6);
+  padding-bottom: var(--na-space-6);
+}
+
+.na-programa-banner .na-lead {
+  color: var(--na-gray-700);
+}
+
+/* Cifra Protagonista del hero de /programa (MASTER §3): el 90 es el dato
+   central del producto, compuesto en condensada gigante con tabular-nums. */
+.na-programa-cifra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.na-programa-cifra-num {
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(6rem, 16vw, 11rem);
+  line-height: 1;
+  color: var(--na-black);
+}
+
+.na-programa-cifra-label {
+  color: var(--na-green-dark);
+  font-weight: 600;
+  font-size: var(--na-fs-h3);
+  font-family: var(--na-font-heading);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps);
+}
+
+/* Módulos: secuencia temporal real (30+30+30) — el número porta información */
+.na-programa-modulos {
+  background: var(--na-gray-100);
+}
+
+.na-modulo-card {
+  height: 100%;
+  background: var(--na-white);
+  border-radius: var(--na-radius-md);
+  box-shadow: var(--na-shadow-card);
+  padding: var(--na-space-5) var(--na-space-4);
+  text-align: center;
+}
+
+/* Círculo degradado del sistema (eco de .na-step-num de /agendar), tamaño
+   de módulo: la secuencia es el contenido de la card, no un adorno. */
+.na-modulo-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--na-gradient-brand);
+  color: var(--na-black);
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-size: var(--na-fs-h3);
+  margin-bottom: var(--na-space-3);
+}
+
+.na-modulo-nombre {
+  font-size: var(--na-fs-h3);
+  margin-bottom: var(--na-space-1);
+}
+
+.na-modulo-dias {
+  color: var(--na-green-dark);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps-sm);
+  margin-bottom: 0;
+}
+
+/* Solo existe cuando el PO ya diseñó el módulo (D-19): con descripcion null
+   la card termina en los días — sin placeholder, el margen no se reserva. */
+.na-modulo-desc {
+  color: var(--na-gray-500);
+  margin: var(--na-space-3) 0 0;
+}
+
+.na-modulo-detalles {
+  display: grid;
+  gap: var(--na-space-2);
+  margin: var(--na-space-3) 0 0;
+  color: var(--na-gray-700);
+  font-size: var(--na-fs-small);
+}
+
+/* Qué incluye: icono en círculo tinte + texto, riel horizontal por ítem */
+.na-incluye-item {
+  display: flex;
+  align-items: center;
+  gap: var(--na-space-3);
+}
+
+.na-incluye-icono {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--na-green-tint);
+  color: var(--na-green-dark);
+}
+
+.na-incluye-texto {
+  font-weight: 500;
+}
+
+/* Precio: card blanca con la barra degradada del sistema (na-card-featured);
+   position:relative + overflow para que la barra ::before se recorte igual
+   que en las cards de servicios. */
+.na-programa-precio {
+  background: var(--na-gray-100);
+}
+
+.na-programa-precio-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--na-white);
+  border-radius: var(--na-radius-md);
+  box-shadow: var(--na-shadow-card);
+  padding: var(--na-space-5) var(--na-space-4);
+  text-align: center;
+}
+
+.na-programa-precio-label {
+  color: var(--na-gray-500);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps-sm);
+}
+
+.na-programa-precio-card .na-price {
+  margin-top: 0; /* sin riel de card de servicio: no hereda el ancla al fondo */
+}
+
+.na-programa-precio-detalle {
+  color: var(--na-gray-700);
+  margin-bottom: var(--na-space-4);
+}
+
+/* ------------------------------------------------------------
    Accesibilidad: movimiento reducido
    ------------------------------------------------------------ */
 

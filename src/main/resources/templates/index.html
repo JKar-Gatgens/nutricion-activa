@@ -42,6 +42,29 @@
         </div>
     </section>
 
+    <!-- ========== PROGRAMA FUERTE Y DEFINIDO (HU-12) ==========
+         Posición protagónica inmediatamente después del hero (D-16). Primera
+         y única sección con fondo Verde Tinte de la página: jerarquía de
+         producto estrella sin salirse de los tokens del MASTER. Compacta a
+         propósito — presenta y enlaza, la página /programa vende. -->
+    <section class="na-programa-banner" aria-label="Programa Fuerte y Definido">
+        <div class="container">
+            <div class="row align-items-center gy-4">
+                <div class="col-12 col-lg-8">
+                    <h2 class="na-section-title mb-2" data-reveal>Fuerte y Definido</h2>
+                    <p class="na-lead mb-0" data-reveal data-reveal-delay="40">
+                        El programa de 90 días: nutrición y entrenamiento en 3 módulos,
+                        sin dietas restrictivas.
+                    </p>
+                </div>
+                <div class="col-12 col-lg-4 text-lg-end">
+                    <a class="btn btn-primary btn-lg" th:href="@{/programa}"
+                       data-reveal data-reveal-delay="80">Conocer el programa</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== BARRA DE CONFIANZA ========== -->
     <section class="na-trustbar" aria-label="Credenciales y disponibilidad">
         <div class="container">
@@ -88,9 +111,10 @@
     <!-- ========== SOBRE MÍ (HU-01) ==========
          Reordenada antes de Servicios en HU-11 (paso 7, D-14): flujo estilo
          Pía hero -> sobre mí -> servicios -> testimonios -> cierre -> footer.
-         La barra de confianza queda pegada al hero (no forma parte del orden
-         que pidió el PO en docs/comparativo-pia.md; es señal de credibilidad
-         inmediata al hero, no una parada propia del recorrido). -->
+         La barra de confianza queda pegada al bloque de apertura (hero +
+         banner del programa desde HU-12): no forma parte del orden que pidió
+         el PO en docs/comparativo-pia.md, es señal de credibilidad inmediata
+         a la apertura, no una parada propia del recorrido. -->
     <section id="sobre-mi" class="na-section">
         <div class="container">
             <div class="row align-items-center gy-5">

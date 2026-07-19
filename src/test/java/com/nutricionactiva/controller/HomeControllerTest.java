@@ -150,6 +150,35 @@ class HomeControllerTest {
     }
 
     @Test
+    void renderizaElBannerDelProgramaConEnlaceALaPaginaDedicada() throws Exception {
+        MvcResult result = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String html = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        // HU-12 (D-16): sección protagónica del programa inmediatamente
+        // después del hero, con enlace a la página dedicada. El banner es
+        // estático a propósito (nombre + gancho + CTA): la venta vive en
+        // /programa, así que HomeController no necesita ProgramaService.
+        assertThat(html).contains("na-programa-banner");
+        assertThat(html).contains("Fuerte y Definido");
+        assertThat(html).contains("Conocer el programa");
+        assertThat(html).contains("href=\"/programa\"");
+
+        // Sándwich completo de posición (D-16 "posición protagónica cerca del
+        // hero"): el banner va DESPUÉS del hero y ANTES de la trustbar. Sin la
+        // primera mitad, mover el banner arriba del hero (rompiendo D-16 y la
+        // jerarquía h1->h2) pasaría inadvertido.
+        assertThat(html.indexOf("na-hero"))
+                .as("el hero debe aparecer antes del banner del programa")
+                .isLessThan(html.indexOf("na-programa-banner"));
+        assertThat(html.indexOf("na-programa-banner"))
+                .as("el banner del programa debe aparecer antes de la trustbar")
+                .isLessThan(html.indexOf("na-trustbar"));
+    }
+
+    @Test
     void renderizaLaSeccionDeCierreConAmbosCta() throws Exception {
         MvcResult result = mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
