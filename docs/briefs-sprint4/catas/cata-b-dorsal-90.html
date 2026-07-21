@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cata B — Dorsal 90 · Sprint 4 · Nutrición Activa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+/* ============================================================
+   CATA INTERNA — Dirección B "Dorsal 90" (Sprint 4, D-18)
+   Día de competencia: dorsal, cronómetro, tablero de resultados.
+   Alternancia de bloques endurecida, bordes 2px, count-ups de datos
+   reales una sola vez. Tokens de marca intocables. No publicar.
+   ============================================================ */
+:root {
+  --na-green: #00C050;
+  --na-green-teal: #00A870;
+  --na-green-dark: #007D3C;
+  --na-green-tint: #E6F9EE;
+  --na-black: #0A0A0A;
+  --na-gray-700: #3D4440;
+  --na-gray-500: #6B736E;
+  --na-gray-200: #DEE4E0;
+  --na-gray-100: #F4F7F5;
+  --na-white: #FFFFFF;
+  --na-gradient-brand: linear-gradient(135deg, #00A870 0%, #00C050 100%);
+  --font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--na-white); color: var(--na-gray-700); font-family: var(--font-body); line-height: 1.6; }
+.wrap { max-width: 1100px; margin-inline: auto; padding-inline: 24px; }
+section { padding-block: 96px; }
+h1, h2, h3, .num { font-family: var(--font-heading); font-weight: 700; color: var(--na-black); line-height: 1.1; text-wrap: balance; }
+p { text-wrap: pretty; max-width: 65ch; }
+
+.cata-tag {
+  background: var(--na-gray-100); color: var(--na-gray-700);
+  font-size: 0.8125rem; padding: 8px 24px; text-align: center;
+}
+.cata-tag strong { color: var(--na-black); }
+
+/* Dorsal: el marco de tela con la cifra tabular — gramática de la dirección */
+.dorsal {
+  display: inline-block;
+  border: 2px solid var(--na-black);
+  padding: 8px 20px 4px;
+  position: relative;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  background: var(--na-white);
+  color: var(--na-black);
+}
+/* los "ganchos" del dorsal: dos puntos verdes arriba, como imperdibles */
+.dorsal::before, .dorsal::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--na-green);
+}
+.dorsal::before { left: 10px; }
+.dorsal::after { right: 10px; }
+
+.kicker {
+  color: var(--na-green-dark);
+  font-weight: 600; font-size: 0.875rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  display: block; margin-bottom: 16px;
+}
+
+/* ---------- Hero con cronómetro ---------- */
+.hero { padding-block: 80px; }
+.hero-grid { display: flex; flex-wrap: wrap; gap: 48px; align-items: center; }
+.hero-copy { flex: 1 1 480px; }
+.hero h1 { font-size: clamp(3rem, 7vw, 5rem); text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 24px; }
+.hero h1 em { font-style: normal; color: var(--na-green-dark); }
+.lead { font-size: 1.25rem; color: var(--na-gray-500); margin-bottom: 32px; }
+.crono {
+  flex: 0 1 300px;
+  margin-inline: auto;
+  text-align: center;
+}
+.crono .dorsal { font-size: clamp(4.5rem, 12vw, 8rem); }
+.crono .crono-label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600; font-size: 0.875rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--na-gray-500);
+}
+.btn {
+  display: inline-block; font-weight: 600; font-size: 1rem;
+  padding: 0.875rem 2.5rem; border-radius: 999px; text-decoration: none;
+  cursor: pointer; border: 2px solid transparent;
+  transition: background-color 250ms var(--ease-out), color 250ms var(--ease-out),
+              border-color 250ms var(--ease-out), transform 150ms var(--ease-out);
+}
+.btn-primario { background: var(--na-green); color: var(--na-black); }
+.btn-primario:hover { background: var(--na-green-dark); color: var(--na-white); }
+.btn-borde { border-color: var(--na-black); color: var(--na-black); }
+.btn-borde:hover { background: var(--na-black); color: var(--na-white); }
+.btn:active { transform: scale(0.97); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--na-green-dark); outline-offset: 2px; }
+.tablero-oscuro a:focus-visible { outline-color: var(--na-white); }
+
+/* ---------- Tablero de resultados (bloque negro protagonista) ---------- */
+.tablero-oscuro { background: var(--na-black); color: var(--na-gray-200); }
+.tablero-oscuro h2 { color: var(--na-white); font-size: clamp(2rem, 4vw, 3rem); text-transform: uppercase; margin-bottom: 48px; }
+.stats { display: flex; flex-wrap: wrap; gap: 32px; list-style: none; }
+.stats li { flex: 1 1 200px; border-top: 2px solid var(--na-green); padding-top: 16px; }
+.stats .num {
+  color: var(--na-green);
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+.stats .stat-label {
+  color: var(--na-gray-200);
+  font-weight: 600; font-size: 0.875rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+/* El precio: ₡105.000 usa un clamp más contenido que 90/3/6 (más caracteres,
+   necesita respetar nowrap sin invadir la card vecina), pero sigue siendo
+   la pieza dominante de su <li> — el .stat-sub queda inequívocamente atrás:
+   sin mayúsculas, sin tracking, ~40% del tamaño del label. */
+.stats .stat-precio .num { font-size: clamp(2.25rem, 6vw, 3.75rem); white-space: nowrap; }
+.stats .stat-sub {
+  display: block;
+  margin-top: 8px;
+  color: var(--na-gray-500);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* ---------- Parciales: la timeline de módulos como splits ---------- */
+.parciales-sec { background: var(--na-gray-100); }
+.parciales-sec h2 { font-size: clamp(2rem, 4vw, 3rem); text-transform: uppercase; margin-bottom: 12px; }
+.parciales-sec .sub { color: var(--na-gray-500); margin-bottom: 48px; }
+.splits { display: flex; flex-wrap: wrap; gap: 0; counter-reset: split; list-style: none; }
+.split {
+  flex: 1 1 220px;
+  background: var(--na-white);
+  border: 2px solid var(--na-black);
+  margin: -1px; /* bordes compartidos: una sola línea entre celdas */
+  padding: 24px;
+  position: relative;
+}
+.split .split-num {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 2.5rem; font-variant-numeric: tabular-nums;
+  color: var(--na-black); line-height: 1;
+}
+.split .split-dias {
+  display: block; margin-top: 4px;
+  color: var(--na-green-dark); font-weight: 600;
+  font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em;
+}
+.split .split-bar {
+  margin-top: 16px; height: 6px; background: var(--na-gray-200);
+  overflow: hidden;
+}
+.split .split-fill {
+  display: block; height: 100%;
+  background: var(--na-gradient-brand);
+  transform-origin: left;
+  transition: transform 900ms var(--ease-out);
+}
+/* estado vacío SOLO con JS: sin JS las barras nacen llenas */
+.js .split:not(.is-in) .split-fill { transform: scaleX(0); }
+.split:nth-child(2) .split-fill { transition-delay: 300ms; }
+.split:nth-child(3) .split-fill { transition-delay: 600ms; }
+
+/* ---------- Card de servicio con marco de dorsal ---------- */
+.servicios h2 { font-size: clamp(2rem, 4vw, 3rem); text-transform: uppercase; margin-bottom: 48px; }
+.cards { display: flex; flex-wrap: wrap; gap: 24px; }
+.card {
+  flex: 1 1 280px; max-width: 420px;
+  border: 2px solid var(--na-black);
+  padding: 24px;
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: border-color 250ms var(--ease-out);
+}
+.card::before, .card::after {
+  content: "";
+  position: absolute; top: -5px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--na-gray-200);
+  transition: background-color 250ms var(--ease-out);
+}
+.card::before { left: 14px; }
+.card::after { right: 14px; }
+.card:hover { border-color: var(--na-green); }
+.card:hover::before, .card:hover::after { background: var(--na-green); }
+.card h3 { font-size: 1.5rem; margin-bottom: 8px; }
+.card .desc { color: var(--na-gray-500); font-size: 0.9375rem; margin-bottom: 16px; }
+.card .precio {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 2.25rem; font-variant-numeric: tabular-nums;
+  color: var(--na-black); white-space: nowrap;
+  margin-top: auto; margin-bottom: 16px;
+}
+.card .btn { text-align: center; }
+
+/* ---------- Cierre ---------- */
+.cierre { background: var(--na-black); color: var(--na-gray-200); text-align: center; }
+.cierre h2 { color: var(--na-white); font-size: clamp(2.5rem, 5vw, 4rem); text-transform: uppercase; margin-bottom: 16px; }
+.cierre p { margin-inline: auto; margin-bottom: 32px; }
+
+.rv { transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out); }
+/* oculto solo con JS presente: sin JS la página es visible completa */
+.js .rv:not(.is-in) { opacity: 0; transform: translateY(12px); }
+
+@media (max-width: 720px) {
+  section { padding-block: 64px; }
+  .splits { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .js .rv:not(.is-in) { opacity: 1; transform: none; }
+  .js .split:not(.is-in) .split-fill { transform: scaleX(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="cata-tag"><strong>Cata B — "Dorsal 90"</strong> · dirección estética Sprint 4 · demo interna, no publicar · los datos son reales (PO)</div>
+
+<!-- Hero con cronómetro: tus 90 días arrancan cuando vos digás -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="kicker">Alimenta tu potencial</span>
+      <h1>Perdé grasa y <em>ganá músculo</em> con un plan hecho para vos</h1>
+      <p class="lead">Nutrición deportiva online para deportistas y personas activas de toda Latinoamérica, con seguimiento personalizado.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:16px;">
+        <a class="btn btn-primario" href="#">Agendar mi cita</a>
+        <a class="btn btn-borde" href="#">Escribime por WhatsApp</a>
+      </div>
+    </div>
+    <div class="crono">
+      <!-- count-up 0 -> 90, una vez, al entrar en viewport; el HTML trae el
+           valor final para que sin JS (o con reduced-motion) se lea 90 -->
+      <span class="dorsal num" data-countup="90" aria-label="90 días">90</span>
+      <span class="crono-label">Días · el programa Fuerte y Definido</span>
+    </div>
+  </div>
+</section>
+
+<!-- Tablero de resultados: el lenguaje de datos reemplaza la tríada interrogativa -->
+<section class="tablero-oscuro">
+  <div class="wrap rv">
+    <h2>El programa, en números</h2>
+    <ul class="stats">
+      <li><span class="num" data-countup="90">90</span><span class="stat-label">Días de acompañamiento</span></li>
+      <li><span class="num" data-countup="3">3</span><span class="stat-label">Bloques de 30 días</span></li>
+      <li><span class="num" data-countup="6">6</span><span class="stat-label">Entregables incluidos</span></li>
+      <!-- FIX jerarquía de precio (feedback de cata): antes este item era el
+           ÚNICO precio visible en toda la pieza y aparecía con el mismo peso
+           que 90/3/6 (misma clase .num) — sin el precio real a la vista,
+           cualquiera leía ₡35.000 como "el precio". Ahora ₡105.000 (el
+           programa completo) es el dato protagonista, del mismo tamaño que
+           el resto del tablero; el equivalente por módulo baja a .stat-sub,
+           visiblemente más chico y subordinado — no puede confundirse con
+           el precio. -->
+      <li class="stat-precio">
+        <span class="num">₡105 000</span>
+        <span class="stat-label">Programa completo</span>
+        <span class="stat-sub">≈ ₡35 000 por módulo de 30 días</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Los módulos como tabla de parciales (splits de carrera) -->
+<section class="parciales-sec">
+  <div class="wrap rv">
+    <h2>90 días · 3 parciales</h2>
+    <p class="sub">Un bloque a la vez, cada uno de 30 días. El detalle de cada bloque se publica a medida que Andrés lo produce.</p>
+    <ol class="splits">
+      <li class="split" data-split><span class="split-num">1</span><span class="split-dias">Día 1–30</span><span class="split-bar"><span class="split-fill"></span></span></li>
+      <li class="split" data-split><span class="split-num">2</span><span class="split-dias">Día 31–60</span><span class="split-bar"><span class="split-fill"></span></span></li>
+      <li class="split" data-split><span class="split-num">3</span><span class="split-dias">Día 61–90</span><span class="split-bar"><span class="split-fill"></span></span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- Card de servicio con marco de dorsal (hover: el dorsal se prende) -->
+<section class="servicios">
+  <div class="wrap rv">
+    <h2>Elegí cómo empezar</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Consulta de nutrición</h3>
+        <p class="desc">Evaluación inicial completa: composición corporal, hábitos y objetivos para construir tu plan personalizado.</p>
+        <p class="precio">₡30 000</p>
+        <a class="btn btn-primario" href="#">Agendar</a>
+      </article>
+      <article class="card">
+        <h3>Consulta de seguimiento</h3>
+        <p class="desc">Ajustes del plan según tu progreso: mediciones, revisión de adherencia y nuevas metas.</p>
+        <p class="precio">₡30 000</p>
+        <a class="btn btn-primario" href="#">Agendar</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Cierre -->
+<section class="cierre">
+  <div class="wrap rv">
+    <h2>Empezá tu cambio hoy</h2>
+    <p>Agendá tu consulta y arrancá un plan hecho a tu medida.</p>
+    <a class="btn btn-primario" href="#">Agendar mi cita</a>
+  </div>
+</section>
+
+<script>
+// Count-ups de datos reales, una sola vez, <=1s (MASTER §8, nunca implementado
+// hasta ahora). Con reduced-motion: valores finales estáticos, sin animar.
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var counts = document.querySelectorAll("[data-countup]");
+  if (reduce) {
+    // el HTML ya trae los valores finales; solo marcar todo como visible
+    document.querySelectorAll(".rv").forEach(function (el) { el.classList.add("is-in"); });
+    document.querySelectorAll("[data-split]").forEach(function (el) { el.classList.add("is-in"); });
+    return;
+  }
+  // con JS y motion pleno: bajar a 0 justo antes de observar, para animar
+  counts.forEach(function (el) { el.textContent = "0"; });
+  function countUp(el) {
+    var target = parseInt(el.getAttribute("data-countup"), 10);
+    var start = null, dur = 900;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      // ease-out: los últimos números caen despacio, como un cronómetro que frena
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      if (e.target.hasAttribute("data-countup")) countUp(e.target);
+      else e.target.classList.add("is-in");
+    });
+  }, { threshold: 0.3 });
+  counts.forEach(function (el) { io.observe(el); });
+  document.querySelectorAll(".rv, [data-split]").forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

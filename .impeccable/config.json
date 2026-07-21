@@ -1,0 +1,11 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [
+      "docs/briefs-sprint4/catas/cata-a-neon-de-madrugada.html",
+      "docs/briefs-sprint4/catas/cata-b-dorsal-90.html",
+      "docs/briefs-sprint4/catas/cata-c-peso-completo.html"
+    ],
+    "ignoreValues": []
+  }
+}

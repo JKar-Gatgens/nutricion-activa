@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cata C — Peso Completo · Sprint 4 · Nutrición Activa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+/* ============================================================
+   CATA INTERNA — Dirección C "Peso Completo" (Sprint 4, D-18)
+   Cartel de velada de boxeo: tinta negra sobre papel blanco,
+   tipografía edge-to-edge, un golpe de verde por viewport,
+   cero sombras. Tokens de marca intocables. No publicar.
+   ============================================================ */
+:root {
+  --na-green: #00C050;
+  --na-green-dark: #007D3C;
+  --na-black: #0A0A0A;
+  --na-gray-700: #3D4440;
+  --na-gray-500: #6B736E;
+  --na-gray-200: #DEE4E0;
+  --na-white: #FFFFFF;
+  --na-gradient-brand: linear-gradient(135deg, #00A870 0%, #00C050 100%);
+  --font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--na-white); color: var(--na-gray-700); font-family: var(--font-body); line-height: 1.6; }
+.wrap { max-width: 1200px; margin-inline: auto; padding-inline: 24px; }
+section { padding-block: 96px; }
+p { text-wrap: pretty; max-width: 65ch; }
+
+.cata-tag {
+  background: var(--na-black); color: var(--na-gray-200);
+  font-size: 0.8125rem; padding: 8px 24px; text-align: center;
+}
+.cata-tag strong { color: var(--na-white); }
+
+/* El cartel: titulares condensados edge-to-edge, jerarquía por escala bruta */
+.cartel {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--na-black);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+.golpe { color: var(--na-green-dark); } /* el único verde del viewport */
+
+/* Reveal de cartel: la línea "sube" desde su renglón (overflow, un golpe).
+   El estado oculto SOLO existe con JS presente: sin JS el cartel es visible. */
+.linea { display: block; overflow: hidden; }
+.linea > span { display: block; transition: transform 450ms var(--ease-out); }
+.js .rv-cartel:not(.is-in) .linea > span { transform: translateY(110%); }
+.rv-cartel.is-in .linea:nth-child(2) > span { transition-delay: 90ms; }
+
+/* ---------- Hero-cartel ---------- */
+.hero { padding-block: 64px; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }
+.hero .cartel { font-size: clamp(3.5rem, 11vw, 8.5rem); }
+.hero .lead { font-size: 1.25rem; color: var(--na-gray-500); margin: 32px 0; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.btn {
+  display: inline-block; font-weight: 600; font-size: 1rem;
+  padding: 0.875rem 2.5rem; border-radius: 999px; text-decoration: none;
+  cursor: pointer; border: 2px solid transparent;
+  transition: background-color 200ms var(--ease-out), color 200ms var(--ease-out),
+              border-color 200ms var(--ease-out), transform 150ms var(--ease-out);
+}
+.btn-tinta { background: var(--na-green); color: var(--na-black); }
+.btn-tinta:hover { background: var(--na-green-dark); color: var(--na-white); }
+.btn-borde { border-color: var(--na-black); color: var(--na-black); }
+.btn-borde:hover { background: var(--na-black); color: var(--na-white); }
+.btn:active { transform: scale(0.97); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--na-green-dark); outline-offset: 2px; }
+.cierre a:focus-visible { outline-color: var(--na-white); }
+
+/* ---------- El 90 a escala de pared, aro como trazo ---------- */
+.pared { border-top: 2px solid var(--na-black); }
+.pared-grid { display: flex; flex-wrap: wrap; align-items: center; gap: 48px; }
+.pared .cartel { font-size: clamp(2.5rem, 6vw, 4.5rem); flex: 1 1 380px; }
+.aro-trazo {
+  position: relative;
+  flex: 0 1 380px;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  min-width: 260px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.aro-trazo::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: var(--na-gradient-brand);
+  /* el aro como línea fina: versión "tinta" de la firma, sin glow */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+}
+.aro-trazo .num {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: clamp(8rem, 24vw, 15rem);
+  font-variant-numeric: tabular-nums;
+  color: var(--na-black); line-height: 1;
+}
+.aro-trazo .num-label {
+  font-family: var(--font-heading); font-weight: 600;
+  font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--na-green-dark);
+}
+
+/* ---------- Ficha técnica 01–06 (mata el grid de features) ---------- */
+.ficha h2 { margin-bottom: 48px; }
+.ficha .cartel { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+.ficha-lista {
+  list-style: none;
+  columns: 2; column-gap: 64px;
+  counter-reset: item;
+}
+.ficha-lista li {
+  counter-increment: item;
+  break-inside: avoid;
+  border-top: 1px solid var(--na-gray-200);
+  padding: 20px 0;
+  font-weight: 500;
+  font-size: 1.125rem;
+  color: var(--na-black);
+  display: flex; gap: 20px; align-items: baseline;
+}
+.ficha-lista li::before {
+  content: "0" counter(item);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--na-green-dark);
+}
+
+/* ---------- El precio como cartel de bolsa ---------- */
+.bolsa { border-top: 2px solid var(--na-black); text-align: center; }
+.bolsa .etiqueta {
+  font-weight: 600; font-size: 0.875rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--na-gray-500);
+  display: block; margin-bottom: 8px;
+}
+.bolsa .precio {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: clamp(4.5rem, 14vw, 11rem);
+  font-variant-numeric: tabular-nums;
+  color: var(--na-black); line-height: 1;
+  white-space: nowrap;
+}
+.bolsa .detalle { color: var(--na-gray-700); margin: 16px auto 32px; }
+.bolsa .detalle strong { color: var(--na-green-dark); }
+
+/* ---------- Cierre: cartel negro ---------- */
+.cierre { background: var(--na-black); color: var(--na-gray-200); text-align: center; }
+.cierre .cartel { color: var(--na-white); font-size: clamp(3rem, 9vw, 6.5rem); }
+.cierre .cartel .golpe { color: var(--na-green); } /* sobre negro, el brillante sí */
+.cierre p { margin: 24px auto 32px; }
+
+@media (max-width: 720px) {
+  section { padding-block: 64px; }
+  .ficha-lista { columns: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .js .rv-cartel:not(.is-in) .linea > span { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cata-tag"><strong>Cata C — "Peso Completo"</strong> · dirección estética Sprint 4 · demo interna, no publicar · los datos son reales (PO)</div>
+
+<!-- Hero-cartel: la promesa leída desde la otra acera -->
+<section class="hero">
+  <div class="wrap">
+    <h1 class="cartel rv-cartel" data-rvc>
+      <span class="linea"><span>Perdé grasa.</span></span>
+      <span class="linea"><span class="golpe">Ganá músculo.</span></span>
+    </h1>
+    <p class="lead">Un plan hecho para vos. Nutrición deportiva online para toda Latinoamérica, con seguimiento personalizado.</p>
+    <div class="cta-row">
+      <a class="btn btn-tinta" href="#">Agendar mi cita</a>
+      <a class="btn btn-borde" href="#">Escribime por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- El 90 a escala de pared: la versión tinta del momento wow -->
+<section class="pared">
+  <div class="wrap pared-grid">
+    <h2 class="cartel rv-cartel" data-rvc>
+      <span class="linea"><span>90 días.</span></span>
+      <span class="linea"><span>3 bloques.</span></span>
+    </h2>
+    <div class="aro-trazo" role="img" aria-label="90 días, el programa Fuerte y Definido">
+      <span class="num">90</span>
+      <span class="num-label">Fuerte y Definido</span>
+    </div>
+  </div>
+</section>
+
+<!-- Qué incluye como ficha técnica 01–06: dos columnas tipográficas -->
+<section class="ficha">
+  <div class="wrap">
+    <h2 class="cartel rv-cartel" data-rvc><span class="linea"><span>Todo esto incluye.</span></span></h2>
+    <ul class="ficha-lista">
+      <li>Plan nutricional personalizado</li>
+      <li>Guía de entrenamiento estructurado</li>
+      <li>Sesiones de seguimiento online o presencial</li>
+      <li>Listas de intercambio de alimentos</li>
+      <li>Guía de suplementación deportiva</li>
+      <li>Atención en tiempo real</li>
+    </ul>
+  </div>
+</section>
+
+<!-- El precio como cartel de bolsa: la Cifra Protagonista a su conclusión lógica -->
+<section class="bolsa">
+  <div class="wrap">
+    <span class="etiqueta">Programa completo · 90 días</span>
+    <p class="precio">₡105 000</p>
+    <p class="detalle">Son <strong>₡35 000 por módulo de 30 días</strong> · colones costarricenses (CRC)</p>
+    <a class="btn btn-tinta" href="#">Quiero más información</a>
+  </div>
+</section>
+
+<!-- Cierre: cartel negro -->
+<section class="cierre">
+  <div class="wrap">
+    <h2 class="cartel rv-cartel" data-rvc>
+      <span class="linea"><span>¿Vas a entrenar</span></span>
+      <span class="linea"><span class="golpe">en serio?</span></span>
+    </h2>
+    <p>Cambio físico en 90 días sin dietas restrictivas, con planes ajustados a tu rutina diaria.</p>
+    <a class="btn btn-tinta" href="#">Empezá tus 90 días</a>
+  </div>
+</section>
+
+<script>
+// Un solo tipo de motion en toda la dirección: el titular sube desde su
+// renglón (clip por overflow), 450ms, una vez. Nada más se mueve.
+(function () {
+  var carteles = document.querySelectorAll("[data-rvc]");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    carteles.forEach(function (el) { el.classList.add("is-in"); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.4 });
+  carteles.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>
