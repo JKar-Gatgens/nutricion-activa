@@ -50,6 +50,10 @@ Un sitio web profesional para Nutrición Activa que permita a cualquier persona 
 - **D-19** — **Construcción por fases acompañando la producción de contenido del PO:** el programa está ~30% desarrollado por su lado (avanza ~3h/semana). La página se construye data-ready: la estructura existe desde ya y el detalle de los módulos se agrega como datos a medida que el PO los diseñe, sin tocar código. Solo se publica el nivel de detalle que ya existe (principio D-11).
 - **D-20** — **Los correos de notificación (HU-05) se priorizan de inmediato:** el agendamiento está vivo en producción y el PO debe enterarse de cada reserva sin depender de revisión manual de la base de datos.
 
+### Del Sprint 4 — dirección visual (21 de julio)
+
+- **D-21** — Dirección visual elegida: "Neón de Madrugada" (la dirección A), aprobada por el PO. Negro dominante, verde como única luz encendida, temática gym cinematográfica. Codificada en design-system/MASTER.md v2. Se incorpora el tablero de números de la dirección B en /programa.
+
 ---
 
 ## 3. Historias de usuario

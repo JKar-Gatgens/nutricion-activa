@@ -5,6 +5,40 @@
 
 ---
 
+## v2 — 2026-07-21: dirección "Neón de Madrugada" elegida por el PO (D-21)
+
+El PO eligió la **Dirección A "Neón de Madrugada"** entre las tres catas del Sprint 4
+(`docs/briefs-sprint4/comparativa.md`) y pidió además rescatar una pieza de la Dirección B
+("El programa, en números") para `/programa`. Esta versión codifica esa decisión como ley
+del sistema, sin renumerar las secciones existentes (§1–§9 siguen significando lo mismo,
+para no romper las referencias `MASTER §N` ya escritas en código, tests y otros docs).
+
+**Cambios respecto a v1:**
+- **Los colores de marca NO cambian de valor** — `--na-green` sigue siendo `#00C050`, etc.
+  Lo que cambia es la **polaridad de superficie**: el negro pasa de acento a fondo
+  dominante, el verde deja de ser "color de botón" y pasa a ser la única luz encendida.
+- Tokens nuevos: superficies/tinta oscura (§2.5, §5), glow con presupuesto de una sombra
+  por elemento (§2.5, §5), escala de display ampliada a póster (§3, `--na-fs-display`
+  cambia de valor), bordes hairline (§5).
+- Vocabulario de movimiento con nombre, 5 patrones (§8.1): **Encendido**, **Ascenso
+  Escalonado**, **Revelado en Cascada**, **Tinte al Tacto**, **Barra de Impulso Luminosa**.
+- Reglas de imaginería: tratamiento duotono verde/negro obligatorio para toda foto real
+  del PO (§6.3).
+- 3 momentos wow oficiales, nombrados y especificados (§6.4).
+- Un componente importado de la Dirección B para `/programa` — el tablero "El programa,
+  en números" — con los ajustes de contraste que exige la polaridad de A (§6.5).
+- Reglas duras promovidas a ley explícita (§6.6): Regla del Verde Legible extendida,
+  Presupuesto de Glow, Salas Iluminadas, Performance.
+- **Lo que queda intacto de v1:** paleta primitiva (valores hex), tipografía (familias y
+  pesos), escala de espaciado, radios, roles Bootstrap, botones (forma y par de color),
+  orden de secciones de la landing (§7), checklist de accesibilidad base (§9).
+- **Estado de implementación:** la apertura del index (hero + banner + trustbar) ya
+  ships esta dirección desde Sprint 4 Bloque 2. El resto del sitio (`/programa`,
+  `/agendar`, servicios, testimonios, footer) migra por fases; hasta que migre, sigue
+  visualmente en v1 — no es una inconsistencia, es el rollout in progress.
+
+---
+
 ## 1. Contexto de producto y marca
 
 | | |
@@ -16,12 +50,13 @@
 | **Stack** | Spring Boot + Thymeleaf + **Bootstrap 5 vía WebJars**. **Prohibido Tailwind.** Tokens como variables CSS en `:root` |
 | **Patrón de conversión** | *Before–After Transformation*: prueba visual de resultados, métricas concretas, CTA tras la evidencia |
 | **Estilo** | Vibrante y enérgico, por bloques, alto contraste verde/negro/blanco — sin perder legibilidad ni profesionalismo clínico |
+| **Dirección visual vigente (v2)** | **"Neón de Madrugada"** (Sprint 4, D-21): negro dominante, verde como única luz. Brief completo en `docs/briefs-sprint4/direccion-a-neon-de-madrugada.md`, referencia visual ejecutable en `docs/briefs-sprint4/catas/cata-a-neon-de-madrugada.html`. Codificada como ley en §6. |
 
 ---
 
 ## 2. Paleta de color
 
-Derivada por muestreo directo del logo: verde dominante `#00C050`, degradado hacia verde-teal `#00A870`, negro `#000000`, fondo blanco.
+Derivada por muestreo directo del logo: verde dominante `#00C050`, degradado hacia verde-teal `#00A870`, negro `#000000`, fondo blanco. **v2 no cambia ningún valor hex de esta sección** — solo agrega superficies y roles nuevos en 2.5.
 
 ### 2.1 Tokens primitivos
 
@@ -31,12 +66,12 @@ Derivada por muestreo directo del logo: verde dominante `#00C050`, degradado hac
 | `--na-green-teal` | `#00A870` | Extremo teal del degradado del logo. Acentos secundarios, hovers, degradados |
 | `--na-green-dark` | `#007D3C` | Verde oscuro accesible (≈5.2:1 sobre blanco). Enlaces, texto verde, estados hover de botones |
 | `--na-green-tint` | `#E6F9EE` | Verde al 8–10%. Fondos de secciones alternas, badges, iconos con fondo suave |
-| `--na-black` | `#0A0A0A` | Negro de marca (figura del logo). Titulares, navbar, footer, secciones oscuras |
+| `--na-black` | `#0A0A0A` | Negro de marca (figura del logo). Titulares, navbar, footer, secciones oscuras. **En v2 es además el fondo dominante de toda sección "Neón de Madrugada" — ver 2.5** |
 | `--na-gray-700` | `#3D4440` | Texto de cuerpo sobre blanco (matiz verdoso neutro) |
-| `--na-gray-500` | `#6B736E` | Texto secundario, captions (4.6:1 sobre blanco) |
-| `--na-gray-200` | `#DEE4E0` | Bordes, divisores |
+| `--na-gray-500` | `#6B736E` | Texto secundario, captions (4.6:1 sobre blanco). **Solo sobre blanco — sobre negro se hunde, usar `--na-gray-200`** |
+| `--na-gray-200` | `#DEE4E0` | Bordes, divisores. **En v2 es también el cuerpo de texto sobre fondo oscuro (ver 2.5)** |
 | `--na-gray-100` | `#F4F7F5` | Fondos de cards y secciones "muted" |
-| `--na-white` | `#FFFFFF` | Fondo principal (el logo vive sobre blanco) |
+| `--na-white` | `#FFFFFF` | Fondo principal sobre blanco; sobre negro pasa a ser el acento (titulares, foco) |
 | `--na-whatsapp` | `#25D366` | Verde oficial de WhatsApp — usar **solo** en el botón de WhatsApp, sin recolorear |
 | `--na-danger` | `#D93A3A` | Errores de formulario |
 | `--na-warning` | `#B45309` | Avisos |
@@ -50,6 +85,8 @@ Replica el aro del logo (oscuro → brillante):
 ```
 
 Usos permitidos: fondo del hero (franja o forma geométrica), barra de acento sobre cards destacadas, aro decorativo. **No** usarlo como fondo de texto largo.
+
+**v2 — roles ampliados del mismo degradado (ningún valor nuevo, solo más superficies):** es la fuente del glow del aro (`--na-glow-ring`, momento Encendido de `/programa`), el overlay de tinte sobre las fotos duotono (`mix-blend-mode: color`, §6.3) y el relleno de la Barra de Impulso Luminosa (§8.1). Sigue siendo un único degradado — no se crean variantes de color.
 
 ### 2.3 Roles semánticos (mapeo a Bootstrap)
 
@@ -66,10 +103,34 @@ Usos permitidos: fondo del hero (franja o forma geométrica), barra de acento so
 
 ### 2.4 Reglas de contraste (obligatorias)
 
-- Texto normal: mínimo **4.5:1**. `#00C050` sobre blanco **falla** → para texto verde usar siempre `--na-green-dark`.
+- Texto normal: mínimo **4.5:1**. `#00C050` sobre blanco **falla** → para texto verde sobre blanco usar siempre `--na-green-dark`.
 - Botón primario: fondo `#00C050` + **texto negro** `#0A0A0A` (8.6:1 ✓). Nunca texto blanco sobre el verde brillante.
 - Sobre secciones negras: texto `#FFFFFF` o `#00C050` (el verde brillante sí pasa sobre negro: 8.6:1 ✓).
+- **v2 — la misma regla, en la dirección que ahora importa más:** `--na-green-dark` (#007D3C) rinde ~5.2:1 **sobre blanco**, pero se hunde a ~2:1 **sobre negro** — es ilegible. Sobre fondo oscuro el verde legible es siempre el brillante (`--na-green`) o el blanco, nunca el profundo. Esta es la **Regla del Verde Legible**, ver formulación completa en 6.6.
 - No transmitir información solo con color (añadir icono o texto).
+
+### 2.5 Polaridad de superficie y tokens oscuros (v2)
+
+La Dirección A invierte la polaridad dominante del sitio: donde v1 alternaba blanco →
+gris → negro con el negro como acento puntual (trustbar, footer, franjas), en v2 el
+negro es el escenario por defecto de la apertura y de los momentos protagónicos, y el
+blanco/gris-claro queda reservado a las "Salas Iluminadas" (§6.6) — formularios y
+lectura densa.
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--na-dark-bg` | `#0A0A0A` (= `--na-black`) | Alias semántico: el fondo dominante de una sección "Neón de Madrugada". No es un color nuevo — es una superficie nueva sobre un color que ya existía como acento. |
+| `--na-dark-ink` | `#DEE4E0` (= `--na-gray-200`) | Cuerpo de texto sobre `--na-dark-bg`. Nunca `--na-gray-500` (Gris Secundario): ese tono solo pasa AA sobre blanco. |
+| `--na-hairline` | `rgba(255, 255, 255, 0.08)` | Borde de superficie plana sobre fondo oscuro (divisores, marcos). Sustituye a la sombra: una sombra oscura no se ve sobre negro, un hairline sí. Sin glass, sin texturas. |
+| `--na-glow-cta` | `0 0 32px rgba(0, 192, 80, 0.35)` | El único glow del CTA primario sobre fondo oscuro — "el botón emite luz". |
+| `--na-glow-photo` | `0 0 48px rgba(0, 192, 80, 0.45)` | El único glow del marco de fotografía duotono (momento Encendido, §6.4a). |
+| `--na-glow-ring` | `0 0 44px rgba(0, 192, 80, 0.45)` | El único glow del aro degradado sobre negro (momento Encendido del "90", §6.4b). |
+
+Un elemento usa **como máximo uno** de los tres tokens de glow — nunca dos apilados
+(Presupuesto de Glow, §6.6). `--na-dark-bg` y `--na-dark-ink` son alias deliberados de
+tokens que ya existían (no duplican el color, documentan el rol nuevo); el código hoy
+usa `--na-black`/`--na-gray-200` directamente en las secciones ya migradas — adoptar los
+alias semánticos es una limpieza pendiente, no un bloqueante.
 
 ---
 
@@ -100,7 +161,7 @@ Alternativa en CSS:
 
 | Token | Tamaño | Uso |
 |---|---|---|
-| `--na-fs-display` | `clamp(2.5rem, 6vw, 4.5rem)` | H1 del hero (Barlow Condensed 700, mayúsculas opcionales) |
+| `--na-fs-display` | `clamp(3.5rem, 8vw, 6rem)` **(v2, antes `clamp(2.5rem, 6vw, 4.5rem)`)** | H1 a escala póster: el H1 recupera jerarquía por tamaño bruto, mayúsculas, tracking apretado (0.01em, excepción declarada a la Regla del Tracking en Caps de DESIGN.md) |
 | `--na-fs-h2` | `clamp(2rem, 4vw, 3rem)` | Títulos de sección |
 | `--na-fs-h3` | `1.5rem` | Títulos de card / plan |
 | `--na-fs-body` | `1rem` (16px) | Cuerpo — nunca menor en móvil |
@@ -108,6 +169,11 @@ Alternativa en CSS:
 | `--na-fs-price` | `clamp(2rem, 3.5vw, 2.75rem)` | Cifras de precios (Barlow Condensed 700 + `font-variant-numeric: tabular-nums`) |
 
 Longitud de línea del cuerpo: 60–75 caracteres (`max-width: 65ch` en párrafos largos).
+
+**v2 — la escala póster no es solo del hero del index:** todo H1 de la landing (incluido
+el de `/programa`) migra a `--na-fs-display` a medida que su sección se rediseña en
+Dirección A — el tamaño bruto del H1 es, por diseño, el mecanismo que resuelve la
+jerarquía perdida que señaló el critique baseline.
 
 ---
 
@@ -128,15 +194,19 @@ Sistema de 8px (compatible con los `$spacers` de Bootstrap). Landing de marketin
 
 Contenedor: usar `.container` de Bootstrap con `max-width` estándar (1320px en XXL). Breakpoints: los de Bootstrap (576/768/992/1200/1400) — diseñar mobile-first desde 375px.
 
+*(v2 no toca esta sección: el ritmo de 8px es independiente de la polaridad de color.)*
+
 ---
 
 ## 5. Bloque `:root` listo para usar
 
-Colocar en `src/main/resources/static/css/tokens.css`, cargado **después** del CSS de Bootstrap (WebJars) para que los overrides ganen:
+Colocar en `src/main/resources/static/css/tokens.css` (hoy vive integrado en
+`styles.css`), cargado **después** del CSS de Bootstrap (WebJars) para que los overrides
+ganen:
 
 ```css
 :root {
-  /* Primitivos de marca */
+  /* Primitivos de marca — sin cambios de valor en v2 */
   --na-green: #00C050;
   --na-green-teal: #00A870;
   --na-green-dark: #007D3C;
@@ -151,15 +221,24 @@ Colocar en `src/main/resources/static/css/tokens.css`, cargado **después** del 
   --na-danger: #D93A3A;
   --na-gradient-brand: linear-gradient(135deg, #00A870 0%, #00C050 100%);
 
+  /* Dirección A "Neón de Madrugada" (v2) — superficies oscuras y glow.
+     Presupuesto de glow: 1 sombra verde por elemento, nunca apiladas. */
+  --na-dark-bg: var(--na-black);
+  --na-dark-ink: var(--na-gray-200);
+  --na-hairline: rgba(255, 255, 255, 0.08);
+  --na-glow-cta: 0 0 32px rgba(0, 192, 80, 0.35);
+  --na-glow-photo: 0 0 48px rgba(0, 192, 80, 0.45);
+  --na-glow-ring: 0 0 44px rgba(0, 192, 80, 0.45);
+
   /* Tipografía */
   --na-font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
   --na-font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
-  --na-fs-display: clamp(2.5rem, 6vw, 4.5rem);
+  --na-fs-display: clamp(3.5rem, 8vw, 6rem); /* v2, antes clamp(2.5rem, 6vw, 4.5rem) */
   --na-fs-h2: clamp(2rem, 4vw, 3rem);
   --na-fs-h3: 1.5rem;
   --na-fs-price: clamp(2rem, 3.5vw, 2.75rem);
 
-  /* Espaciado */
+  /* Espaciado (sistema de 8px) */
   --na-space-1: 4px;  --na-space-2: 8px;   --na-space-3: 16px;
   --na-space-4: 24px; --na-space-5: 32px;  --na-space-6: 48px;
   --na-space-7: 64px; --na-space-8: 96px;
@@ -171,10 +250,14 @@ Colocar en `src/main/resources/static/css/tokens.css`, cargado **después** del 
   --na-shadow-card: 0 4px 16px rgba(10, 10, 10, 0.08);
   --na-shadow-card-hover: 0 10px 28px rgba(0, 192, 80, 0.18);
 
-  /* Movimiento */
+  /* Movimiento — vocabulario con nombre, ver §8.1 */
   --na-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --na-dur-fast: 150ms;
-  --na-dur-base: 250ms;
+  --na-dur-fast: 150ms;       /* Tinte al Tacto: press */
+  --na-dur-base: 250ms;       /* Tinte al Tacto: hover */
+  --na-dur-cascada: 280ms;    /* Revelado en Cascada: reveal genérico de secciones */
+  --na-dur-ascenso: 550ms;    /* Ascenso Escalonado: texto del hero */
+  --na-dur-encendido: 850ms;  /* Encendido: clímax foto/aro — el evento más largo */
+  --na-dur-impulso: 1100ms;   /* Barra de Impulso Luminosa: relleno de progreso */
 
   /* Overrides de Bootstrap 5 */
   --bs-primary: #00C050;
@@ -225,16 +308,122 @@ h1, h2, h3, h4, .display-1, .display-2, .display-3 {
 
 ## 6. Estilo visual recomendado
 
-**Dirección: "Energía atlética por bloques"** — vibrante y de alto contraste, estructurado en secciones bien delimitadas que alternan blanco / gris claro / negro.
+**Dirección vigente (v2): "Neón de Madrugada"** — el gimnasio a las 5 de la mañana:
+oscuridad total, un solo color encendido, la sensación de que el mundo todavía duerme y
+vos ya estás entrenando. Sustituye a la dirección v1 ("Energía atlética por bloques")
+como ley activa del sistema; lo que v1 acertaba y no dependía de la polaridad de color
+(cards, botones, iconos, cifras protagonistas) se conserva sin cambios en 6.1.
 
-- **Secciones en bloques** con mucho aire (64–96px vertical). Alternancia: hero blanco → servicios `--na-gray-100` → transformaciones negro → precios blanco.
-- **Formas geométricas de acento**: arcos y círculos que eco­an el aro del logo (CSS puro o SVG), con el degradado de marca. Máximo 1–2 por sección.
-- **Cards**: fondo blanco, `--na-radius-md`, `--na-shadow-card`, borde superior de 4px con el degradado en la card destacada (plan recomendado).
-- **Botones**: pill (`--na-radius-pill`). Primario = verde + texto negro; secundario = outline negro; sobre fondo negro, el primario verde brilla al máximo.
-- **Iconos**: SVG de un solo set (Bootstrap Icons vía WebJar o Lucide), trazo consistente, **nunca emojis**. En verde `--na-green-dark` o dentro de círculos `--na-green-tint`.
-- **Fotografía**: real y de alta energía (atletas entrenando, comida real). Duotono negro/verde permitido para fondos del hero. Formato WebP, `loading="lazy"` bajo el fold, `width`/`height` declarados.
-- **Cifras protagonistas**: métricas de resultados ("−8 kg de grasa", "+4 kg músculo") en Barlow Condensed gigante — es el corazón del patrón before–after.
-- **Evitar** (anti-patrones del estilo): sombras complejas apiladas, efectos 3D, paletas apagadas, secciones densas sin aire, degradado de marca como fondo de párrafos.
+### 6.1 Lo que sigue vigente de v1 (sin cambios)
+
+- **Cards**: fondo blanco sobre superficies claras, `--na-radius-md`, `--na-shadow-card`, borde superior de 4px con el degradado en la card destacada.
+- **Botones**: pill (`--na-radius-pill`). Primario = verde + texto negro; secundario = outline, cuyo color de contorno se adapta a la superficie (negro sobre claro, blanco sobre oscuro — ver `.btn-outline-light` en el hero).
+- **Iconos**: SVG de un solo set (stroke), nunca emojis. En verde `--na-green-dark` sobre claro, `--na-green` sobre oscuro.
+- **Cifras protagonistas**: métricas de resultados en Barlow Condensed gigante — el corazón del patrón before–after y de las cifras del programa.
+- **Formas geométricas de acento**: el aro degradado sigue siendo la firma decorativa (máx. 1–2 por sección) — en v2 además puede *encenderse* (ver 6.4b).
+
+### 6.2 Mood y decisiones de superficie (v2)
+
+El fondo dominante pasa a negro de marca en las secciones protagónicas (hoy: hero;
+progresivamente el resto del sitio por fases). El verde deja de ser "color de botón" y
+pasa a ser fuente de luz: rim-light en el aro, glow contenido, el degradado como única
+fuente de brillo. Las superficies son planas y profundas, con borde hairline
+(`--na-hairline`) en vez de sombra — una sombra oscura no se ve sobre negro. Nada de
+glass, texturas ni efectos 3D.
+
+### 6.3 Tratamiento de imaginería — Duotono Neón
+
+Toda foto real del PO (hoy: `andres-hero.jpeg` en el hero del index; `andres.webp` de
+"Sobre mí" migra en una fase futura) se integra a la paleta oscura con el mismo
+tratamiento CSS — grayscale + contraste para matar el color original, un overlay que
+tiñe con el degradado de marca, y una viñeta que hunde el fondo para que el sujeto
+quede al centro de la luz:
+
+```css
+.foto-duotono {
+  position: relative;
+  overflow: hidden;
+  filter: drop-shadow(var(--na-glow-photo)); /* único glow del elemento */
+}
+.foto-duotono img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15) brightness(0.7);
+}
+/* Tiñe de verde de marca sobre la imagen ya en escala de grises */
+.foto-duotono::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--na-gradient-brand);
+  mix-blend-mode: color;
+  opacity: 0.85;
+}
+/* Hunde el ruido de fondo: el sujeto queda al centro de la luz */
+.foto-duotono::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(circle at 50% 32%, transparent 40%, rgba(10, 10, 10, 0.75) 100%);
+}
+```
+
+Esto es **tratamiento, no maquillaje**: sigue rigiendo "Sin prueba, sin promesa"
+(PRODUCT.md) — el duotono no disfraza la ausencia de material real, solo unifica
+cualquier foto real que el PO entregue a la paleta oscura, sin importar su calidad de
+origen (gimnasio con luces mixtas, fondo ocupado, etc.).
+
+### 6.4 Momentos wow oficiales
+
+**(a) El Encendido del hero.** El texto sube en secuencia (Ascenso Escalonado: kicker →
+H1 → lead → CTA) y la foto de Andrés, en duotono, cierra la secuencia como clímax
+(Encendido: el evento más largo y más tardío). *Implementado — Sprint 4, Bloque 2.*
+
+**(b) El "90" de `/programa`.** El aro degradado (glow `--na-glow-ring`) se enciende con
+el mismo patrón Encendido, con la cifra "90" — Cifra Protagonista — brillando adentro
+sobre negro. *Pendiente de implementación.*
+
+**(c) La banda de módulos como progreso luminoso.** La secuencia "Día 1–30 / 31–60 /
+61–90" se dibuja como una barra de progreso con el degradado de marca que se llena al
+hacer scroll — patrón Barra de Impulso Luminosa (§8.1), transform/opacity puro.
+*Pendiente de implementación.*
+
+### 6.5 Componente importado de la Dirección B: "El programa, en números"
+
+El PO pidió rescatar de la Dirección B ("Dorsal 90") el tablero de datos para
+`/programa`, aunque eligió A como dirección general. El tablero es, por construcción,
+casi nativo de A — fondo negro, cifras en verde brillante — con dos ajustes obligatorios
+al importarlo:
+
+1. **El subtítulo de cada dato (`.stat-sub`, ej. "≈ ₡35 000 por módulo") usa
+   `--na-dark-ink` (Gris Borde), nunca Gris Secundario.** La cata de origen (Dirección B)
+   usaba Gris Secundario, que es ilegible sobre negro (2.4) — un tablero clonado tal cual
+   heredaría un fallo de AA.
+2. **Jerarquía de precio:** ₡105.000 (programa completo) es el dato protagonista, del
+   mismo tamaño que 90/3/6; el equivalente por módulo queda subordinado en `.stat-sub`
+   — nunca al mismo peso visual, para que no se confunda con el precio real.
+
+El resto del componente no cambia al importarlo: cifras en Barlow Condensed 700
+tabular-nums (Cifra Protagonista, ya vigente), un hairline o filete de 2px verde por
+ítem (compatible con "planas + hairline", no es una sombra), y — si se anima — un
+count-up de una sola vez, ≤1s, con los valores reales del PO, nunca en loop.
+
+### 6.6 Reglas duras (no negociables)
+
+- **Regla del Verde Legible (extendida).** El verde brillante (`--na-green`) es el único
+  verde que pasa AA sobre negro (8.6:1); el verde profundo (`--na-green-dark`) es el
+  único que pasa AA sobre blanco (5.2:1) — **nunca al revés**. Sobre fondo oscuro, texto
+  verde = brillante o nada; sobre fondo claro, texto verde = profundo o nada.
+- **Presupuesto de Glow.** Máximo **una** sombra verde por elemento (`--na-glow-cta`,
+  `--na-glow-photo` o `--na-glow-ring`, nunca combinadas en el mismo elemento). Cero
+  `text-shadow` en cuerpo de texto. Cero efectos cyberpunk: nada de scanlines, glitch,
+  ni parpadeo.
+- **Salas Iluminadas.** El formulario de `/agendar` y su pantalla de confirmación
+  permanecen sobre superficie **clara** aunque el resto del sitio sea oscuro — en un
+  formulario, la claridad manda sobre la estética. No es una excepción vergonzosa a la
+  dirección: es la mitigación de riesgo que el brief pidió desde el diseño.
+- **Performance.** CSS/JS vanilla, sin librerías nuevas. Imágenes reales optimizadas
+  (WebP cuando sea posible); el tratamiento duotono es 100% CSS (`filter` +
+  `mix-blend-mode`), cero peso adicional de imagen por variante de color.
+- *(Siguen vigentes de v1, sin cambios: nunca texto blanco sobre Verde Arranque; nunca
+  `#00C050` como texto sobre blanco; sin prueba social inventada — PRODUCT.md.)*
 
 ---
 
@@ -243,8 +432,8 @@ h1, h2, h3, h4, .display-1, .display-2, .display-3 {
 Patrón *Before–After Transformation* (optimizado a conversión para servicios de transformación física):
 
 1. **Navbar** (sticky, blanca, logo izquierda) — enlaces: Servicios · Resultados · Precios · CTA "Agendar cita" (btn-primary, siempre visible).
-2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. Foto/figura atlética con arco degradado.
-3. **Barra de confianza** — cifras rápidas: años de experiencia, clientes transformados, países atendidos.
+2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. **v2: fondo negro, foto de Andrés en duotono como clímax — ver 6.4a. Implementado.**
+3. **Barra de confianza** — cifras rápidas: años de experiencia, clientes transformados, países atendidos. Ya era fondo negro en v1; en v2 gana hairline superior de transición.
 4. **Transformaciones (before–after)** — comparativas reales con métricas concretas; antes en gris desaturado, después a color con acentos verdes. La sección de mayor peso visual (fondo negro).
 5. **Cómo funciona** — 3 pasos: 1) Agenda tu evaluación → 2) Recibe tu plan personalizado → 3) Seguimiento y ajustes. Iconos + números grandes.
 6. **Servicios y precios** — cards de planes (4, catálogo final del PO 2026-07-12), plan recomendado destacado con borde degradado y badge; precio en grande, lista de incluye, CTA por card. Aclarar moneda (USD/CRC) por el público LATAM.
@@ -255,47 +444,85 @@ Patrón *Before–After Transformation* (optimizado a conversión para servicios
 
 **Flotante:** botón de WhatsApp fijo (`position: fixed`, inferior derecha, 56×56px mínimo, `#25D366`, icono oficial blanco, `aria-label="Escribir por WhatsApp"`), separado del borde con safe-area y sin tapar CTAs.
 
+*(v2 no reordena ni agrega secciones aquí — el rollout de Dirección A restylea las
+secciones existentes por fases, no cambia la arquitectura de información. El banner del
+programa (HU-12) se mantiene entre Hero y Barra de confianza, como ya fijó Sprint 3.)*
+
 ---
 
 ## 8. Micro-interacciones — tono y especificación
 
 **Tono: enérgico pero controlado.** El movimiento comunica impulso (la marca es acción física), pero nunca circo: transiciones cortas, con propósito, una idea animada por sección.
 
-| Interacción | Especificación |
-|---|---|
-| Hover botón primario | Fondo → `--na-green-dark` + `transform: translateY(-2px)`, `250ms` ease-out |
-| Press/tap botón | `transform: scale(0.97)`, `150ms`; feedback visual < 100ms |
-| Hover card | Elevación a `--na-shadow-card-hover` (tinte verde) + `translateY(-4px)`, `250ms` |
-| Entrada de secciones al scroll | Fade + `translateY(16px→0)`, `250–300ms`, stagger de 40ms entre cards (IntersectionObserver, una sola vez) |
-| Cifras del "trust bar" | Count-up al entrar en viewport, ≤ 1s, una sola vez |
-| Reveal before–after | Slider o crossfade controlado por el usuario — nunca autoplay |
-| Botón WhatsApp | Sutil pulse del anillo cada ~6s (opacity/transform only); se detiene tras la primera interacción |
-| Submit de formularios | Botón deshabilitado + spinner durante el envío; éxito con check verde; error en rojo junto al campo |
-| Enlaces navbar | Subrayado animado de izquierda a derecha, `150ms` |
+### 8.1 Vocabulario de movimiento (con nombre) — v2
 
-**Reglas duras:**
+Cinco patrones nombrados, reutilizables en todo el rollout. Todos animan **solo
+`transform` y `opacity`** (nunca width/height/top); con `prefers-reduced-motion: reduce`
+el contenido queda visible al instante, sin excepción.
 
-- Duraciones 150–300ms; nada > 400ms. Easing: `--na-ease-out` para entradas, ease-in para salidas (salidas ~30% más cortas).
+| Patrón | Qué anima | Duración | Easing | Reduced-motion |
+|---|---|---|---|---|
+| **Encendido** | opacity + scale (desde 0.85–0.92, nunca desde 0); el glow del elemento ya está presente y aparece con la opacidad, no se anima aparte | `--na-dur-encendido` (850ms) | `--na-ease-out` | Visible al instante, sin scale |
+| **Ascenso Escalonado** | opacity + `translateY(32px→0)`, stagger ~120ms entre elementos | `--na-dur-ascenso` (550ms) | `--na-ease-out` | Visible al instante, sin desplazamiento |
+| **Revelado en Cascada** | opacity + `translateY(16px→0)`, stagger 40ms, dispara una sola vez vía IntersectionObserver | `--na-dur-cascada` (280ms) | `--na-ease-out` | Visible al instante |
+| **Tinte al Tacto** | color/fondo + glow o sombra-tinte + `translateY(-2px)`/`scale(0.97)` en respuesta a hover/press | `--na-dur-fast` (150ms) / `--na-dur-base` (250ms) | `--na-ease-out` | No es animación de entrada; el motion de transform igual respeta el media query |
+| **Barra de Impulso Luminosa** | `scaleX(0→1)` con `transform-origin: left`, dispara una sola vez al entrar en viewport | `--na-dur-impulso` (1100ms) | `--na-ease-out` | Nace llena (`scaleX(1)` inmediato) |
+
+**Dónde se usa cada uno:**
+- *Encendido* → la foto del hero (6.4a, implementado); el aro con el "90" de `/programa` (6.4b, pendiente).
+- *Ascenso Escalonado* → el bloque de texto del hero (kicker, H1, lead, CTA), siempre como preludio de un Encendido.
+- *Revelado en Cascada* → evolución nombrada del reveal genérico que el sitio ya usa (`data-reveal`/`reveal.js`) fuera de la apertura: servicios, testimonios, secciones oscuras del rollout.
+- *Tinte al Tacto* → ya nombrado en DESIGN.md §4; hover de botones y cards. Sobre superficie oscura el tinte es glow (box-shadow verde) en vez de elevación con sombra gris.
+- *Barra de Impulso Luminosa* → la banda de módulos de `/programa` (6.4c, pendiente); evolución de "La Barra de Impulso" (DESIGN.md) para secuencias de datos reales, no solo el kicker de un h2.
+
+### 8.2 Interacción → especificación
+
+| Interacción | Especificación | Patrón |
+|---|---|---|
+| Hover botón primario | Fondo → `--na-green-dark` + `transform: translateY(-2px)`, `250ms` ease-out | Tinte al Tacto |
+| Press/tap botón | `transform: scale(0.97)`, `150ms`; feedback visual < 100ms | Tinte al Tacto |
+| Hover card | Elevación a `--na-shadow-card-hover` (tinte verde) + `translateY(-4px)`, `250ms` | Tinte al Tacto |
+| Entrada de secciones al scroll | Fade + `translateY(16px→0)`, stagger de 40ms entre cards (IntersectionObserver vanilla, una sola vez) | Revelado en Cascada |
+| Entrada del hero | Ver 8.1 — Ascenso Escalonado + Encendido | Ascenso Escalonado + Encendido |
+| Cifras del "trust bar" / tablero de números | Count-up al entrar en viewport, ≤ 1s, una sola vez, valores reales del PO | — (sin nombre propio; regla compartida con Barra de Impulso Luminosa: nunca en loop) |
+| Reveal before–after | Slider o crossfade controlado por el usuario — nunca autoplay | — |
+| Botón WhatsApp | Sutil pulse del anillo cada ~6s (opacity/transform only); se detiene tras la primera interacción | — |
+| Submit de formularios | Botón deshabilitado + spinner durante el envío; éxito con check verde; error en rojo junto al campo | — |
+| Enlaces navbar | Subrayado animado de izquierda a derecha, `150ms` | Tinte al Tacto |
+
+### 8.3 Reglas duras del movimiento
+
+- Duraciones 150–300ms para toda interacción de Tinte al Tacto y Revelado en Cascada;
+  la única excepción declarada son las secuencias cinematográficas del hero (Ascenso
+  Escalonado 550ms, Encendido 850ms, Barra de Impulso Luminosa 1100ms) — nunca > 1200ms.
 - Animar **solo** `transform` y `opacity` (nunca width/height/top — evita reflow y CLS).
-- Respetar `prefers-reduced-motion: reduce`: desactivar entradas al scroll, pulse y count-up.
-- Máximo 1–2 elementos animados por vista; el contenido debe ser legible sin esperar animaciones.
+  El glow (`box-shadow`/`filter: drop-shadow`) no se anima por separado: aparece con la
+  opacidad del elemento que ya lo trae puesto.
+- Respetar `prefers-reduced-motion: reduce` en **todos** los patrones sin excepción:
+  entradas, pulse, count-up y barras de progreso quedan en su estado final desde el
+  primer frame.
+- Máximo 1–2 elementos animados por vista; el contenido debe ser legible sin esperar
+  animaciones.
 
 ---
 
 ## 9. Accesibilidad y calidad — checklist de entrega
 
-- [ ] Contraste: texto normal ≥ 4.5:1 (texto verde solo con `--na-green-dark`; nunca `#00C050` sobre blanco)
+- [ ] Contraste: texto normal ≥ 4.5:1 (texto verde solo con `--na-green-dark` sobre blanco, `--na-green` sobre negro — nunca al revés, ver Regla del Verde Legible en 6.6)
 - [ ] Botón primario verde siempre con texto negro
 - [ ] Targets táctiles ≥ 44×44px (botones, navbar, WhatsApp flotante)
 - [ ] Labels visibles en el formulario de citas (no solo placeholder); errores bajo el campo con `role="alert"`; tipos semánticos (`email`, `tel`, `date`)
-- [ ] Focus visible en todos los interactivos (anillo sólido `#007D3C`, 3px — el translúcido `rgba(0,192,80,.4)` rendía ~1.4:1 y falla WCAG 1.4.11) — no eliminar outline
+- [ ] Focus visible en todos los interactivos: anillo sólido `#007D3C` (3px) sobre superficies claras — el translúcido `rgba(0,192,80,.4)` rendía ~1.4:1 y falla WCAG 1.4.11; **sobre superficies oscuras el anillo pasa a blanco** (verde-profundo rinde ~3.7:1 sobre negro, insuficiente) — no eliminar outline
 - [ ] Un solo H1 (hero); jerarquía h1→h2→h3 sin saltos
 - [ ] `alt` descriptivo en fotos de transformaciones; `aria-label` en botones de solo icono
-- [ ] Imágenes WebP con dimensiones declaradas; lazy load bajo el fold; CLS < 0.1
+- [ ] Imágenes WebP con dimensiones declaradas; lazy load bajo el fold; CLS < 0.1 (excepción documentada: `andres-hero.jpeg` con `loading="eager"` por ser LCP del hero — pendiente de conversión a WebP, ver `docs/pendientes.md`)
 - [ ] Sin scroll horizontal en 375px; body ≥ 16px en móvil
-- [ ] `prefers-reduced-motion` respetado
+- [ ] `prefers-reduced-motion` respetado en los 5 patrones de 8.1, sin excepción
+- [ ] **Presupuesto de Glow respetado**: ninguna sección apila más de un `--na-glow-*` sobre el mismo elemento (6.6)
+- [ ] **Salas Iluminadas intactas**: `/agendar` y su confirmación siguen en superficie clara aunque la sección que las precede sea oscura (6.6)
 - [ ] Probado en 375 / 768 / 1024 / 1440px
 
 ---
 
-*Generado con la skill `ui-ux-pro-max` (patrón Before–After Transformation + estilo Vibrant & Block-based + tipografía Barlow) el 2026-07-10. Paleta muestreada del logo real. Overrides por página: crear `design-system/pages/<pagina>.md`.*
+*Generado con la skill `ui-ux-pro-max` (patrón Before–After Transformation + estilo Vibrant & Block-based + tipografía Barlow) el 2026-07-10. Paleta muestreada del logo real.*
+*Actualizado a v2 el 2026-07-21: Dirección A "Neón de Madrugada" elegida por el PO (D-21, Sprint 4). Overrides por página: crear `design-system/pages/<pagina>.md`.*
