@@ -27,6 +27,11 @@
   /* Tipografía */
   --na-font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
   --na-font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  /* MASTER v2 §3/§5 sube este token a escala póster (clamp(3.5rem, 8vw, 6rem))
+     para la Dirección A. Se difiere ese cambio de valor a bloque que migre el
+     hero: hoy el hero sigue en v1 (fondo blanco) y consume este mismo token —
+     subirlo ahora agrandaría su H1 fuera de secuencia, sin fondo oscuro que
+     lo sostenga. */
   --na-fs-display: clamp(2.5rem, 6vw, 4.5rem);
   --na-fs-h2: clamp(2rem, 4vw, 3rem);
   --na-fs-h3: 1.5rem;
@@ -57,10 +62,26 @@
   --na-shadow-card: 0 4px 16px rgba(10, 10, 10, 0.08);
   --na-shadow-card-hover: 0 10px 28px rgba(0, 192, 80, 0.18);
 
-  /* Movimiento */
+  /* Dirección A "Neón de Madrugada" (MASTER v2 §2.5/§5) — superficies
+     oscuras y glow. Fundaciones del Sprint 4 Bloque 1: disponibles para que
+     los próximos bloques del rollout restyleen cada sección; ninguna
+     plantilla los consume todavía. Presupuesto de glow: 1 sombra verde por
+     elemento, nunca apiladas (MASTER §6.6). */
+  --na-dark-bg: var(--na-black);
+  --na-dark-ink: var(--na-gray-200);
+  --na-hairline: rgba(255, 255, 255, 0.08);
+  --na-glow-cta: 0 0 32px rgba(0, 192, 80, 0.35);
+  --na-glow-photo: 0 0 48px rgba(0, 192, 80, 0.45);
+  --na-glow-ring: 0 0 44px rgba(0, 192, 80, 0.45);
+
+  /* Movimiento — vocabulario con nombre (MASTER §8.1), ver más abajo */
   --na-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --na-dur-fast: 150ms;
-  --na-dur-base: 250ms;
+  --na-dur-fast: 150ms;       /* Tinte al Tacto: press */
+  --na-dur-base: 250ms;       /* Tinte al Tacto: hover */
+  --na-dur-cascada: 280ms;    /* Revelado en Cascada: reveal genérico de secciones */
+  --na-dur-ascenso: 550ms;    /* Ascenso Escalonado: texto que precede un Encendido */
+  --na-dur-encendido: 850ms;  /* Encendido: clímax foto/aro — el evento más largo */
+  --na-dur-impulso: 1100ms;   /* Barra de Impulso Luminosa: relleno de progreso */
 
   /* Overrides de Bootstrap 5 */
   --bs-primary: #00C050;
@@ -679,21 +700,108 @@ button:focus-visible,
 }
 
 /* ------------------------------------------------------------
-   Animación de entrada al scroll (fade + rise)
-   El JS agrega .na-reveal antes de observar: sin JS nada queda oculto.
-   Solo transform/opacity, < 300ms, una sola vez.
+   Vocabulario de movimiento (MASTER v2 §8.1) — 5 patrones con nombre.
+   Fundaciones del Sprint 4 Bloque 1: clases disponibles para que los
+   próximos bloques del rollout las apliquen sección por sección. Hoy
+   ninguna plantilla usa las nuevas todavía — salvo Revelado en Cascada,
+   que YA es el reveal genérico que el sitio usa desde HU-01 (data-reveal +
+   reveal.js), acá solo formalizado con su nombre.
+
+   Los 5 solo animan transform/opacity y comparten un único mecanismo:
+   reveal.js agrega la clase .na-reveal a todo elemento [data-reveal] antes
+   de observarlo, y agrega .is-in cuando entra en viewport (una sola vez).
+   Bajo prefers-reduced-motion (o sin IntersectionObserver) reveal.js
+   retorna antes de agregar ninguna clase — así que ninguno de estos
+   patrones llega a aplicarse nunca: el contenido queda visible al
+   instante, sin excepción.
    ------------------------------------------------------------ */
 
+/* Revelado en Cascada: el reveal genérico de secciones al hacer scroll,
+   stagger vía data-reveal-delay. */
 .na-reveal {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 280ms var(--na-ease-out),
-              transform 280ms var(--na-ease-out);
+  transition: opacity var(--na-dur-cascada) var(--na-ease-out),
+              transform var(--na-dur-cascada) var(--na-ease-out);
 }
 
 .na-reveal.is-in {
   opacity: 1;
   transform: none;
+}
+
+/* Ascenso Escalonado: el texto que precede un Encendido — rise más
+   notorio (32px) y más lento que la Cascada genérica. Se combina con
+   data-reveal + data-reveal-delay para el stagger entre elementos
+   (kicker → H1 → lead → CTA). */
+.na-ascenso.na-reveal {
+  transform: translateY(32px);
+  transition: opacity var(--na-dur-ascenso) var(--na-ease-out),
+              transform var(--na-dur-ascenso) var(--na-ease-out);
+}
+
+/* Encendido: el clímax de una secuencia (foto o aro) — opacity + scale
+   desde 0.92, nunca desde 0. El glow del elemento (--na-glow-photo /
+   --na-glow-ring) no se anima aparte: ya está puesto en reposo y aparece
+   junto con la opacidad. */
+.na-encendido.na-reveal {
+  transform: scale(0.92);
+  transition: opacity var(--na-dur-encendido) var(--na-ease-out),
+              transform var(--na-dur-encendido) var(--na-ease-out);
+}
+
+/* Tinte al Tacto (DESIGN.md §4): variante para superficies oscuras — el
+   tinte es glow (box-shadow verde), no elevación con sombra gris. Utilidad
+   para futuras cards/hovers sobre fondo negro (p. ej. el tablero de
+   números o los módulos de /programa). */
+.na-tinte-oscuro {
+  transition: box-shadow var(--na-dur-base) var(--na-ease-out),
+              border-color var(--na-dur-base) var(--na-ease-out),
+              transform var(--na-dur-base) var(--na-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .na-tinte-oscuro:hover {
+    border-color: var(--na-green);
+    box-shadow: var(--na-glow-cta);
+    transform: translateY(-4px);
+  }
+}
+
+/* Barra de Impulso Luminosa: relleno del degradado que pasa de 0 a 1, una
+   sola vez al entrar en viewport. El contenedor (.na-impulso-pista) no se
+   desvanece — no es una Cascada, solo dispara vía reveal.js el relleno de
+   su hijo; sin JS (o con reduced-motion) el hijo nace lleno. */
+.na-impulso-pista {
+  position: relative;
+  height: 8px;
+  border-radius: var(--na-radius-pill);
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.na-impulso-pista.na-reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.na-impulso-luz {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--na-gradient-brand);
+  transform-origin: left;
+  transform: scaleX(1); /* estado por defecto: sin JS, nace llena */
+  transition: transform var(--na-dur-impulso) var(--na-ease-out);
+}
+
+.na-impulso-pista.na-reveal .na-impulso-luz {
+  transform: scaleX(0);
+}
+
+.na-impulso-pista.na-reveal.is-in .na-impulso-luz {
+  transform: scaleX(1);
 }
 
 /* ------------------------------------------------------------
@@ -1011,6 +1119,16 @@ button:focus-visible,
    Sprint 4 (D-18).
    ------------------------------------------------------------ */
 
+/* Hook activado (Sprint 4, Bloque 1): el selector ya no está vacío, pero
+   sigue sin la estética Dirección A todavía — eso es el momento wow (b)
+   de MASTER §6.4, "pendiente de implementación". Acá solo se prepara el
+   contenedor (mismo patrón estructural que .na-hero) para que ese bloque
+   futuro pueda poner fondo oscuro, foto/aro y glow sin tocar el layout. */
+.na-programa-hero {
+  position: relative;
+  overflow: hidden;
+}
+
 /* Banner del index: única sección Verde Tinte de la página (jerarquía de
    producto estrella con tokens existentes). Compacta: presenta y enlaza. */
 .na-programa-banner {
@@ -1180,10 +1298,17 @@ button:focus-visible,
     transition-duration: 0.01ms !important;
   }
 
-  /* el JS de reveal ya no corre con reduced-motion; esto es la red de seguridad */
+  /* el JS de reveal ya no corre con reduced-motion; esto es la red de
+     seguridad para los 5 patrones del vocabulario de movimiento (MASTER
+     §8.1) — Cascada, Ascenso Escalonado y Encendido comparten .na-reveal */
   .na-reveal {
     opacity: 1;
     transform: none;
+  }
+
+  /* Barra de Impulso Luminosa: red de seguridad — nace llena */
+  .na-impulso-luz {
+    transform: scaleX(1);
   }
 
   /* sin entrada animada: el delay de la animación lo dejaría invisible 500ms */
