@@ -27,12 +27,10 @@
   /* Tipografía */
   --na-font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
   --na-font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
-  /* MASTER v2 §3/§5 sube este token a escala póster (clamp(3.5rem, 8vw, 6rem))
-     para la Dirección A. Se difiere ese cambio de valor a bloque que migre el
-     hero: hoy el hero sigue en v1 (fondo blanco) y consume este mismo token —
-     subirlo ahora agrandaría su H1 fuera de secuencia, sin fondo oscuro que
-     lo sostenga. */
-  --na-fs-display: clamp(2.5rem, 6vw, 4.5rem);
+  /* Escala póster (MASTER v2 §3/§5): el Bloque 1 difirió esta subida hasta
+     que el hero tuviera fondo oscuro que la sostenga — Bloque 2 lo migra,
+     así que el cambio de valor ya es seguro. */
+  --na-fs-display: clamp(3.5rem, 8vw, 6rem);
   --na-fs-h2: clamp(2rem, 4vw, 3rem);
   --na-fs-h3: 1.5rem;
   --na-fs-lead: 1.25rem;
@@ -347,10 +345,15 @@ button:focus-visible,
   font-size: var(--na-fs-display);
   text-transform: uppercase;
   letter-spacing: 0.01em; /* excepción deliberada: display condensado, tracking mínimo */
+  color: var(--na-white); /* el h1 global fuerza negro (invisible sobre el hero oscuro) */
 }
 
+/* Regla del Verde Legible (MASTER §2.4/§6.6): verde profundo rinde ~2:1
+   sobre negro y falla AA — sobre el hero oscuro el acento es el brillante
+   (8.6:1), nunca el profundo (que sigue siendo correcto donde el fondo es
+   claro, p. ej. el h2 del banner del programa). */
 .na-hero h1 .na-accent {
-  color: var(--na-green-dark);
+  color: var(--na-green);
 }
 
 /* Base compartida: agendar.html y agendar-confirmacion.html también usan
@@ -361,8 +364,10 @@ button:focus-visible,
   max-width: 65ch;
 }
 
+/* Gris Secundario solo pasa AA sobre blanco (DESIGN.md) — sobre el hero
+   oscuro el cuerpo de texto usa la tinta oscura del sistema (~14:1). */
 .na-hero .na-lead {
-  color: var(--na-gray-500);
+  color: var(--na-dark-ink);
 }
 
 /* Eyebrow / badge de sección */
@@ -382,45 +387,105 @@ button:focus-visible,
    Hero (HU-01)
    ------------------------------------------------------------ */
 
+/* Dirección A "Neón de Madrugada" (MASTER v2 §6.2): el hero pasa a ser
+   fondo dominante negro — el verde deja de ser "color de botón" y pasa a
+   ser la única luz encendida. */
 .na-hero {
   position: relative;
   overflow: hidden;
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
 }
 
-/* Composición decorativa: aro con el degradado de marca que ecoa el
-   círculo del logo, con el logo real al centro (máx. 2 formas, MASTER §6) */
-.na-hero-visual {
+/* El kicker pasa de chip mint (pensado para fondos claros — ilegible sobre
+   negro) a rótulo desnudo: mismo texto, misma jerarquía, sin superficie
+   propia. Scoped a .na-hero: el badge "Recomendado" en servicios (fondo
+   claro) sigue usando el chip .na-eyebrow global sin cambios. */
+.na-hero .na-eyebrow {
+  background: none;
+  color: var(--na-green);
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Foco visible sobre negro (riesgo del brief A): el anillo verde-profundo
+   del sistema rinde ~3.7:1 sobre negro, insuficiente — acá pasa a blanco. */
+.na-hero a:focus-visible,
+.na-hero .btn:focus-visible {
+  outline-color: var(--na-white);
+}
+
+/* El CTA primario emite luz: única sombra verde de este elemento
+   (presupuesto de glow, MASTER §6.6 — nunca apiladas). */
+.na-hero .btn-primary {
+  box-shadow: var(--na-glow-cta);
+}
+
+/* El outline-dark normal (borde/texto negro) sería invisible sobre el hero
+   oscuro — mismo tratamiento claro que ya usa el CTA secundario del cierre. */
+.na-cierre .btn-outline-light,
+.na-hero .btn-outline-light {
+  --bs-btn-color: var(--na-white);
+  --bs-btn-border-color: var(--na-white);
+  --bs-btn-hover-bg: var(--na-white);
+  --bs-btn-hover-border-color: var(--na-white);
+  --bs-btn-hover-color: var(--na-black);
+  --bs-btn-padding-y: 0.875rem;
+  --bs-btn-padding-x: 2.5rem;
+}
+
+/* Tratamiento duotono (MASTER §6.3): toda foto real del PO se integra a la
+   paleta oscura con esta receta — grayscale + contraste matan el color de
+   origen, un overlay tiñe con el degradado de marca, una viñeta hunde el
+   fondo para que el sujeto quede al centro de la luz. */
+.foto-duotono {
   position: relative;
-  width: min(340px, 72vw);
+  overflow: hidden;
+  filter: drop-shadow(var(--na-glow-photo)); /* única sombra de este elemento */
+}
+
+.foto-duotono img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15) brightness(0.7);
+}
+
+.foto-duotono::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--na-gradient-brand);
+  mix-blend-mode: color;
+  opacity: 0.85;
+}
+
+.foto-duotono::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 32%, transparent 40%, rgba(10, 10, 10, 0.75) 100%);
+}
+
+/* Momento wow (a) — "Encendido": la foto de Andrés reemplaza el aro/círculo
+   decorativo que vivía acá (máx. 2 formas, MASTER §6.1). Círculo deliberado
+   (no rect. redondeado): es el reemplazo directo del aro, y el overlay
+   duotono ya hace de degradado del aro — el círculo refuerza esa firma en
+   vez de competir con ella. */
+.na-hero-photo {
+  width: min(360px, 76vw);
   aspect-ratio: 1;
   margin-inline: auto;
-}
-
-.na-hero-ring {
-  position: absolute;
-  inset: 0;
   border-radius: 50%;
-  background: var(--na-gradient-brand);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
 }
 
-.na-hero-visual img {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 48%;
-  height: auto;
-}
-
-.na-hero-dot {
-  position: absolute;
-  top: 4%;
-  right: 10%;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--na-green);
+/* La fuente es un retrato alto (750×1280) con mucho aire arriba de la
+   cabeza y piso abajo — sin fijar el foco, el recorte central del círculo
+   cortaría cara/torso. */
+.na-hero-photo img {
+  object-position: 50% 18%;
 }
 
 /* Títulos de sección (MASTER §3) con la Barra de Impulso: el kicker del
@@ -459,6 +524,9 @@ button:focus-visible,
   color: var(--na-white);
   padding-top: var(--na-space-5);
   padding-bottom: var(--na-space-5);
+  /* Ya era negra en v1 (accidentalmente AA-compliant) — Dirección A solo le
+     suma el hairline de superficie plana que separa del banner claro. */
+  border-top: 1px solid var(--na-hairline);
 }
 
 .na-trust-item {
@@ -670,18 +738,6 @@ button:focus-visible,
 .na-cierre .na-lead {
   color: var(--na-gray-200);
   margin-inline: auto;
-}
-
-/* Outline claro para el CTA secundario sobre fondo negro: el outline-dark
-   normal (borde/texto negro) sería invisible acá. */
-.na-cierre .btn-outline-light {
-  --bs-btn-color: var(--na-white);
-  --bs-btn-border-color: var(--na-white);
-  --bs-btn-hover-bg: var(--na-white);
-  --bs-btn-hover-border-color: var(--na-white);
-  --bs-btn-hover-color: var(--na-black);
-  --bs-btn-padding-y: 0.875rem;
-  --bs-btn-padding-x: 2.5rem;
 }
 
 /* Marcador visible de dato pendiente. Único uso vivo: el [PRECIO PENDIENTE]
@@ -1132,9 +1188,24 @@ button:focus-visible,
 /* Banner del index: única sección Verde Tinte de la página (jerarquía de
    producto estrella con tokens existentes). Compacta: presenta y enlaza. */
 .na-programa-banner {
+  position: relative;
   background: var(--na-green-tint);
   padding-top: var(--na-space-6);
   padding-bottom: var(--na-space-6);
+}
+
+/* Puente visual del hero negro a la franja Verde Tinte: una línea del
+   degradado de marca, el mismo lenguaje que la barra de impulso de los
+   títulos de sección — no una forma nueva. El fondo/texto claro del banner
+   no cambia (ya es AA). */
+.na-programa-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--na-gradient-brand);
 }
 
 .na-programa-banner .na-lead {
