@@ -275,11 +275,15 @@ button:focus-visible,
    Footer — sección oscura de marca
    ------------------------------------------------------------ */
 
+/* Ya era negro desde v1 (footer, como la trustbar, nació alineado con la
+   Dirección A por accidente) — Bloque 3 solo le suma el hairline que
+   marca el límite con el cierre, coherente con el resto del cuerpo. */
 .na-footer {
   background-color: var(--na-black);
   color: var(--na-gray-200);
   padding-top: var(--na-space-7);
   padding-bottom: var(--na-space-5);
+  border-top: 1px solid var(--na-hairline);
 }
 
 .na-footer h2 {
@@ -317,7 +321,7 @@ button:focus-visible,
 }
 
 .na-footer .na-footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid var(--na-hairline);
   margin-top: var(--na-space-6);
   padding-top: var(--na-space-4);
   font-size: var(--na-fs-small);
@@ -397,11 +401,12 @@ button:focus-visible,
   color: var(--na-dark-ink);
 }
 
-/* El kicker pasa de chip mint (pensado para fondos claros — ilegible sobre
-   negro) a rótulo desnudo: mismo texto, misma jerarquía, sin superficie
-   propia. Scoped a .na-hero: el badge "Recomendado" en servicios (fondo
-   claro) sigue usando el chip .na-eyebrow global sin cambios. */
-.na-hero .na-eyebrow {
+/* El kicker/badge pasa de chip mint (pensado para fondos claros — ilegible
+   sobre negro) a rótulo desnudo: mismo texto, misma jerarquía, sin
+   superficie propia. El badge "Recomendado" de Servicios se suma acá
+   ahora que esa sección también es oscura (Bloque 3, mapa de ritmo). */
+.na-hero .na-eyebrow,
+.na-service-card .na-eyebrow {
   background: none;
   color: var(--na-green);
   padding: 0;
@@ -409,9 +414,18 @@ button:focus-visible,
 }
 
 /* Foco visible sobre negro (riesgo del brief A): el anillo verde-profundo
-   del sistema rinde ~3.7:1 sobre negro, insuficiente — acá pasa a blanco. */
+   del sistema rinde ~3.7:1 sobre negro, insuficiente — en toda superficie
+   oscura de la Dirección A pasa a blanco. Bloque 3 extiende esta lista a
+   medida que el resto de la landing migra a fondo negro. */
 .na-hero a:focus-visible,
-.na-hero .btn:focus-visible {
+.na-hero .btn:focus-visible,
+.na-sobre-mi a:focus-visible,
+.na-services a:focus-visible,
+.na-services .btn:focus-visible,
+.na-testimonios a:focus-visible,
+.na-cierre a:focus-visible,
+.na-cierre .btn:focus-visible,
+.na-footer a:focus-visible {
   outline-color: var(--na-white);
 }
 
@@ -482,10 +496,24 @@ button:focus-visible,
 }
 
 /* La fuente es un retrato alto (750×1280) con mucho aire arriba de la
-   cabeza y piso abajo — sin fijar el foco, el recorte central del círculo
-   cortaría cara/torso. */
+   cabeza y piso abajo. object-position sola (cover) todavía dejaba a
+   Andrés chico compitiendo con el gimnasio de fondo — el scale + su
+   transform-origin cerca de la cara cierran el recorte para que domine el
+   círculo de pecho para arriba, sin tocar el presupuesto de glow (sigue
+   siendo el único filter del contenedor, ver .foto-duotono).
+   Intensidad ajustada (PO + MASTER §6.3): la receta base del duotono es
+   demasiado fuerte para el hero — el objetivo es integrar a Andrés a la
+   paleta oscura, no volverlo irreconocible. Menos grayscale/contraste, más
+   brillo y (abajo) un overlay más tenue para distinguir cara y camiseta. */
 .na-hero-photo img {
-  object-position: 50% 18%;
+  object-position: 50% 20%;
+  transform: scale(2.2);
+  transform-origin: 50% 20%;
+  filter: grayscale(0.75) contrast(1.05) brightness(0.85);
+}
+
+.na-hero-photo::after {
+  opacity: 0.55;
 }
 
 /* Títulos de sección (MASTER §3) con la Barra de Impulso: el kicker del
@@ -546,8 +574,18 @@ button:focus-visible,
    Servicios y precios (HU-02)
    ------------------------------------------------------------ */
 
+/* Dirección A: la "Sala Iluminada" del brief original es el formulario de
+   /agendar (MASTER §6.6), no esta sección — Servicios respira negro con el
+   resto del cuerpo de la landing y solo el banner del programa arriba
+   queda como respiro claro deliberado (ver mapa de ritmo, MASTER §6.2). */
 .na-services {
-  background: var(--na-gray-100);
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
+}
+
+.na-services .na-section-title {
+  color: var(--na-white);
 }
 
 /* Respiro para el FAB de WhatsApp (MASTER §7: no tapar CTAs): la banda del
@@ -561,25 +599,31 @@ button:focus-visible,
   }
 }
 
+/* Superficie plana con borde hairline (MASTER §6.2): sin glass, sin
+   sombra en reposo — la card se lee por su borde, no por un bloque de
+   color distinto al fondo de la sección. */
 .na-service-card {
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--na-white);
+  background: var(--na-dark-bg);
+  border: 1px solid var(--na-hairline);
   border-radius: var(--na-radius-md);
-  box-shadow: var(--na-shadow-card);
   padding: var(--na-space-4);
   overflow: hidden; /* recorta la barra degradada de la card destacada */
-  transition: transform var(--na-dur-base) var(--na-ease-out),
-              box-shadow var(--na-dur-base) var(--na-ease-out);
+  transition: border-color var(--na-dur-base) var(--na-ease-out),
+              box-shadow var(--na-dur-base) var(--na-ease-out),
+              transform var(--na-dur-base) var(--na-ease-out);
 }
 
-/* Hover según MASTER §8: elevación con tinte verde + rise, 250ms */
+/* Tinte al Tacto, variante oscura (MASTER §8.1): la elevación es luz — el
+   borde se enciende en verde + un único glow, nunca una sombra gris. */
 @media (hover: hover) and (pointer: fine) {
   .na-service-card:hover {
+    border-color: var(--na-green);
+    box-shadow: var(--na-glow-cta);
     transform: translateY(-4px);
-    box-shadow: var(--na-shadow-card-hover);
   }
 }
 
@@ -613,14 +657,17 @@ button:focus-visible,
   line-height: 1.2;
   min-height: 2.4em; /* reserva de 2 líneas de título */
   margin-bottom: var(--na-space-2);
+  color: var(--na-white); /* el h3 global fuerza negro (invisible sobre la card oscura) */
 }
 
 .na-service-desc {
-  color: var(--na-gray-500);
+  color: var(--na-dark-ink); /* Gris Secundario solo pasa AA sobre blanco */
   margin-bottom: var(--na-space-3);
 }
 
-/* Cifra protagonista (MASTER §3): Barlow Condensed + tabular-nums */
+/* Cifra protagonista (MASTER §3): Barlow Condensed + tabular-nums. Color
+   base pensado para tarjetas claras (se reusa en /programa) — sobre la
+   card oscura de Servicios se sobreescribe a blanco más abajo. */
 .na-price {
   font-family: var(--na-font-heading);
   font-size: var(--na-fs-price);
@@ -632,11 +679,15 @@ button:focus-visible,
   margin-top: auto; /* ancla precio+meta+botón al fondo: riel de precios parejo */
 }
 
+.na-service-card .na-price {
+  color: var(--na-white);
+}
+
 .na-service-meta {
   display: grid;
   gap: var(--na-space-2);
   margin: var(--na-space-3) 0 var(--na-space-4);
-  color: var(--na-gray-700);
+  color: var(--na-dark-ink);
   font-size: var(--na-fs-small);
   /* reserva de 2 filas (1.6 = line-height) aunque la card tenga 1 metadato:
      mantiene el riel de botones sin depender del contenido */
@@ -649,25 +700,42 @@ button:focus-visible,
   gap: var(--na-space-2);
 }
 
+/* Regla del Verde Legible: verde profundo se hunde sobre negro (~2:1) —
+   sobre la card oscura el ícono usa el verde brillante (8.6:1). */
 .na-service-meta svg {
-  color: var(--na-green-dark);
+  color: var(--na-green);
   flex-shrink: 0;
 }
 
 /* ------------------------------------------------------------
-   Sobre mí
+   Sobre mí — Dirección A: fondo negro (mapa de ritmo, MASTER §6.2),
+   continúa el bloque oscuro que abre la página (hero→trustbar→acá) hasta
+   respirar en Servicios.
    ------------------------------------------------------------ */
 
-/* Marco de la foto: borde fino con el degradado de marca (eco del aro del
-   logo) sobre esquinas de card. width 100% + height auto mantiene proporción. */
-.na-photo-frame {
-  background: var(--na-gradient-brand);
-  padding: 4px;
-  border-radius: var(--na-radius-md);
-  box-shadow: var(--na-shadow-card);
+.na-sobre-mi {
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline); /* separa del negro de la trustbar sin cambiar de color */
 }
 
-.na-photo-frame img {
+.na-sobre-mi .na-section-title {
+  color: var(--na-white);
+}
+
+/* Ajuste de criterio del PO sobre el Bloque 3: esta sección construye
+   confianza — Andrés se ve real, en color natural, nunca grayscale. Se
+   integra a la superficie oscura por el MARCO (el degradado de marca, eco
+   del aro) y una sola sombra verde suave, no recoloreando la piel. */
+.na-sobre-mi-photo {
+  display: block;
+  padding: 4px;
+  border-radius: var(--na-radius-md);
+  background: var(--na-gradient-brand);
+  box-shadow: var(--na-glow-photo); /* única sombra de este elemento, suave y verde */
+}
+
+.na-sobre-mi-photo img {
   display: block;
   width: 100%;
   height: auto;
@@ -675,27 +743,43 @@ button:focus-visible,
 }
 
 /* ------------------------------------------------------------
-   Testimonios (HU-10, paso 7) — data-ready, oculta sin datos
+   Testimonios (HU-10, paso 7) — data-ready, oculta sin datos. Vestida en
+   Dirección A aunque hoy no emita nada al HTML (lista vacía, th:if sobre
+   la sección completa): cuando el PO traiga testimonios reales, aparecen
+   ya con esta estética, sin tocar CSS.
    ------------------------------------------------------------ */
 
+.na-testimonios {
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
+}
+
+.na-testimonios .na-section-title {
+  color: var(--na-white);
+}
+
+/* Superficie plana con hairline (MASTER §6.2), igual que las cards de
+   Servicios — sin hover: son cards de lectura, no interactivas. */
 .na-testimonio-card {
   height: 100%;
-  background: var(--na-white);
+  background: var(--na-dark-bg);
+  border: 1px solid var(--na-hairline);
   border-radius: var(--na-radius-md);
-  box-shadow: var(--na-shadow-card);
   padding: var(--na-space-5) var(--na-space-4) var(--na-space-4);
   display: flex;
   flex-direction: column;
 }
 
-/* Comilla decorativa: eco del aro, nunca más de un acento por card */
+/* Comilla decorativa: eco del aro, nunca más de un acento por card. Ya
+   era verde brillante — sobre negro pasa de decorativo a AA (8.6:1). */
 .na-testimonio-quote {
   color: var(--na-green);
   margin-bottom: var(--na-space-2);
 }
 
 .na-testimonio-texto {
-  color: var(--na-gray-700);
+  color: var(--na-dark-ink); /* Gris Cuerpo solo pasa AA sobre blanco */
   font-size: var(--na-fs-lead);
   margin-bottom: var(--na-space-4);
 }
@@ -711,10 +795,13 @@ button:focus-visible,
   font-family: var(--na-font-heading);
   font-weight: 700;
   font-size: var(--na-fs-h3);
+  color: var(--na-white);
 }
 
+/* Regla del Verde Legible: verde profundo se hunde sobre negro — el
+   detalle del resultado usa el brillante. */
 .na-testimonio-detalle {
-  color: var(--na-green-dark);
+  color: var(--na-green);
   font-weight: 600;
   font-size: var(--na-fs-small);
   text-transform: uppercase;
@@ -729,15 +816,33 @@ button:focus-visible,
   background: var(--na-black);
   color: var(--na-white);
   text-align: center;
+  border-top: 1px solid var(--na-hairline); /* separa del negro de arriba (servicios/testimonios) */
 }
 
+/* Cierre cinematográfico (MASTER §6.2): mayúsculas + tracking mínimo, eco
+   del H1 póster del hero — el mismo lenguaje tipográfico abre y cierra la
+   página. Sigue siendo h2 (jerarquía intacta, un solo H1 por página). */
 .na-cierre .na-section-title {
   color: var(--na-white);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* .text-center (Bootstrap) centra la barra de impulso bajo el h2; .na-cierre
+   centra por su propio text-align, así que se repite acá la regla. */
+.na-cierre .na-section-title::after {
+  margin-inline: auto;
 }
 
 .na-cierre .na-lead {
   color: var(--na-gray-200);
   margin-inline: auto;
+}
+
+/* El CTA primario emite luz: única sombra verde de este elemento
+   (presupuesto de glow, MASTER §6.6 — igual que el CTA del hero). */
+.na-cierre .btn-primary {
+  box-shadow: var(--na-glow-cta);
 }
 
 /* Marcador visible de dato pendiente. Único uso vivo: el [PRECIO PENDIENTE]

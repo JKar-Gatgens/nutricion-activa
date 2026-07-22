@@ -118,15 +118,18 @@
          banner del programa desde HU-12): no forma parte del orden que pidió
          el PO en docs/comparativo-pia.md, es señal de credibilidad inmediata
          a la apertura, no una parada propia del recorrido. -->
-    <section id="sobre-mi" class="na-section">
+    <section id="sobre-mi" class="na-section na-sobre-mi">
         <div class="container">
             <div class="row align-items-center gy-5">
                 <div class="col-12 col-md-5 col-lg-4" data-reveal>
-                    <div class="na-photo-frame">
+                    <!-- Ajuste del PO: esta sección construye confianza, Andrés se ve
+                         real y en color natural — se integra a la superficie oscura
+                         por el marco (degradado de marca + glow), no por el duotono. -->
+                    <figure class="na-sobre-mi-photo m-0">
                         <img th:src="@{/img/andres.webp}" src="../static/img/andres.webp"
                              alt="Andrés, nutricionista de Nutrición Activa"
                              width="720" height="887" loading="lazy" decoding="async">
-                    </div>
+                    </figure>
                 </div>
                 <div class="col-12 col-md-7 offset-lg-1">
                     <h2 class="na-section-title mb-3" data-reveal>
@@ -200,14 +203,19 @@
                                 <span th:text="${servicio.modalidad}">Virtual o a domicilio</span>
                             </li>
                         </ul>
+                        <!-- btn-outline-dark (borde/texto negro) es invisible sobre la
+                             card oscura de Dirección A -- btn-outline-light ya existe
+                             para esto (mismo tratamiento que el WhatsApp del hero). La
+                             distinción funcional Agendar/Solicitar (negocio, no estética)
+                             se conserva: verde vs. secundario. -->
                         <a th:if="${servicio.agendable}"
                            class="btn"
-                           th:classappend="${servicio.destacado} ? 'btn-primary' : 'btn-outline-dark'"
+                           th:classappend="${servicio.destacado} ? 'btn-primary' : 'btn-outline-light'"
                            th:href="@{/agendar(servicio=${servicio.id})}"
                            th:attr="aria-label=|Agendar ${servicio.nombre}|">Agendar</a>
                         <!-- No agendable (protocolo/rutina, HU-04): se piden por WhatsApp, no tienen horario propio -->
                         <a th:unless="${servicio.agendable}"
-                           class="btn btn-outline-dark"
+                           class="btn btn-outline-light"
                            th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text=|Hola Andrés, quiero información sobre ${servicio.nombre}|)}"
                            target="_blank" rel="noopener noreferrer"
                            th:attr="aria-label=|Solicitar ${servicio.nombre} por WhatsApp|">Solicitar por WhatsApp</a>
@@ -228,7 +236,7 @@
          section con th:if no se imprimiera). No anidar aquí dentro otro
          comentario con esa misma sintaxis: el primer cierre encontrado
          termina el bloque completo antes de tiempo. */-->
-    <section id="testimonios" class="na-section" th:if="${not #lists.isEmpty(testimonios)}">
+    <section id="testimonios" class="na-section na-testimonios" th:if="${not #lists.isEmpty(testimonios)}">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="na-section-title mb-3" data-reveal>
