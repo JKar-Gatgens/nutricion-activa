@@ -5,7 +5,101 @@
 
 ---
 
+## v2.4 — 2026-07-23: el PO descarta el tablero — el "90" vuelve al aro (corrige 6.4b)
+
+v2.3 había redefinido el "90" de `/programa` como contador/tablero tipo calendario
+(ejecutando lo que ya pedía v2.1). El PO probó esa versión y la descartó: **vuelve la
+composición original de Bloque 4** — el "90" dentro del aro degradado encendido sobre
+negro, tal como estaba antes de v2.1/v2.3. La única pieza que se conserva del intento
+del tablero es el **count-up**: la cifra ahora cuenta de 0 a 90 una sola vez al entrar
+en viewport, dentro del aro (antes nacía directamente en su valor final).
+
+- **6.4(b) se corrige de nuevo**: ya no dice "contador/tablero tipo calendario" — ese
+  texto describía una decisión que el PO revirtió. El "90" vive otra vez en el aro
+  (`.na-programa-cifra`, no `.na-programa-contador` — clase retirada). El glow
+  `--na-glow-ring` vuelve a estar en uso (dejó de estar "disponible pero sin uso").
+  Encendido sigue siendo el clímax de entrada, sin cambios de marco.
+- **Se conserva de v2.3**: el count-up (`countup.js`, una sola vez, nunca en loop, rama
+  `prefers-reduced-motion` con el valor final estático) — ahora corriendo sobre
+  `.na-programa-cifra-num` en vez de `.na-programa-contador-num`.
+- **Sin cambios en la landing**: 6.3-bis/6.3-ter y Revelado del Aro (territorio claro,
+  v2.2/v2.3) no se tocan — esta corrección es exclusiva de `/programa`.
+- **Sin tokens nuevos.** Ninguno de los tokens usados por el tablero descartado se
+  elimina (los introdujo v2/v2.1, no v2.3): siguen existiendo tal cual, ya no hay
+  ningún consumidor del patrón de tablero para el "90" específicamente.
+
+---
+
+## v2.3 — 2026-07-23: entrada cinematográfica clara (6.4a) + el "90" como tablero (6.4b, implementado — REVERTIDO por v2.4)
+
+> **Revertido por v2.4 (arriba) en la parte del "90".** El PO probó el
+> contador/tablero tipo calendario y pidió volver al aro degradado — ver 6.4b
+> corregido. La parte de esta sección sobre el hero de la landing (6.4a, Revelado
+> del Aro) sigue vigente tal cual, no se tocó.
+
+Dos cierres pendientes del rollout, uno por territorio.
+
+- **Territorio claro — momento wow (a), reincorporado.** v2.1 lo había retirado
+  ("la landing no tiene entrada cinematográfica"); se reincorpora, pero como versión
+  propia de superficie clara, no como el Encendido oscuro que existía antes del
+  Bloque 5. Nuevo patrón con nombre: **Revelado del Aro** (§8.1) — en fondo blanco el
+  glow no sirve (Regla del Verde Legible), así que el drama es puro movimiento: el
+  texto del hero pasa a Ascenso Escalonado (antes usaba Cascada genérica) y, como
+  clímax, el aro escala a su lugar mientras la foto se revela adentro con un instante
+  propio de rezago. Implementado en `styles.css`/`index.html`.
+- **Territorio oscuro — momento wow (b), implementado.** El "90" ejecuta la
+  redefinición que ya fijó v2.1: deja el aro degradado (y su glow `--na-glow-ring`,
+  que sigue existiendo como token pero ya no lo usa este elemento) y pasa a ser un
+  contador/tablero tipo calendario — superficie plana con hairline, cifra verde
+  brillante, misma gramática que el tablero de 6.5 pero como pieza protagonista.
+  Conserva Encendido como clímax de entrada (ya no anima un aro, anima la tarjeta) y
+  suma count-up de una sola vez (`countup.js`, nunca en loop, rama reduced-motion con
+  el valor final estático desde el primer render — el HTML ya lo trae en texto).
+- **Sin tokens nuevos de color/sombra.** Solo una duración nueva: `--na-dur-revelado`
+  (700ms), hermana de `--na-dur-encendido` para el clímax de territorio claro.
+- **Sin cambios de copy ni de estructura de secciones** — ambos son tratamiento de
+  presentación de datos/imágenes ya existentes.
+
+---
+
+## v2.2 — 2026-07-23: la foto del hero es pieza de diseño, no foto cruda (corrige 6.3-bis)
+
+El PO vio la landing clara ya implementada (Sprint 4, Bloque 5) y corrigió una
+instrucción propia: había pedido "color natural, sin duotono ni glow" para la foto del
+hero pensando en el criterio que ya valía para "Sobre mí" (foto documental, de
+confianza) — pero el hero es una pieza compuesta de diseño (el aro, el marco, la firma
+de marca), no una foto suelta. Sin tratamiento se veía plana y pegada sobre el fondo
+claro, con el ruido del gimnasio (pelotas, bandas) compitiendo con Andrés por la
+atención.
+
+- **Nueva receta de imaginería para territorio claro** (6.3-ter): duotono suave de
+  marca — desaturación **parcial** (no total, a diferencia de 6.3) + tinte verde a
+  **baja** intensidad + viñeta **clara** que aclara el fondo hacia los bordes en vez de
+  oscurecerlo (dirección opuesta a la viñeta de 6.3, que es para fondo oscuro) + realce
+  leve de contraste para que no se vea lavada sobre blanco.
+- **6.3-bis se corrige**: ya no dice "color natural, sin duotono, sin overlay de
+  tinte" — esa instrucción era la equivocada. El criterio de marco que sí sigue vigente
+  tal cual (el aro degradado como marco, `--na-shadow-card` como única sombra, sin
+  glow) no cambia; lo que cambia es el tratamiento de la imagen dentro del aro, ahora
+  descrito en 6.3-ter.
+- **"Sobre mí" NO cambia** — sigue en color natural, sin tratamiento. Es la foto
+  documental que sostiene "soy una persona real" (PRODUCT.md, "Sin prueba, sin
+  promesa"), no una pieza decorativa; teñirla arriesga la piel y le resta a su función
+  de prueba social. Se evaluó aplicarle 6.3-ter y se descartó explícitamente por esta
+  razón.
+- **Sin tokens nuevos**: la receta reutiliza `--na-gradient-brand` (el mismo degradado
+  ya presente en el marco) a una opacidad baja. El Presupuesto de Glow (§6.6) no se
+  toca: `--na-shadow-card` sigue siendo la única sombra del elemento — el tinte y la
+  viñeta son overlays de color, no sombras, y no se apila ningún `--na-glow-*`.
+
+---
+
 ## v2.1 — 2026-07-23: el PO revisa a mitad de rollout — dirección HÍBRIDA (D-21 actualizado)
+
+> **Corregido por v2.2 (arriba) en el punto de la foto del hero**: donde este bloque
+> dice "tratamiento natural (no duotono)" para la foto del aro, leer "duotono suave de
+> marca" (6.3-ter). El resto de esta sección (los dos territorios, el resto de
+> decisiones) sigue vigente tal cual.
 
 Con `/programa` ya migrado (Bloque 4) y la apertura + el resto de la landing también
 migrados (Bloques 2 y 3), el PO vio el sitio completo en Dirección A y revisó su
@@ -180,7 +274,7 @@ explícitamente a este territorio.
 | `--na-hairline` | `rgba(255, 255, 255, 0.08)` | Borde de superficie plana sobre fondo oscuro (divisores, marcos). Sustituye a la sombra: una sombra oscura no se ve sobre negro, un hairline sí. Sin glass, sin texturas. |
 | `--na-glow-cta` | `0 0 32px rgba(0, 192, 80, 0.35)` | El único glow del CTA primario sobre fondo oscuro de `/programa` — "el botón emite luz". |
 | `--na-glow-photo` | `0 0 48px rgba(0, 192, 80, 0.45)` | Glow para marcos de fotografía sobre fondo oscuro, si `/programa` los necesita. **Ya no aplica al hero de la landing** (v2.1 lo devuelve a superficie clara — ver 6.3-bis, tratamiento sin glow). |
-| `--na-glow-ring` | `0 0 44px rgba(0, 192, 80, 0.45)` | **Reasignado por v2.1**: ya no es "el aro con el 90 adentro" (retirado, ver 6.4b) — es el glow disponible para el contador/tablero-calendario del "90" en `/programa`, si su diseño lo pide. |
+| `--na-glow-ring` | `0 0 44px rgba(0, 192, 80, 0.45)` | El glow del aro que enciende el "90" de `/programa` (6.4b). v2.1/v2.3 lo habían dado de baja probando un tablero plano sin aro; v2.4 revirtió esa prueba y el token volvió a su uso original. |
 
 Un elemento usa **como máximo uno** de los tres tokens de glow — nunca dos apilados
 (Presupuesto de Glow, §6.6). `--na-dark-bg` y `--na-dark-ink` son alias deliberados de
@@ -370,8 +464,9 @@ h1, h2, h3, h4, .display-1, .display-2, .display-3 {
 Madrugada" ya no es la ley de todo el sitio, es la ley de **`/programa`**. La
 **landing** (`index.html`) vuelve a regirse por v1 ("Energía atlética por bloques",
 6.1) sin polaridad invertida — blanco/gris/negro-acento, como antes del Bloque 2 —
-con una sola pieza nueva: la foto real de Andrés dentro del aro del hero, tratada en
-color natural (6.3-bis), no en duotono.
+con una sola pieza nueva: la foto real de Andrés dentro del aro del hero, con un
+duotono suave de marca pensado para superficie clara (6.3-bis, 6.3-ter) — no el
+duotono de alto contraste de `/programa` (6.3).
 
 `/programa` sigue siendo el gimnasio a las 5 de la mañana: oscuridad total, un solo
 color encendido, la sensación de que el mundo todavía duerme y vos ya estás
@@ -442,54 +537,136 @@ Esto es **tratamiento, no maquillaje**: sigue rigiendo "Sin prueba, sin promesa"
 cualquier foto real que el PO entregue a la paleta oscura, sin importar su calidad de
 origen (gimnasio con luces mixtas, fondo ocupado, etc.).
 
-**v2.1 — ya no aplica a la landing.** Antes de esta revisión, el plan era migrar todas
-las fotos reales (incluida `andres-hero.jpeg` del hero y `andres.webp` de "Sobre mí") a
-este tratamiento. Eso se revierte: ninguna foto de la landing usa duotono — ver 6.3-bis.
+**v2.1 — ya no aplica igual en la landing.** Antes de esta revisión, el plan era migrar
+todas las fotos reales (incluida `andres-hero.jpeg` del hero y `andres.webp` de "Sobre
+mí") a este tratamiento de alto contraste. Eso se revierte para las dos: ninguna foto
+de la landing usa **este** duotono (grayscale total + tinte al 0.85 + viñeta oscura) —
+la de "Sobre mí" queda en color natural sin tratamiento, y la del hero recibe en
+cambio una versión propia, mucho más suave, pensada para superficie clara — ver
+6.3-bis y 6.3-ter (nueva en v2.2).
 
 ### 6.3-bis La landing: la foto de Andrés en el aro (territorio claro, nuevo en v2.1)
 
 El hero de `index.html` reemplaza el logo dentro del aro por la **foto real de
-Andrés**, en color natural — nada de grayscale, nada de overlay de tinte, nada de
-glow. Es una superficie clara: se integra por el **marco**, no por el color, igual
-criterio que ya validó el PO para "Sobre mí" antes de que esa sección volviera a la
-landing clara:
+Andrés**. Es una superficie clara: se integra primero por el **marco**, no por el
+color — el mismo criterio que ya rige "Sobre mí" (marco degradado + sombra de
+reposo, sin glow):
 
 - El aro degradado (`--na-gradient-brand`) sigue siendo el marco — el mismo "eco del
   aro del logo" que ya describía v1, ahora con contenido real adentro en vez del
   logotipo.
 - Sombra: `--na-shadow-card` (la sombra ambiental de reposo de v1) — **no**
   `--na-glow-photo` ni ningún glow verde. Los glows son vocabulario del territorio
-  oscuro (§2.5); una foto en color natural sobre fondo blanco no los necesita ni los
-  admite sin romper la Regla del Verde Legible en superficie clara.
+  oscuro (§2.5); una foto sobre fondo blanco no los necesita ni los admite sin romper
+  la Regla del Verde Legible en superficie clara.
 - Encuadre: igual criterio que ya se afinó para el hero oscuro (object-position +
   escala si hace falta) para que Andrés se vea reconocible dentro del círculo, no
   recortado — el objetivo compositivo no cambia, solo la paleta.
 
-### 6.4 Momentos wow oficiales (territorio `/programa` — v2.1 los acota ahí)
+**Corregido por v2.2**: el tratamiento de la imagen misma (más allá del marco) **no**
+es color natural sin retocar — es el duotono suave de 6.3-ter. La versión anterior de
+esta entrada decía "nada de grayscale, nada de overlay de tinte"; esa instrucción del
+PO estaba pensada para "Sobre mí" (foto documental) y no para el hero (pieza de
+diseño) — ver 6.3-ter para el criterio corregido y la receta.
 
-Los tres momentos wow ya vivían todos en `/programa` o en la apertura de la landing;
-v2.1 confirma que, con la landing de vuelta a superficie clara, **los momentos wow son
-un concepto exclusivo de `/programa`** — la página insignia de la Dirección A.
+### 6.3-ter La landing: duotono suave de marca para el hero (territorio claro, nuevo en v2.2)
 
-**(a) [RETIRADO] El Encendido del hero de la landing.** Ya no existe: la landing volvió
-a superficie clara (6.1) y no tiene una entrada cinematográfica oscura — el hero usa el
-Revelado en Cascada genérico de siempre, igual que el resto del sitio en v1. La foto de
-Andrés sigue siendo protagonista del hero (dentro del aro, 6.3-bis), pero como elemento
-compuesto de siempre, no como clímax de una secuencia Encendido.
+La foto del hero es una **pieza compuesta de diseño** — vive dentro del aro, junto al
+resto de la composición del hero — no una foto documental suelta como la de "Sobre
+mí" (que sí queda en color natural, ver nota al final). Sin tratamiento, se lee como
+una foto cruda pegada sobre el fondo claro: plana, con el ruido del gimnasio (pelotas,
+bandas de la imagen fuente) compitiendo con Andrés por la atención. La receta es un
+duotono de marca **mucho más suave** que el de `/programa` (6.3) — misma lógica
+(desaturar, teñir con el degradado, hundir el fondo), intensidad muy por debajo para
+que la imagen conserve su lugar en una superficie clara:
 
-**(b) El "90" de `/programa` — de "dentro del aro" a contador/tablero.** *Redefinido
-por v2.1.* Ya no vive dentro de un aro degradado encendido (esa versión se retira junto
-con su glow `--na-glow-ring` asociado a esa forma — el token sigue existiendo, ver
-2.5). Pasa a presentarse como un **contador/tablero tipo calendario**: la Cifra
-Protagonista ("90") sobre una superficie plana con hairline (no un aro), en la
-gramática de "dato de tablero" que exploró la Dirección B ("Dorsal 90"), pero con los
-colores y superficies de la Dirección A — fondo negro, cifra en verde brillante o
-blanco, hairline en vez de sombra. *No confundir con el tablero de 6.5* ("El programa,
-en números"): son dos piezas distintas — esta es la pieza protagonista del hero: el
-componente de 6.5 es la sección de datos que va después, sin cambios. El diseño visual
-exacto del contador/calendario queda para el bloque de implementación que lo construya;
-esta entrada fija el criterio (calendario/tablero, no aro; paleta A). *Pendiente de
-implementación.*
+```css
+/* Contenedor que aloja el tratamiento — separado del aro (.na-hero-photo)
+   para que el tinte/viñeta no bañen también la banda del marco. */
+.na-hero-photo-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+/* Desaturación PARCIAL (0.45, no 1 como en 6.3) + contraste leve: reconocible
+   como foto real, pero ya no compite en saturación con el fondo blanco. */
+.na-hero-photo-frame img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.45) contrast(1.1) saturate(0.9);
+}
+/* Tinte de marca a intensidad BAJA (0.16, no 0.85 como en 6.3) */
+.na-hero-photo-frame::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--na-gradient-brand);
+  mix-blend-mode: color;
+  opacity: 0.16;
+}
+/* Viñeta CLARA — opuesta a la de 6.3: aclara hacia los bordes en vez de
+   oscurecer, hundiendo el ruido de fondo hacia el blanco de la página. */
+.na-hero-photo-frame::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(circle at 50% 24%, transparent 45%, rgba(255, 255, 255, 0.7) 100%);
+}
+```
+
+Reglas duras de esta receta (obligatorias, no ajustables por bloque de implementación
+sin volver a pasar por este documento):
+
+- **Andrés debe seguir siendo reconocible** — la cara y la camiseta de marca son lo
+  que vende confianza; ninguna combinación de filtro/tinte puede llevarlo a
+  silueta o a irreconocible. Si un ajuste futuro de intensidad lo compromete, retroceder
+  el valor, no el criterio.
+- **Una sola sombra por elemento** (Presupuesto de Glow, §6.6): esta receta no agrega
+  ninguna — `--na-shadow-card` en `.na-hero-photo` (6.3-bis) sigue siendo la única. El
+  tinte y la viñeta son overlays de color (`mix-blend-mode`, `radial-gradient`), no
+  `box-shadow`/`filter: drop-shadow`.
+- **CSS vanilla**, sin librerías de imagen ni canvas — mismo mecanismo que 6.3
+  (filter + pseudo-elementos), solo con otros valores y otra dirección de viñeta.
+- **No es maquillaje de "Sin prueba, sin promesa"** (PRODUCT.md): el tratamiento no
+  disfraza que la foto es real, solo la integra a la paleta — igual principio que 6.3,
+  aplicado en la otra dirección de superficie.
+
+**"Sobre mí" queda fuera de esta receta, a propósito.** Es la foto documental que
+sostiene "soy una persona real" ante quien todavía no decidió agendar — su función es
+prueba social, no composición decorativa. Teñirla arriesga la piel (el detalle que más
+importa reconocer ahí) a cambio de una coherencia visual marginal. Si un bloque futuro
+quiere evaluarlo de nuevo, el criterio de corte es ese: solo aplicar 6.3-ter ahí si el
+resultado no tiñe la piel de forma perceptible: si lo hace, se descarta.
+
+### 6.4 Momentos wow oficiales (uno por territorio, más el de `/programa`)
+
+Los tres momentos wow ya vivían todos en `/programa` o en la apertura de la landing.
+v2.1 los había acotado a `/programa` en solitario al retirar el (a); **v2.2/v2.3 lo
+reincorporan** con una versión propia de superficie clara — los momentos wow vuelven a
+repartirse entre los dos territorios, cada uno con el vocabulario que le corresponde
+(glow en `/programa`, movimiento puro en la landing).
+
+**(a) El clímax del hero — versión por territorio.** *Reincorporado por v2.2/v2.3,
+implementado.* v2.1 lo había retirado por completo; se reincorpora porque la foto del
+hero SÍ necesita ser un clímax de composición (6.3-ter), solo que ya no puede ser el
+Encendido oscuro original:
+- **Landing (territorio claro):** el texto pasa a Ascenso Escalonado (antes usaba
+  Cascada genérica) y el clímax es **Revelado del Aro** (§8.1, nuevo) — el aro escala a
+  su lugar y la foto se revela adentro con un instante propio de rezago. Sin glow (no
+  funciona sobre blanco, Regla del Verde Legible): el drama es puro movimiento.
+- **`/programa` (territorio oscuro):** sin cambios — Encendido original, glow incluido.
+
+**(b) El "90" de `/programa` — dentro del aro, con count-up.** *v2.1 lo había
+redefinido a contador/tablero tipo calendario; v2.3 llegó a implementarlo; el PO lo
+probó y pidió volver a la composición original de Bloque 4 — v2.4 revierte.* El "90"
+vive de nuevo **dentro del aro degradado encendido sobre negro** (`.na-programa-cifra`,
+aro hueco vía `mask`, glow `--na-glow-ring` como única sombra del elemento) —
+exactamente como estaba antes de v2.1. *No confundir con el tablero de 6.5* ("El
+programa, en números"): son dos piezas distintas — esta es la pieza protagonista del
+hero: el componente de 6.5 es la sección de datos que va después, sin cambios.
+Encendido (opacity + scale) sigue siendo el clímax de entrada del aro, sin cambios.
+**Lo único nuevo que sí se conserva del intento del tablero:** el número hace count-up
+de una sola vez (`countup.js`, nunca en loop) dentro del aro — antes nacía
+directamente en su valor final. Con `prefers-reduced-motion` o sin
+`IntersectionObserver`, el HTML ya trae el valor final en texto, así que se lee
+estático desde el primer render.
 
 **(c) La banda de módulos como progreso luminoso.** Sin cambios por v2.1. La secuencia
 "Día 1–30 / 31–60 / 61–90" se dibuja como una barra de progreso con el degradado de
@@ -554,7 +731,7 @@ heredadas de v1 son del sitio entero, sin importar el territorio.
 Patrón *Before–After Transformation* (optimizado a conversión para servicios de transformación física):
 
 1. **Navbar** (sticky, blanca, logo izquierda) — enlaces: Servicios · Resultados · Precios · CTA "Agendar cita" (btn-primary, siempre visible).
-2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. **v2.1: fondo claro (v1) — el paso por fondo negro/duotono de v2 (Bloque 2) se revirtió. Única pieza nueva: la foto real de Andrés dentro del aro, en vez del logo (6.3-bis). Pendiente de implementación (revertir Bloque 2/3).**
+2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. **Fondo claro (v1). Pieza nueva: la foto real de Andrés dentro del aro, con duotono suave de marca (6.3-bis/6.3-ter) y Revelado del Aro como clímax de entrada tras el Ascenso Escalonado del texto (6.4a). Implementado — Sprint 4, Bloque 6.**
 3. **Barra de confianza** — cifras rápidas: años de experiencia, clientes transformados, países atendidos. Fondo negro de v1 (acento puntual, no territorio oscuro) — el hairline que le agregó v2 como transición de la apertura oscura ya no aplica; revertir junto con el hero.
 4. **Transformaciones (before–after)** — comparativas reales con métricas concretas; antes en gris desaturado, después a color con acentos verdes. La sección de mayor peso visual (fondo negro).
 5. **Cómo funciona** — 3 pasos: 1) Agenda tu evaluación → 2) Recibe tu plan personalizado → 3) Seguimiento y ajustes. Iconos + números grandes.
@@ -578,29 +755,30 @@ entre bloques negros y vuelve a ser, simplemente, la sección destacada que ya e
 
 **Tono: enérgico pero controlado.** El movimiento comunica impulso (la marca es acción física), pero nunca circo: transiciones cortas, con propósito, una idea animada por sección.
 
-### 8.1 Vocabulario de movimiento (con nombre) — v2
+### 8.1 Vocabulario de movimiento (con nombre) — v2.3
 
-Cinco patrones nombrados, reutilizables en todo el rollout. Todos animan **solo
-`transform` y `opacity`** (nunca width/height/top); con `prefers-reduced-motion: reduce`
-el contenido queda visible al instante, sin excepción.
+Seis patrones nombrados (cinco de v2 + Revelado del Aro, nuevo en v2.3), reutilizables
+en todo el rollout. Todos animan **solo `transform` y `opacity`** (nunca
+width/height/top); con `prefers-reduced-motion: reduce` el contenido queda visible al
+instante, sin excepción.
 
 | Patrón | Qué anima | Duración | Easing | Reduced-motion |
 |---|---|---|---|---|
 | **Encendido** | opacity + scale (desde 0.85–0.92, nunca desde 0); el glow del elemento ya está presente y aparece con la opacidad, no se anima aparte | `--na-dur-encendido` (850ms) | `--na-ease-out` | Visible al instante, sin scale |
+| **Revelado del Aro** *(nuevo, territorio claro)* | Equivalente de Encendido sin glow: el aro escala a su lugar (opacity + scale desde 0.86) y, con 120ms de rezago fijo, la foto adentro se revela (opacity + scale desde 1.18) | `--na-dur-revelado` (700ms) | `--na-ease-out` | Visible al instante, sin scale, ambos elementos |
 | **Ascenso Escalonado** | opacity + `translateY(32px→0)`, stagger ~120ms entre elementos | `--na-dur-ascenso` (550ms) | `--na-ease-out` | Visible al instante, sin desplazamiento |
 | **Revelado en Cascada** | opacity + `translateY(16px→0)`, stagger 40ms, dispara una sola vez vía IntersectionObserver | `--na-dur-cascada` (280ms) | `--na-ease-out` | Visible al instante |
 | **Tinte al Tacto** | color/fondo + glow o sombra-tinte + `translateY(-2px)`/`scale(0.97)` en respuesta a hover/press | `--na-dur-fast` (150ms) / `--na-dur-base` (250ms) | `--na-ease-out` | No es animación de entrada; el motion de transform igual respeta el media query |
 | **Barra de Impulso Luminosa** | `scaleX(0→1)` con `transform-origin: left`, dispara una sola vez al entrar en viewport | `--na-dur-impulso` (1100ms) | `--na-ease-out` | Nace llena (`scaleX(1)` inmediato) |
 
-**Dónde se usa cada uno (v2.1 — el vocabulario sigue siendo del sitio entero, pero
-Encendido y Ascenso Escalonado en la práctica solo tienen candidatos en `/programa`
-ahora que la landing volvió a superficie clara y retiró su Encendido, 6.4a):**
-- *Encendido* → sin uso confirmado hoy (el del hero de la landing se retiró, 6.4a). Si
-  el contador/tablero de 6.4b termina necesitando una entrada con clímax, este es el
-  patrón candidato — a decidir en el bloque de implementación.
-- *Ascenso Escalonado* → sin dueño fijo tras retirar 6.4a; sigue disponible para
-  cualquier bloque de texto de `/programa` que quiera un preludio escalonado antes de
-  un Encendido.
+**Dónde se usa cada uno (v2.3 — el vocabulario vuelve a repartirse entre los dos
+territorios, cada uno con la variante que le corresponde, 6.4a):**
+- *Encendido* → el "90" de `/programa` (6.4b, implementado) y, si algún bloque futuro
+  lo necesita, cualquier otra pieza de `/programa` con glow propio.
+- *Revelado del Aro* → exclusivo del hero de la landing (6.4a, implementado) — la
+  versión de territorio claro de Encendido, sin glow.
+- *Ascenso Escalonado* → el texto de ambos heros (landing y `/programa`) como preludio
+  de su clímax respectivo (Revelado del Aro / Encendido).
 - *Revelado en Cascada* → el reveal genérico que el sitio entero usa desde HU-01
   (`data-reveal`/`reveal.js`), en ambos territorios: landing clara y `/programa` oscuro.
 - *Tinte al Tacto* → ya nombrado en DESIGN.md §4; hover de botones y cards, en ambos
@@ -619,8 +797,10 @@ ahora que la landing volvió a superficie clara y retiró su Encendido, 6.4a):**
 | Press/tap botón | `transform: scale(0.97)`, `150ms`; feedback visual < 100ms | Tinte al Tacto |
 | Hover card | Elevación a `--na-shadow-card-hover` (tinte verde) + `translateY(-4px)`, `250ms` | Tinte al Tacto |
 | Entrada de secciones al scroll | Fade + `translateY(16px→0)`, stagger de 40ms entre cards (IntersectionObserver vanilla, una sola vez) | Revelado en Cascada |
-| Entrada del hero de la landing | Revelado en Cascada genérico, como el resto de v1 (v2.1 retiró el Encendido, 6.4a) | Revelado en Cascada |
-| Cifras del "trust bar" / tablero de números | Count-up al entrar en viewport, ≤ 1s, una sola vez, valores reales del PO | — (sin nombre propio; regla compartida con Barra de Impulso Luminosa: nunca en loop) |
+| Entrada del hero de la landing | Ascenso Escalonado en el texto, clímax Revelado del Aro en la foto (6.4a, implementado — v2.3) | Ascenso Escalonado + Revelado del Aro |
+| Entrada del hero de `/programa` | Ascenso Escalonado en el texto, clímax Encendido en el aro con el "90" (6.4b) | Ascenso Escalonado + Encendido |
+| Cifra del "90" de `/programa` | Count-up 0→valor real al entrar en viewport, 900ms, una sola vez, nunca en loop (`countup.js`, implementado, 6.4b) | — (sin nombre propio; regla compartida con Barra de Impulso Luminosa: nunca en loop) |
+| Cifras del "trust bar" (landing) / tablero de números (6.5) | Mismo criterio si un bloque futuro las anima: ≤ 1s, una sola vez, valores reales del PO. *Pendiente — hoy nacen con su valor final, sin count-up.* | — (sin nombre propio; regla compartida con Barra de Impulso Luminosa: nunca en loop) |
 | Reveal before–after | Slider o crossfade controlado por el usuario — nunca autoplay | — |
 | Botón WhatsApp | Sutil pulse del anillo cada ~6s (opacity/transform only); se detiene tras la primera interacción | — |
 | Submit de formularios | Botón deshabilitado + spinner durante el envío; éxito con check verde; error en rojo junto al campo | — |
@@ -653,7 +833,7 @@ ahora que la landing volvió a superficie clara y retiró su Encendido, 6.4a):**
 - [ ] `alt` descriptivo en fotos de transformaciones; `aria-label` en botones de solo icono
 - [ ] Imágenes WebP con dimensiones declaradas; lazy load bajo el fold; CLS < 0.1 (excepción documentada: `andres-hero.jpeg` con `loading="eager"` por ser LCP del hero — pendiente de conversión a WebP, ver `docs/pendientes.md`)
 - [ ] Sin scroll horizontal en 375px; body ≥ 16px en móvil
-- [ ] `prefers-reduced-motion` respetado en los 5 patrones de 8.1, sin excepción
+- [ ] `prefers-reduced-motion` respetado en los 6 patrones de 8.1 (incluye Revelado del Aro y el count-up de `countup.js`), sin excepción
 - [ ] **Presupuesto de Glow respetado** (territorio `/programa`): ninguna sección apila más de un `--na-glow-*` sobre el mismo elemento (6.6); la landing no usa glow verde en absoluto (6.3-bis)
 - [ ] **Salas Iluminadas intactas**: `/agendar` y su confirmación siguen en superficie clara aunque la sección que las precede sea oscura (6.6)
 - [ ] Probado en 375 / 768 / 1024 / 1440px
@@ -663,3 +843,6 @@ ahora que la landing volvió a superficie clara y retiró su Encendido, 6.4a):**
 *Generado con la skill `ui-ux-pro-max` (patrón Before–After Transformation + estilo Vibrant & Block-based + tipografía Barlow) el 2026-07-10. Paleta muestreada del logo real.*
 *Actualizado a v2 el 2026-07-21: Dirección A "Neón de Madrugada" elegida por el PO (D-21, Sprint 4). Overrides por página: crear `design-system/pages/<pagina>.md`.*
 *Actualizado a v2.1 el 2026-07-23: el PO acota la Dirección A a `/programa`; la landing vuelve a superficie clara con la foto de Andrés en el aro del hero; el "90" pasa de vivir en el aro a un contador/tablero tipo calendario (D-21 actualizado, Sprint 4).*
+*Actualizado a v2.2 el 2026-07-23: el PO corrige su propia instrucción sobre la foto del hero — pieza de diseño, no foto cruda; nueva receta de imaginería en territorio claro (6.3-ter).*
+*Actualizado a v2.3 el 2026-07-23: se implementan el momento (a) reincorporado (Revelado del Aro, territorio claro) y el momento (b) redefinido (el "90" como contador/tablero, territorio oscuro).*
+*Actualizado a v2.4 el 2026-07-23: el PO prueba el tablero del "90" y pide volver al aro degradado de Bloque 4 — se revierte esa parte de v2.3, conservando el count-up dentro del aro.*

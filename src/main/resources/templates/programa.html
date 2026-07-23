@@ -11,9 +11,11 @@
 
     <!-- ========== HERO DEL PROGRAMA (HU-12) ==========
          Momento wow (b), MASTER §6.4b: el "90" dentro del aro degradado
-         encendido sobre negro, con la foto de ambiente de gimnasio hundida
-         de fondo. Ascenso Escalonado para el texto, Encendido para el aro
-         como clímax (más tardío y más largo, igual que el hero del index). -->
+         encendido sobre negro (composición de Bloque 4, recuperada tras
+         probar y descartar la variante de tablero/calendario), con la foto
+         de ambiente de gimnasio hundida de fondo. Ascenso Escalonado para
+         el texto, Encendido para el aro como clímax (más tardío y más
+         largo). Suma count-up de una sola vez dentro del aro (countup.js). -->
     <section class="na-section na-programa-hero">
         <div class="na-programa-hero-bg" aria-hidden="true">
             <img th:src="@{/img/gym-ambiente.jpg}" src="../static/img/gym-ambiente.jpg"
@@ -42,9 +44,13 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-5">
-                    <!-- Cifra Protagonista: el dato central del programa, no decoración -->
+                    <!-- Cifra Protagonista: el dato central del programa, no decoración.
+                         Count-up 0→valor real, una sola vez, nunca en loop (countup.js);
+                         el HTML ya trae el valor final en texto, así que sin JS (o con
+                         reduced-motion) se lee "90" estático desde el primer render. -->
                     <div class="na-programa-cifra na-encendido" data-reveal data-reveal-delay="420">
-                        <span class="na-programa-cifra-num" th:text="${programa.duracionDias}">90</span>
+                        <span class="na-programa-cifra-num" th:text="${programa.duracionDias}"
+                              th:attr="data-countup=${programa.duracionDias}">90</span>
                         <span class="na-programa-cifra-label"
                               th:text="|días · ${#lists.size(programa.modulos)} módulos|">días · 3 módulos</span>
                     </div>
@@ -279,6 +285,7 @@
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 
 <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+<script th:src="@{/js/countup.js}" defer></script>
 
 </body>
 </html>
