@@ -406,7 +406,8 @@ button:focus-visible,
    superficie propia. El badge "Recomendado" de Servicios se suma acá
    ahora que esa sección también es oscura (Bloque 3, mapa de ritmo). */
 .na-hero .na-eyebrow,
-.na-service-card .na-eyebrow {
+.na-service-card .na-eyebrow,
+.na-programa-hero .na-eyebrow {
   background: none;
   color: var(--na-green);
   padding: 0;
@@ -415,8 +416,7 @@ button:focus-visible,
 
 /* Foco visible sobre negro (riesgo del brief A): el anillo verde-profundo
    del sistema rinde ~3.7:1 sobre negro, insuficiente — en toda superficie
-   oscura de la Dirección A pasa a blanco. Bloque 3 extiende esta lista a
-   medida que el resto de la landing migra a fondo negro. */
+   oscura de la Dirección A pasa a blanco. Bloque 4 suma /programa entera. */
 .na-hero a:focus-visible,
 .na-hero .btn:focus-visible,
 .na-sobre-mi a:focus-visible,
@@ -425,7 +425,12 @@ button:focus-visible,
 .na-testimonios a:focus-visible,
 .na-cierre a:focus-visible,
 .na-cierre .btn:focus-visible,
-.na-footer a:focus-visible {
+.na-footer a:focus-visible,
+.na-programa-hero a:focus-visible,
+.na-programa-hero .btn:focus-visible,
+.na-programa-precio a:focus-visible,
+.na-programa-precio .btn:focus-visible,
+.na-superficie-oscura a:focus-visible {
   outline-color: var(--na-white);
 }
 
@@ -438,7 +443,8 @@ button:focus-visible,
 /* El outline-dark normal (borde/texto negro) sería invisible sobre el hero
    oscuro — mismo tratamiento claro que ya usa el CTA secundario del cierre. */
 .na-cierre .btn-outline-light,
-.na-hero .btn-outline-light {
+.na-hero .btn-outline-light,
+.na-programa-hero .btn-outline-light {
   --bs-btn-color: var(--na-white);
   --bs-btn-border-color: var(--na-white);
   --bs-btn-hover-bg: var(--na-white);
@@ -1280,14 +1286,92 @@ button:focus-visible,
    Sprint 4 (D-18).
    ------------------------------------------------------------ */
 
-/* Hook activado (Sprint 4, Bloque 1): el selector ya no está vacío, pero
-   sigue sin la estética Dirección A todavía — eso es el momento wow (b)
-   de MASTER §6.4, "pendiente de implementación". Acá solo se prepara el
-   contenedor (mismo patrón estructural que .na-hero) para que ese bloque
-   futuro pueda poner fondo oscuro, foto/aro y glow sin tocar el layout. */
+/* Momento wow (b) — hook activado en Bloque 1, vestido en Bloque 4 (MASTER
+   §6.4b): fondo negro con la foto de ambiente de gimnasio hundida detrás,
+   el "90" en su aro encendido al frente. */
 .na-programa-hero {
   position: relative;
   overflow: hidden;
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+}
+
+.na-programa-hero h1 {
+  color: var(--na-white);
+  /* El H1 de /programa recupera jerarquía por tamaño bruto (MASTER §3): la
+     escala póster no es solo del hero del index — migra acá también. */
+  font-size: var(--na-fs-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* El contenido vive sobre la foto de ambiente (más abajo): necesita su
+   propio nivel de apilamiento por encima de ella. */
+.na-programa-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* El CTA primario emite luz: única sombra verde de este elemento. */
+.na-programa-hero .btn-primary {
+  box-shadow: var(--na-glow-cta);
+}
+
+/* Fondo atmosférico (static/img/gym-ambiente.jpg). Ajuste tras feedback del
+   PO: el oscurecido uniforme anterior no dejaba ver nada (ni la figura en
+   la caminadora). Ahora es un SCRIM DIRECCIONAL (::before, más abajo): muy
+   oscuro donde vive el texto (columna izquierda), notablemente más claro
+   hacia la columna derecha, donde el gimnasio y la persona entrenando
+   deben leerse de verdad. El brillo base de la foto sube bastante (antes
+   0.35) porque ahora es el scrim, no el filter, el que protege el texto.
+   Cero glow acá — el presupuesto de este bloque lo gasta el aro. */
+.na-programa-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Encuadre: la fuente es un retrato alto (688×1529, con barras negras de
+   letterbox propias del archivo) y el contenedor es ancho y bajo — cover
+   solo puede mostrar una franja horizontal delgada. object-position ubica
+   esa franja sobre la persona (centro real ≈54% del alto de la foto); el
+   scale + transform-origin en el borde izquierdo empuja a la persona hacia
+   la derecha (de ≈54% a ≈70% del ancho visible), lejos de la columna de
+   texto y hacia la zona clara del scrim. */
+.na-programa-hero-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 54%;
+  transform: scale(1.25);
+  transform-origin: 0 50%;
+  filter: grayscale(0.3) brightness(0.85) contrast(1.05);
+}
+
+/* Tiñe el azul del gimnasio hacia el verde de marca */
+.na-programa-hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--na-gradient-brand);
+  mix-blend-mode: color;
+  opacity: 0.3;
+}
+
+/* Scrim direccional: casi opaco sobre la columna de texto (izquierda),
+   se aclara notablemente pasada la mitad para que del lado derecho la
+   foto -- gimnasio, luces, la persona -- se vea de verdad. */
+.na-programa-hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg,
+    rgba(10, 10, 10, 0.94) 0%,
+    rgba(10, 10, 10, 0.9) 42%,
+    rgba(10, 10, 10, 0.55) 62%,
+    rgba(10, 10, 10, 0.22) 100%);
 }
 
 /* Banner del index: única sección Verde Tinte de la página (jerarquía de
@@ -1317,26 +1401,56 @@ button:focus-visible,
   color: var(--na-gray-700);
 }
 
-/* Cifra Protagonista del hero de /programa (MASTER §3): el 90 es el dato
-   central del producto, compuesto en condensada gigante con tabular-nums. */
+/* Momento wow (b) — "Encendido" (MASTER §6.4b): el aro degradado se
+   enciende con el "90" brillando adentro sobre negro. Aro HUECO (mask),
+   a diferencia del disco sólido del hero del index: acá el hueco nunca se
+   lee vacío porque la Cifra Protagonista llena el centro. */
 .na-programa-cifra {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  width: min(420px, 84vw);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  padding: var(--na-space-5);
+  /* El interior del aro es hueco (ver ::before): sin esto, el "90" queda
+     directamente sobre la foto de fondo, que ahora es más clara de este
+     lado (scrim direccional). Este wash es independiente del scrim
+     exterior -- garantiza el contraste del número sin importar qué tan
+     clara quede la foto detrás. No es un glow verde: no cuenta contra el
+     presupuesto de sombra del elemento (eso lo sigue gastando el aro). */
+  background: radial-gradient(circle, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0) 68%);
+}
+
+.na-programa-cifra::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--na-gradient-brand);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
+  filter: drop-shadow(var(--na-glow-ring)); /* única sombra de este elemento */
 }
 
 .na-programa-cifra-num {
+  position: relative;
   font-family: var(--na-font-heading);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   font-size: clamp(6rem, 16vw, 11rem);
   line-height: 1;
-  color: var(--na-black);
+  color: var(--na-white);
 }
 
+/* Regla del Verde Legible: verde profundo se hunde sobre negro — la
+   etiqueta bajo el "90" usa el verde brillante. */
 .na-programa-cifra-label {
-  color: var(--na-green-dark);
+  position: relative;
+  color: var(--na-green);
   font-weight: 600;
   font-size: var(--na-fs-h3);
   font-family: var(--na-font-heading);
@@ -1344,16 +1458,78 @@ button:focus-visible,
   letter-spacing: var(--na-tracking-caps);
 }
 
-/* Módulos: secuencia temporal real (30+30+30) — el número porta información */
-.na-programa-modulos {
-  background: var(--na-gray-100);
+/* Utilidad compartida: secciones de /programa que solo necesitan el fondo
+   negro + hairline + h2 blanco de la Dirección A, sin nada más específico
+   (Qué incluye, el tablero de números). */
+.na-superficie-oscura {
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
 }
 
+.na-superficie-oscura .na-section-title {
+  color: var(--na-white);
+}
+
+/* Módulos: secuencia temporal real (30+30+30) — el número porta información */
+.na-programa-modulos {
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
+}
+
+.na-programa-modulos .na-section-title {
+  color: var(--na-white);
+}
+
+/* Momento wow (c) — Barra de Impulso Luminosa (MASTER §6.4c/§8.1): la
+   secuencia 30+30+30=90 dibujada como progreso que se llena al entrar en
+   viewport, una sola vez. Vive ARRIBA de las 3 cards (que no cambian su
+   contrato: mismo texto, misma clase na-modulo-card) como resumen. */
+.na-progreso-modulos {
+  max-width: 900px;
+  margin: 0 auto var(--na-space-6);
+}
+
+.na-progreso-marcas {
+  display: flex;
+  margin-top: var(--na-space-3);
+}
+
+.na-progreso-marcas li {
+  flex: 1;
+  text-align: center;
+  border-left: 1px solid var(--na-hairline);
+  padding: var(--na-space-2) var(--na-space-2) 0;
+}
+
+.na-progreso-marcas li:first-child {
+  border-left: none;
+}
+
+.na-progreso-num {
+  display: block;
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-size: var(--na-fs-h3);
+  color: var(--na-white);
+}
+
+.na-progreso-dias {
+  color: var(--na-green);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps-sm);
+}
+
+/* Superficie plana con hairline (MASTER §6.2), igual que Servicios: sin
+   sombra en reposo, la card se lee por su borde. */
 .na-modulo-card {
   height: 100%;
-  background: var(--na-white);
+  background: var(--na-dark-bg);
+  border: 1px solid var(--na-hairline);
   border-radius: var(--na-radius-md);
-  box-shadow: var(--na-shadow-card);
   padding: var(--na-space-5) var(--na-space-4);
   text-align: center;
 }
@@ -1378,10 +1554,12 @@ button:focus-visible,
 .na-modulo-nombre {
   font-size: var(--na-fs-h3);
   margin-bottom: var(--na-space-1);
+  color: var(--na-white); /* el h3 global fuerza negro (invisible sobre la card oscura) */
 }
 
+/* Regla del Verde Legible: verde profundo se hunde sobre negro. */
 .na-modulo-dias {
-  color: var(--na-green-dark);
+  color: var(--na-green);
   font-weight: 600;
   font-size: var(--na-fs-small);
   text-transform: uppercase;
@@ -1392,7 +1570,7 @@ button:focus-visible,
 /* Solo existe cuando el PO ya diseñó el módulo (D-19): con descripcion null
    la card termina en los días — sin placeholder, el margen no se reserva. */
 .na-modulo-desc {
-  color: var(--na-gray-500);
+  color: var(--na-dark-ink); /* Gris Secundario solo pasa AA sobre blanco */
   margin: var(--na-space-3) 0 0;
 }
 
@@ -1400,11 +1578,12 @@ button:focus-visible,
   display: grid;
   gap: var(--na-space-2);
   margin: var(--na-space-3) 0 0;
-  color: var(--na-gray-700);
+  color: var(--na-dark-ink);
   font-size: var(--na-fs-small);
 }
 
-/* Qué incluye: icono en círculo tinte + texto, riel horizontal por ítem */
+/* Qué incluye: icono en círculo con hairline + texto, riel horizontal por
+   ítem. El chip tinte (pensado para fondo claro) pasa a contorno hairline. */
 .na-incluye-item {
   display: flex;
   align-items: center;
@@ -1419,33 +1598,40 @@ button:focus-visible,
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--na-green-tint);
-  color: var(--na-green-dark);
+  background: none;
+  border: 1px solid var(--na-hairline);
+  color: var(--na-green);
 }
 
 .na-incluye-texto {
   font-weight: 500;
 }
 
-/* Precio: card blanca con la barra degradada del sistema (na-card-featured);
-   position:relative + overflow para que la barra ::before se recorte igual
-   que en las cards de servicios. */
+/* Precio: card oscura con hairline + la barra degradada del sistema
+   (na-card-featured), igual tratamiento que las cards de Servicios —
+   position:relative + overflow para que la barra ::before se recorte. */
 .na-programa-precio {
-  background: var(--na-gray-100);
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
+}
+
+.na-programa-precio .na-section-title {
+  color: var(--na-white);
 }
 
 .na-programa-precio-card {
   position: relative;
   overflow: hidden;
-  background: var(--na-white);
+  background: var(--na-dark-bg);
+  border: 1px solid var(--na-hairline);
   border-radius: var(--na-radius-md);
-  box-shadow: var(--na-shadow-card);
   padding: var(--na-space-5) var(--na-space-4);
   text-align: center;
 }
 
 .na-programa-precio-label {
-  color: var(--na-gray-500);
+  color: var(--na-dark-ink); /* Gris Secundario solo pasa AA sobre blanco */
   font-weight: 600;
   font-size: var(--na-fs-small);
   text-transform: uppercase;
@@ -1454,11 +1640,68 @@ button:focus-visible,
 
 .na-programa-precio-card .na-price {
   margin-top: 0; /* sin riel de card de servicio: no hereda el ancla al fondo */
+  color: var(--na-white);
 }
 
 .na-programa-precio-detalle {
-  color: var(--na-gray-700);
+  color: var(--na-dark-ink);
   margin-bottom: var(--na-space-4);
+}
+
+/* El CTA primario emite luz: única sombra verde de este elemento. */
+.na-programa-precio-card .btn-primary {
+  box-shadow: var(--na-glow-cta);
+}
+
+/* ------------------------------------------------------------
+   El programa, en números (§6.5 — componente importado de la Dirección B)
+   ------------------------------------------------------------ */
+
+.na-tablero-stats li {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--na-green); /* filete de acento, no es una sombra */
+  padding-top: var(--na-space-3);
+}
+
+.na-tablero-num {
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(3rem, 8vw, 5rem);
+  line-height: 1;
+  color: var(--na-green);
+}
+
+/* El precio tiene más caracteres que 90/3/6 — clamp más contenido, mismo
+   peso visual (MASTER §6.5): sigue siendo la pieza dominante del ítem. */
+.na-tablero-precio .na-tablero-num {
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  white-space: nowrap;
+}
+
+/* Fix de contraste obligatorio del §6.5: la cata de origen (Dirección B)
+   usaba Gris Secundario para esta etiqueta, ilegible sobre negro (2.4) —
+   acá siempre Gris Borde / --na-dark-ink. */
+.na-tablero-label {
+  display: block;
+  color: var(--na-dark-ink);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps-sm);
+}
+
+/* Jerarquía de precio (§6.5): el equivalente por módulo queda subordinado
+   — nunca al mismo peso que el precio real, para que no se confundan. */
+.na-tablero-sub {
+  display: block;
+  margin-top: var(--na-space-1);
+  color: var(--na-dark-ink);
+  font-weight: 500;
+  font-size: var(--na-fs-small);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 /* ------------------------------------------------------------

@@ -10,44 +10,84 @@
 <main id="contenido">
 
     <!-- ========== HERO DEL PROGRAMA (HU-12) ==========
-         Estructural dentro del MASTER actual: la temática gym llega en el
-         Sprint 4 (D-18). El chip lleva el eslogan del hero (uso permitido
-         por DESIGN.md); la cifra 90 es la Regla de la Cifra Protagonista
-         aplicada al hecho central del producto.
-         na-programa-hero no tiene estilos todavía a propósito: es el hook
-         reservado para la estética gym diferenciada del Sprint 4 (D-18) —
-         no eliminarla como "clase muerta". -->
+         Momento wow (b), MASTER §6.4b: el "90" dentro del aro degradado
+         encendido sobre negro, con la foto de ambiente de gimnasio hundida
+         de fondo. Ascenso Escalonado para el texto, Encendido para el aro
+         como clímax (más tardío y más largo, igual que el hero del index). -->
     <section class="na-section na-programa-hero">
+        <div class="na-programa-hero-bg" aria-hidden="true">
+            <img th:src="@{/img/gym-ambiente.jpg}" src="../static/img/gym-ambiente.jpg"
+                 alt="" width="688" height="1529" loading="eager">
+        </div>
         <div class="container">
             <div class="row align-items-center gy-5">
                 <div class="col-12 col-lg-7">
-                    <p class="na-eyebrow mb-0" data-reveal th:text="${programa.eslogan}">
+                    <p class="na-eyebrow mb-0 na-ascenso" data-reveal data-reveal-delay="0"
+                       th:text="${programa.eslogan}">
                         Nutrición + entrenamiento · 90 días</p>
-                    <h1 class="mt-3 mb-3" data-reveal data-reveal-delay="40"
+                    <h1 class="mt-3 mb-3 na-ascenso" data-reveal data-reveal-delay="120"
                         th:text="${programa.nombre}">Fuerte y Definido</h1>
-                    <p class="na-lead mb-4" data-reveal data-reveal-delay="80"
+                    <p class="na-lead mb-4 na-ascenso" data-reveal data-reveal-delay="240"
                        th:text="${programa.mensajeVenta}">
                         Cambio físico en 90 días sin dietas restrictivas, con planes
                         ajustados a tu rutina diaria.
                     </p>
-                    <div class="d-flex flex-wrap align-items-center gap-3" data-reveal data-reveal-delay="120">
+                    <div class="d-flex flex-wrap align-items-center gap-3 na-ascenso" data-reveal data-reveal-delay="360">
                         <!-- D-17: sin pago ni inscripción en línea — la venta cierra por WhatsApp -->
                         <a class="btn btn-primary btn-lg"
                            th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text='Hola Andrés, quiero información del programa Fuerte y Definido 💪')}"
                            href="https://wa.me/50689592110"
                            target="_blank" rel="noopener noreferrer">Quiero más información</a>
-                        <a class="btn btn-outline-dark btn-lg" href="#como-funciona">Ver cómo funciona</a>
+                        <a class="btn btn-outline-light btn-lg" href="#como-funciona">Ver cómo funciona</a>
                     </div>
                 </div>
                 <div class="col-12 col-lg-5">
                     <!-- Cifra Protagonista: el dato central del programa, no decoración -->
-                    <div class="na-programa-cifra" data-reveal data-reveal-delay="80">
+                    <div class="na-programa-cifra na-encendido" data-reveal data-reveal-delay="420">
                         <span class="na-programa-cifra-num" th:text="${programa.duracionDias}">90</span>
                         <span class="na-programa-cifra-label"
                               th:text="|días · ${#lists.size(programa.modulos)} módulos|">días · 3 módulos</span>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ========== EL PROGRAMA, EN NÚMEROS ==========
+         Componente importado de la Dirección B (MASTER §6.5): el PO pidió
+         rescatar este tablero para /programa aunque eligió A como dirección
+         general. Cifras derivadas del mismo `programa`/`programa.incluye` —
+         cero datos nuevos, cero mágicos. Ajustes obligatorios del §6.5 ya
+         aplicados en CSS: subtítulo en --na-dark-ink (nunca gris secundario)
+         y el precio al mismo tamaño que 90/3/6. -->
+    <section class="na-section na-superficie-oscura na-tablero" aria-label="El programa, en números">
+        <div class="container">
+            <h2 class="na-section-title mb-5 text-center" data-reveal>El programa, en números</h2>
+            <ul class="na-tablero-stats list-unstyled row g-4" role="list">
+                <li class="col-6 col-lg-3" data-reveal>
+                    <span class="na-tablero-num" th:text="${programa.duracionDias}">90</span>
+                    <span class="na-tablero-label">Días de acompañamiento</span>
+                </li>
+                <li class="col-6 col-lg-3" data-reveal data-reveal-delay="40">
+                    <span class="na-tablero-num" th:text="${#lists.size(programa.modulos)}">3</span>
+                    <span class="na-tablero-label">Bloques de 30 días</span>
+                </li>
+                <li class="col-6 col-lg-3" data-reveal data-reveal-delay="80">
+                    <span class="na-tablero-num" th:text="${#lists.size(programa.incluye)}">6</span>
+                    <span class="na-tablero-label">Entregables incluidos</span>
+                </li>
+                <li class="col-6 col-lg-3 na-tablero-precio" data-reveal data-reveal-delay="120">
+                    <span class="na-tablero-num"
+                          th:text="|₡${#numbers.formatInteger(programa.precioColones, 1, 'WHITESPACE')}|">₡105 000</span>
+                    <span class="na-tablero-label">Programa completo</span>
+                    <!-- Aproximación: asume módulos de igual duración/costo (correcto
+                         hoy, 3×30 días parejos); si el catálogo deja de ser uniforme,
+                         ajustar este cálculo. -->
+                    <span class="na-tablero-sub"
+                          th:text="|≈ ₡${#numbers.formatInteger(programa.precioColones / #lists.size(programa.modulos), 1, 'WHITESPACE')} por módulo de 30 días|">
+                        ≈ ₡35 000 por módulo de 30 días</span>
+                </li>
+            </ul>
         </div>
     </section>
 
@@ -68,6 +108,26 @@
                     3 módulos consecutivos, 90 días de acompañamiento.
                 </p>
             </div>
+
+            <!-- Momento wow (c), MASTER §6.4c: la secuencia 30+30+30=90 como
+                 progreso luminoso que se llena al entrar en viewport. Resumen
+                 ARRIBA de la grilla de módulos — su contrato de contenido no
+                 cambia (mismo texto, misma card de siempre, ver más abajo).
+                 Asume módulos de igual duración para el rango "Día X–Y"
+                 (correcto hoy: 30/30/30). -->
+            <div class="na-progreso-modulos" data-reveal>
+                <div class="na-impulso-pista" data-reveal>
+                    <div class="na-impulso-luz"></div>
+                </div>
+                <ol class="na-progreso-marcas list-unstyled" role="list">
+                    <li th:each="modulo, stat : ${programa.modulos}">
+                        <span class="na-progreso-num" th:text="${modulo.numero}">1</span>
+                        <span class="na-progreso-dias"
+                              th:text="|Día ${stat.index * modulo.duracionDias + 1}–${(stat.index + 1) * modulo.duracionDias}|">Día 1–30</span>
+                    </li>
+                </ol>
+            </div>
+
             <div class="row g-4 justify-content-center">
                 <div class="col-12 col-md-4"
                      th:each="modulo, stat : ${programa.modulos}"
@@ -92,7 +152,7 @@
          Iconos Lucide (stroke, un solo set — MASTER §6) elegidos por posición:
          si la lista de incluye crece, los ítems nuevos reciben el icono de
          check por defecto sin romper nada. -->
-    <section class="na-section">
+    <section class="na-section na-superficie-oscura">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="na-section-title mb-3" data-reveal>¿Qué incluye?</h2>
