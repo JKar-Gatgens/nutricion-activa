@@ -52,7 +52,7 @@ Un sitio web profesional para Nutrición Activa que permita a cualquier persona 
 
 ### Del Sprint 4 — dirección visual (21 de julio)
 
-- **D-21** — Dirección visual elegida: "Neón de Madrugada" (la dirección A), aprobada por el PO. Negro dominante, verde como única luz encendida, temática gym cinematográfica. Codificada en design-system/MASTER.md v2. Se incorpora el tablero de números de la dirección B en /programa.
+- **D-21** — Dirección visual elegida: "Neón de Madrugada" (la dirección A), aprobada por el PO. Negro dominante, verde como única luz encendida, temática gym cinematográfica. Codificada en design-system/MASTER.md v2. Se incorpora el tablero de números de la dirección B en /programa. **Actualizado el 23 de julio — el PO revisa a mitad del rollout, tras ver el sitio completo migrado (Bloques 1 a 4): la dirección pasa a ser HÍBRIDA por página, no global.** La landing (`index.html`) vuelve a fondo claro, como estaba antes de que arrancara el rollout oscuro — con una sola pieza nueva: la foto real de Andrés dentro del aro del hero (reemplaza al logo), tratada en color natural, no en duotono. `/programa` se queda en negro, Dirección A completa tal como está implementada — al PO le gustó especialmente esa página, en particular con el fondo `gym-ambiente.jpg` ya corregido a un oscurecido direccional (antes ocultaba a la persona entrenando). Dentro de `/programa`, el "90" deja de vivir dentro del aro degradado y pasa a presentarse como un contador/tablero tipo calendario — el lenguaje de tablero de datos que ya había explorado la dirección B, pero con los colores y superficies de la dirección A. Codificado en design-system/MASTER.md v2.1; la implementación en código queda pendiente para el próximo bloque.
 
 ---
 

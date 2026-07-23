@@ -5,7 +5,62 @@
 
 ---
 
+## v2.1 — 2026-07-23: el PO revisa a mitad de rollout — dirección HÍBRIDA (D-21 actualizado)
+
+Con `/programa` ya migrado (Bloque 4) y la apertura + el resto de la landing también
+migrados (Bloques 2 y 3), el PO vio el sitio completo en Dirección A y revisó su
+decisión: **"Neón de Madrugada" queda, pero no para todo el sitio.** El sistema pasa a
+describir **dos territorios** en vez de una sola dirección global:
+
+- **La landing (`index.html`) vuelve a superficie clara** — el "Energía atlética por
+  bloques" de v1, tal como estaba *antes* de que arrancara el rollout oscuro (Bloque 2).
+  Una sola evolución se conserva: el aro del hero ya no enmarca el logo, enmarca la
+  **foto real de Andrés**, con tratamiento natural (no duotono) adaptado a la paleta
+  clara — ver 6.3-bis.
+- **`/programa` se queda en negro**, Dirección A completa, tal como está implementada
+  hoy (fondo `gym-ambiente.jpg` ya corregido a scrim direccional). Al PO le gustó
+  específicamente esta página — es la que sigue funcionando como la pieza insignia de
+  la dirección oscura.
+- **El "90" deja el aro.** Ya no es "el 90 dentro del aro degradado" (v2, 6.4b) — pasa a
+  ser un **contador/tablero tipo calendario** (el lenguaje que la Dirección B ya había
+  explorado para el tablero de números), pero con los colores y superficies de la
+  Dirección A: fondo negro, cifras en verde brillante, hairline — no se importa la
+  paleta de B, solo su vocabulario de "dato como bloque de calendario".
+
+**Qué cambia respecto a v2:**
+- §1: la fila "Dirección visual vigente" describe los dos territorios en vez de una
+  dirección única.
+- §6: la Dirección A deja de ser "la ley del sitio" y pasa a ser **la ley de
+  `/programa`**; la landing vuelve a regirse por 6.1 (el v1 sin cambios) más la
+  excepción puntual de la foto en el aro (6.3-bis, nueva).
+- §6.4: el momento wow (a) — "el Encendido del hero de la landing" — **se retira**: la
+  landing ya no tiene una entrada cinematográfica oscura, vuelve al reveal genérico de
+  siempre. El momento (b) cambia de "el 90 dentro del aro" a **"el 90 como
+  contador/tablero"**. El (c) — módulos como progreso luminoso — no cambia.
+- Los tokens de glow (§2.5/§5) que referenciaban el aro (`--na-glow-ring`,
+  `--na-glow-photo`) actualizan su descripción de uso — el token y su valor no cambian,
+  cambia DÓNDE se usa (ver notas en 2.5).
+- **Lo que NO cambia:** el vocabulario de movimiento (§8.1), los tokens (§2.5/§5) y las
+  reglas duras (§6.6) — siguen existiendo tal cual, ahora con el alcance explícito de
+  que rigen **el territorio oscuro de `/programa`**, no todo el sitio.
+- **Pendiente de implementación (código, bloque futuro):** revertir `index.html` +
+  `styles.css` al territorio claro, componer la foto de Andrés dentro del aro del hero,
+  y rediseñar el "90" de `/programa` como contador/tablero. Este documento es solo la
+  ley — el código todavía refleja el estado de Bloque 4 hasta que se implemente.
+- **Nota de implementación a resolver en el próximo bloque de código:** `.na-cierre` es
+  hoy una clase CSS **compartida** entre el cierre de `index.html` y el de
+  `/programa` (Bloque 3/4). Con dos territorios de color, esa clase no puede seguir
+  sirviendo a ambas páginas sin diferenciarse — el bloque de implementación debe
+  decidir cómo separarla (dos clases, o una variante con modificador).
+
+---
+
 ## v2 — 2026-07-21: dirección "Neón de Madrugada" elegida por el PO (D-21)
+
+> **Revisado por v2.1 (arriba).** Esta sección queda como registro histórico de la
+> decisión original ("toda la web en negro"); el PO la acotó después a `/programa`
+> solamente. Donde v2 diga "el sitio"/"la landing", leer "`/programa`" salvo que v2.1
+> diga lo contrario.
 
 El PO eligió la **Dirección A "Neón de Madrugada"** entre las tres catas del Sprint 4
 (`docs/briefs-sprint4/comparativa.md`) y pidió además rescatar una pieza de la Dirección B
@@ -50,7 +105,7 @@ para no romper las referencias `MASTER §N` ya escritas en código, tests y otro
 | **Stack** | Spring Boot + Thymeleaf + **Bootstrap 5 vía WebJars**. **Prohibido Tailwind.** Tokens como variables CSS en `:root` |
 | **Patrón de conversión** | *Before–After Transformation*: prueba visual de resultados, métricas concretas, CTA tras la evidencia |
 | **Estilo** | Vibrante y enérgico, por bloques, alto contraste verde/negro/blanco — sin perder legibilidad ni profesionalismo clínico |
-| **Dirección visual vigente (v2)** | **"Neón de Madrugada"** (Sprint 4, D-21): negro dominante, verde como única luz. Brief completo en `docs/briefs-sprint4/direccion-a-neon-de-madrugada.md`, referencia visual ejecutable en `docs/briefs-sprint4/catas/cata-a-neon-de-madrugada.html`. Codificada como ley en §6. |
+| **Dirección visual vigente (v2.1 — dos territorios)** | **La landing (`index.html`) es clara** — "Energía atlética por bloques" de v1, con una sola evolución: la foto de Andrés dentro del aro del hero (6.3-bis). **`/programa` es oscura** — "Neón de Madrugada" (Sprint 4, D-21): negro dominante, verde como única luz. Brief completo en `docs/briefs-sprint4/direccion-a-neon-de-madrugada.md`, referencia visual ejecutable en `docs/briefs-sprint4/catas/cata-a-neon-de-madrugada.html`. Codificada como ley en §6, con alcance de territorio explícito. |
 
 ---
 
@@ -109,22 +164,23 @@ Usos permitidos: fondo del hero (franja o forma geométrica), barra de acento so
 - **v2 — la misma regla, en la dirección que ahora importa más:** `--na-green-dark` (#007D3C) rinde ~5.2:1 **sobre blanco**, pero se hunde a ~2:1 **sobre negro** — es ilegible. Sobre fondo oscuro el verde legible es siempre el brillante (`--na-green`) o el blanco, nunca el profundo. Esta es la **Regla del Verde Legible**, ver formulación completa en 6.6.
 - No transmitir información solo con color (añadir icono o texto).
 
-### 2.5 Polaridad de superficie y tokens oscuros (v2)
+### 2.5 Polaridad de superficie y tokens oscuros — territorio de `/programa` (v2.1)
 
-La Dirección A invierte la polaridad dominante del sitio: donde v1 alternaba blanco →
-gris → negro con el negro como acento puntual (trustbar, footer, franjas), en v2 el
-negro es el escenario por defecto de la apertura y de los momentos protagónicos, y el
-blanco/gris-claro queda reservado a las "Salas Iluminadas" (§6.6) — formularios y
-lectura densa.
+**Alcance actualizado por v2.1: esta sección rige `/programa`, no la landing.** La
+Dirección A invierte la polaridad dominante dentro de ese territorio: donde v1 alternaba
+blanco → gris → negro con el negro como acento puntual, en `/programa` el negro es el
+escenario por defecto. La landing vuelve a la alternancia de v1 sin polaridad invertida
+(§6.1) — estos tokens no aplican ahí, salvo que una página futura de la landing migre
+explícitamente a este territorio.
 
 | Token | Valor | Uso |
 |---|---|---|
-| `--na-dark-bg` | `#0A0A0A` (= `--na-black`) | Alias semántico: el fondo dominante de una sección "Neón de Madrugada". No es un color nuevo — es una superficie nueva sobre un color que ya existía como acento. |
+| `--na-dark-bg` | `#0A0A0A` (= `--na-black`) | Alias semántico: el fondo dominante de una sección oscura de `/programa`. No es un color nuevo — es una superficie nueva sobre un color que ya existía como acento. |
 | `--na-dark-ink` | `#DEE4E0` (= `--na-gray-200`) | Cuerpo de texto sobre `--na-dark-bg`. Nunca `--na-gray-500` (Gris Secundario): ese tono solo pasa AA sobre blanco. |
 | `--na-hairline` | `rgba(255, 255, 255, 0.08)` | Borde de superficie plana sobre fondo oscuro (divisores, marcos). Sustituye a la sombra: una sombra oscura no se ve sobre negro, un hairline sí. Sin glass, sin texturas. |
-| `--na-glow-cta` | `0 0 32px rgba(0, 192, 80, 0.35)` | El único glow del CTA primario sobre fondo oscuro — "el botón emite luz". |
-| `--na-glow-photo` | `0 0 48px rgba(0, 192, 80, 0.45)` | El único glow del marco de fotografía duotono (momento Encendido, §6.4a). |
-| `--na-glow-ring` | `0 0 44px rgba(0, 192, 80, 0.45)` | El único glow del aro degradado sobre negro (momento Encendido del "90", §6.4b). |
+| `--na-glow-cta` | `0 0 32px rgba(0, 192, 80, 0.35)` | El único glow del CTA primario sobre fondo oscuro de `/programa` — "el botón emite luz". |
+| `--na-glow-photo` | `0 0 48px rgba(0, 192, 80, 0.45)` | Glow para marcos de fotografía sobre fondo oscuro, si `/programa` los necesita. **Ya no aplica al hero de la landing** (v2.1 lo devuelve a superficie clara — ver 6.3-bis, tratamiento sin glow). |
+| `--na-glow-ring` | `0 0 44px rgba(0, 192, 80, 0.45)` | **Reasignado por v2.1**: ya no es "el aro con el 90 adentro" (retirado, ver 6.4b) — es el glow disponible para el contador/tablero-calendario del "90" en `/programa`, si su diseño lo pide. |
 
 Un elemento usa **como máximo uno** de los tres tokens de glow — nunca dos apilados
 (Presupuesto de Glow, §6.6). `--na-dark-bg` y `--na-dark-ink` son alias deliberados de
@@ -161,7 +217,7 @@ Alternativa en CSS:
 
 | Token | Tamaño | Uso |
 |---|---|---|
-| `--na-fs-display` | `clamp(3.5rem, 8vw, 6rem)` **(v2, antes `clamp(2.5rem, 6vw, 4.5rem)`)** | H1 a escala póster: el H1 recupera jerarquía por tamaño bruto, mayúsculas, tracking apretado (0.01em, excepción declarada a la Regla del Tracking en Caps de DESIGN.md) |
+| `--na-fs-display` | `clamp(3.5rem, 8vw, 6rem)` — **territorio `/programa` únicamente (v2.1)** | H1 a escala póster: mayúsculas, tracking apretado (0.01em, excepción declarada a la Regla del Tracking en Caps de DESIGN.md). Es el valor del H1 de `/programa`; el H1 de la landing usa la escala v1 (`clamp(2.5rem, 6vw, 4.5rem)`, ver nota de abajo) — el bloque de implementación decide el mecanismo (token separado o el mismo token con valor por territorio), esta tabla fija el tamaño resultante esperado en cada uno. |
 | `--na-fs-h2` | `clamp(2rem, 4vw, 3rem)` | Títulos de sección |
 | `--na-fs-h3` | `1.5rem` | Títulos de card / plan |
 | `--na-fs-body` | `1rem` (16px) | Cuerpo — nunca menor en móvil |
@@ -170,10 +226,12 @@ Alternativa en CSS:
 
 Longitud de línea del cuerpo: 60–75 caracteres (`max-width: 65ch` en párrafos largos).
 
-**v2 — la escala póster no es solo del hero del index:** todo H1 de la landing (incluido
-el de `/programa`) migra a `--na-fs-display` a medida que su sección se rediseña en
-Dirección A — el tamaño bruto del H1 es, por diseño, el mecanismo que resuelve la
-jerarquía perdida que señaló el critique baseline.
+**v2.1 — corrección de alcance:** v2 decía que la escala póster migraría a todo H1 de la
+landing. Con la landing de vuelta a superficie clara, eso se revierte: el H1 del hero de
+`index.html` vuelve a `clamp(2.5rem, 6vw, 4.5rem)` (v1). La escala póster queda como una
+característica de `/programa` — el tamaño bruto del H1 sigue siendo, ahí, el mecanismo
+que resuelve la jerarquía que señaló el critique baseline; en la landing, esa jerarquía
+se resuelve como en v1 (composición y peso, no tamaño extremo).
 
 ---
 
@@ -233,7 +291,7 @@ ganen:
   /* Tipografía */
   --na-font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
   --na-font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
-  --na-fs-display: clamp(3.5rem, 8vw, 6rem); /* v2, antes clamp(2.5rem, 6vw, 4.5rem) */
+  --na-fs-display: clamp(3.5rem, 8vw, 6rem); /* territorio /programa (v2.1). H1 de la landing: clamp(2.5rem, 6vw, 4.5rem), escala v1 */
   --na-fs-h2: clamp(2rem, 4vw, 3rem);
   --na-fs-h3: 1.5rem;
   --na-fs-price: clamp(2rem, 3.5vw, 2.75rem);
@@ -308,36 +366,47 @@ h1, h2, h3, h4, .display-1, .display-2, .display-3 {
 
 ## 6. Estilo visual recomendado
 
-**Dirección vigente (v2): "Neón de Madrugada"** — el gimnasio a las 5 de la mañana:
-oscuridad total, un solo color encendido, la sensación de que el mundo todavía duerme y
-vos ya estás entrenando. Sustituye a la dirección v1 ("Energía atlética por bloques")
-como ley activa del sistema; lo que v1 acertaba y no dependía de la polaridad de color
-(cards, botones, iconos, cifras protagonistas) se conserva sin cambios en 6.1.
+**v2.1 — dos territorios.** El PO revisó su decisión a mitad de rollout: "Neón de
+Madrugada" ya no es la ley de todo el sitio, es la ley de **`/programa`**. La
+**landing** (`index.html`) vuelve a regirse por v1 ("Energía atlética por bloques",
+6.1) sin polaridad invertida — blanco/gris/negro-acento, como antes del Bloque 2 —
+con una sola pieza nueva: la foto real de Andrés dentro del aro del hero, tratada en
+color natural (6.3-bis), no en duotono.
 
-### 6.1 Lo que sigue vigente de v1 (sin cambios)
+`/programa` sigue siendo el gimnasio a las 5 de la mañana: oscuridad total, un solo
+color encendido, la sensación de que el mundo todavía duerme y vos ya estás
+entrenando (6.2–6.5). Todo lo que sigue de 6.2 en adelante, salvo que diga lo
+contrario, describe **ese territorio, no la landing**.
+
+### 6.1 La landing: v1 sin cambios (territorio claro)
+
+Vigente para toda `index.html` — hero, banner, trustbar, Sobre mí, servicios,
+testimonios, cierre y footer. Nada de esto depende de la polaridad de color y no
+cambió en ningún momento del rollout:
 
 - **Cards**: fondo blanco sobre superficies claras, `--na-radius-md`, `--na-shadow-card`, borde superior de 4px con el degradado en la card destacada.
-- **Botones**: pill (`--na-radius-pill`). Primario = verde + texto negro; secundario = outline, cuyo color de contorno se adapta a la superficie (negro sobre claro, blanco sobre oscuro — ver `.btn-outline-light` en el hero).
-- **Iconos**: SVG de un solo set (stroke), nunca emojis. En verde `--na-green-dark` sobre claro, `--na-green` sobre oscuro.
-- **Cifras protagonistas**: métricas de resultados en Barlow Condensed gigante — el corazón del patrón before–after y de las cifras del programa.
-- **Formas geométricas de acento**: el aro degradado sigue siendo la firma decorativa (máx. 1–2 por sección) — en v2 además puede *encenderse* (ver 6.4b).
+- **Botones**: pill (`--na-radius-pill`). Primario = verde + texto negro; secundario = outline negro sobre superficie clara.
+- **Iconos**: SVG de un solo set (stroke), nunca emojis. En verde `--na-green-dark` (el único verde legible sobre blanco).
+- **Cifras protagonistas**: métricas de resultados en Barlow Condensed gigante — el corazón del patrón before–after.
+- **Formas geométricas de acento**: el aro degradado es la firma decorativa (máx. 1–2 por sección) — en el hero, a partir de v2.1, enmarca la foto real de Andrés en vez del logo (6.3-bis).
 
-### 6.2 Mood y decisiones de superficie (v2)
+### 6.2 `/programa`: mood y decisiones de superficie (territorio oscuro)
 
-El fondo dominante pasa a negro de marca en las secciones protagónicas (hoy: hero;
-progresivamente el resto del sitio por fases). El verde deja de ser "color de botón" y
-pasa a ser fuente de luz: rim-light en el aro, glow contenido, el degradado como única
+El fondo dominante es negro de marca en toda la página. El verde deja de ser "color de
+botón" y pasa a ser fuente de luz: rim-light, glow contenido, el degradado como única
 fuente de brillo. Las superficies son planas y profundas, con borde hairline
 (`--na-hairline`) en vez de sombra — una sombra oscura no se ve sobre negro. Nada de
-glass, texturas ni efectos 3D.
+glass, texturas ni efectos 3D. *(Antes de v2.1 esta descripción regía "la apertura,
+progresivamente el resto del sitio" — v2.1 la acota a `/programa`.)*
 
-### 6.3 Tratamiento de imaginería — Duotono Neón
+### 6.3 `/programa`: tratamiento de imaginería — Duotono Neón (territorio oscuro)
 
-Toda foto real del PO (hoy: `andres-hero.jpeg` en el hero del index; `andres.webp` de
-"Sobre mí" migra en una fase futura) se integra a la paleta oscura con el mismo
-tratamiento CSS — grayscale + contraste para matar el color original, un overlay que
-tiñe con el degradado de marca, y una viñeta que hunde el fondo para que el sujeto
-quede al centro de la luz:
+Toda foto real del PO que viva **en `/programa`** (hoy: `gym-ambiente.jpg` como fondo
+atmosférico del hero) se integra a la paleta oscura con tratamiento CSS — grayscale +
+contraste para desaturar el original, un overlay que tiñe con el degradado de marca, y
+un scrim que protege el contraste del texto sin apagar la foto por completo (ajustado
+tras feedback del PO: el oscurecido debe ser *direccional*, no uniforme — más oscuro
+donde vive el texto, más claro donde la foto debe leerse de verdad):
 
 ```css
 .foto-duotono {
@@ -358,7 +427,10 @@ quede al centro de la luz:
   mix-blend-mode: color;
   opacity: 0.85;
 }
-/* Hunde el ruido de fondo: el sujeto queda al centro de la luz */
+/* Hunde el ruido de fondo: el sujeto queda al centro de la luz.
+   Para fondos atmosféricos (sin sujeto que preservar, p. ej. gym-ambiente.jpg)
+   este scrim puede ser direccional (gradiente lineal) en vez de radial parejo —
+   ver la implementación real en styles.css para el ejemplo vigente. */
 .foto-duotono::before {
   content: ""; position: absolute; inset: 0; z-index: 1;
   background: radial-gradient(circle at 50% 32%, transparent 40%, rgba(10, 10, 10, 0.75) 100%);
@@ -370,20 +442,59 @@ Esto es **tratamiento, no maquillaje**: sigue rigiendo "Sin prueba, sin promesa"
 cualquier foto real que el PO entregue a la paleta oscura, sin importar su calidad de
 origen (gimnasio con luces mixtas, fondo ocupado, etc.).
 
-### 6.4 Momentos wow oficiales
+**v2.1 — ya no aplica a la landing.** Antes de esta revisión, el plan era migrar todas
+las fotos reales (incluida `andres-hero.jpeg` del hero y `andres.webp` de "Sobre mí") a
+este tratamiento. Eso se revierte: ninguna foto de la landing usa duotono — ver 6.3-bis.
 
-**(a) El Encendido del hero.** El texto sube en secuencia (Ascenso Escalonado: kicker →
-H1 → lead → CTA) y la foto de Andrés, en duotono, cierra la secuencia como clímax
-(Encendido: el evento más largo y más tardío). *Implementado — Sprint 4, Bloque 2.*
+### 6.3-bis La landing: la foto de Andrés en el aro (territorio claro, nuevo en v2.1)
 
-**(b) El "90" de `/programa`.** El aro degradado (glow `--na-glow-ring`) se enciende con
-el mismo patrón Encendido, con la cifra "90" — Cifra Protagonista — brillando adentro
-sobre negro. *Pendiente de implementación.*
+El hero de `index.html` reemplaza el logo dentro del aro por la **foto real de
+Andrés**, en color natural — nada de grayscale, nada de overlay de tinte, nada de
+glow. Es una superficie clara: se integra por el **marco**, no por el color, igual
+criterio que ya validó el PO para "Sobre mí" antes de que esa sección volviera a la
+landing clara:
 
-**(c) La banda de módulos como progreso luminoso.** La secuencia "Día 1–30 / 31–60 /
-61–90" se dibuja como una barra de progreso con el degradado de marca que se llena al
-hacer scroll — patrón Barra de Impulso Luminosa (§8.1), transform/opacity puro.
-*Pendiente de implementación.*
+- El aro degradado (`--na-gradient-brand`) sigue siendo el marco — el mismo "eco del
+  aro del logo" que ya describía v1, ahora con contenido real adentro en vez del
+  logotipo.
+- Sombra: `--na-shadow-card` (la sombra ambiental de reposo de v1) — **no**
+  `--na-glow-photo` ni ningún glow verde. Los glows son vocabulario del territorio
+  oscuro (§2.5); una foto en color natural sobre fondo blanco no los necesita ni los
+  admite sin romper la Regla del Verde Legible en superficie clara.
+- Encuadre: igual criterio que ya se afinó para el hero oscuro (object-position +
+  escala si hace falta) para que Andrés se vea reconocible dentro del círculo, no
+  recortado — el objetivo compositivo no cambia, solo la paleta.
+
+### 6.4 Momentos wow oficiales (territorio `/programa` — v2.1 los acota ahí)
+
+Los tres momentos wow ya vivían todos en `/programa` o en la apertura de la landing;
+v2.1 confirma que, con la landing de vuelta a superficie clara, **los momentos wow son
+un concepto exclusivo de `/programa`** — la página insignia de la Dirección A.
+
+**(a) [RETIRADO] El Encendido del hero de la landing.** Ya no existe: la landing volvió
+a superficie clara (6.1) y no tiene una entrada cinematográfica oscura — el hero usa el
+Revelado en Cascada genérico de siempre, igual que el resto del sitio en v1. La foto de
+Andrés sigue siendo protagonista del hero (dentro del aro, 6.3-bis), pero como elemento
+compuesto de siempre, no como clímax de una secuencia Encendido.
+
+**(b) El "90" de `/programa` — de "dentro del aro" a contador/tablero.** *Redefinido
+por v2.1.* Ya no vive dentro de un aro degradado encendido (esa versión se retira junto
+con su glow `--na-glow-ring` asociado a esa forma — el token sigue existiendo, ver
+2.5). Pasa a presentarse como un **contador/tablero tipo calendario**: la Cifra
+Protagonista ("90") sobre una superficie plana con hairline (no un aro), en la
+gramática de "dato de tablero" que exploró la Dirección B ("Dorsal 90"), pero con los
+colores y superficies de la Dirección A — fondo negro, cifra en verde brillante o
+blanco, hairline en vez de sombra. *No confundir con el tablero de 6.5* ("El programa,
+en números"): son dos piezas distintas — esta es la pieza protagonista del hero: el
+componente de 6.5 es la sección de datos que va después, sin cambios. El diseño visual
+exacto del contador/calendario queda para el bloque de implementación que lo construya;
+esta entrada fija el criterio (calendario/tablero, no aro; paleta A). *Pendiente de
+implementación.*
+
+**(c) La banda de módulos como progreso luminoso.** Sin cambios por v2.1. La secuencia
+"Día 1–30 / 31–60 / 61–90" se dibuja como una barra de progreso con el degradado de
+marca que se llena al hacer scroll — patrón Barra de Impulso Luminosa (§8.1),
+transform/opacity puro. *Implementado — Sprint 4, Bloque 4.*
 
 ### 6.5 Componente importado de la Dirección B: "El programa, en números"
 
@@ -405,25 +516,36 @@ tabular-nums (Cifra Protagonista, ya vigente), un hairline o filete de 2px verde
 ítem (compatible con "planas + hairline", no es una sombra), y — si se anima — un
 count-up de una sola vez, ≤1s, con los valores reales del PO, nunca en loop.
 
-### 6.6 Reglas duras (no negociables)
+### 6.6 Reglas duras (no negociables) — territorio `/programa`, salvo la última
+
+Estas reglas siguen existiendo tal cual las definió v2; v2.1 solo aclara **dónde**
+rigen: las tres primeras son del territorio oscuro (`/programa`); Performance y las
+heredadas de v1 son del sitio entero, sin importar el territorio.
 
 - **Regla del Verde Legible (extendida).** El verde brillante (`--na-green`) es el único
   verde que pasa AA sobre negro (8.6:1); el verde profundo (`--na-green-dark`) es el
   único que pasa AA sobre blanco (5.2:1) — **nunca al revés**. Sobre fondo oscuro, texto
-  verde = brillante o nada; sobre fondo claro, texto verde = profundo o nada.
+  verde = brillante o nada; sobre fondo claro, texto verde = profundo o nada. Aplica en
+  ambos territorios (la mitad "sobre blanco" es, de hecho, la que ahora vuelve a regir
+  toda la landing).
 - **Presupuesto de Glow.** Máximo **una** sombra verde por elemento (`--na-glow-cta`,
   `--na-glow-photo` o `--na-glow-ring`, nunca combinadas en el mismo elemento). Cero
   `text-shadow` en cuerpo de texto. Cero efectos cyberpunk: nada de scanlines, glitch,
-  ni parpadeo.
+  ni parpadeo. **Alcance: `/programa`** — la landing, en superficie clara, no usa glow
+  verde (ver 6.3-bis: la foto del hero lleva `--na-shadow-card`, no un glow).
 - **Salas Iluminadas.** El formulario de `/agendar` y su pantalla de confirmación
-  permanecen sobre superficie **clara** aunque el resto del sitio sea oscuro — en un
+  permanecen sobre superficie **clara** aunque `/programa` sea oscuro — en un
   formulario, la claridad manda sobre la estética. No es una excepción vergonzosa a la
-  dirección: es la mitigación de riesgo que el brief pidió desde el diseño.
+  dirección: es la mitigación de riesgo que el brief pidió desde el diseño. (Con la
+  landing también clara desde v2.1, esta regla queda relevante sobre todo para
+  diferenciar `/agendar` de `/programa`, que sí es oscuro.)
 - **Performance.** CSS/JS vanilla, sin librerías nuevas. Imágenes reales optimizadas
   (WebP cuando sea posible); el tratamiento duotono es 100% CSS (`filter` +
-  `mix-blend-mode`), cero peso adicional de imagen por variante de color.
-- *(Siguen vigentes de v1, sin cambios: nunca texto blanco sobre Verde Arranque; nunca
-  `#00C050` como texto sobre blanco; sin prueba social inventada — PRODUCT.md.)*
+  `mix-blend-mode`), cero peso adicional de imagen por variante de color. Rige en
+  ambos territorios.
+- *(Siguen vigentes de v1 en todo el sitio, sin cambios: nunca texto blanco sobre Verde
+  Arranque; nunca `#00C050` como texto sobre blanco; sin prueba social inventada —
+  PRODUCT.md.)*
 
 ---
 
@@ -432,8 +554,8 @@ count-up de una sola vez, ≤1s, con los valores reales del PO, nunca en loop.
 Patrón *Before–After Transformation* (optimizado a conversión para servicios de transformación física):
 
 1. **Navbar** (sticky, blanca, logo izquierda) — enlaces: Servicios · Resultados · Precios · CTA "Agendar cita" (btn-primary, siempre visible).
-2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. **v2: fondo negro, foto de Andrés en duotono como clímax — ver 6.4a. Implementado.**
-3. **Barra de confianza** — cifras rápidas: años de experiencia, clientes transformados, países atendidos. Ya era fondo negro en v1; en v2 gana hairline superior de transición.
+2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. **v2.1: fondo claro (v1) — el paso por fondo negro/duotono de v2 (Bloque 2) se revirtió. Única pieza nueva: la foto real de Andrés dentro del aro, en vez del logo (6.3-bis). Pendiente de implementación (revertir Bloque 2/3).**
+3. **Barra de confianza** — cifras rápidas: años de experiencia, clientes transformados, países atendidos. Fondo negro de v1 (acento puntual, no territorio oscuro) — el hairline que le agregó v2 como transición de la apertura oscura ya no aplica; revertir junto con el hero.
 4. **Transformaciones (before–after)** — comparativas reales con métricas concretas; antes en gris desaturado, después a color con acentos verdes. La sección de mayor peso visual (fondo negro).
 5. **Cómo funciona** — 3 pasos: 1) Agenda tu evaluación → 2) Recibe tu plan personalizado → 3) Seguimiento y ajustes. Iconos + números grandes.
 6. **Servicios y precios** — cards de planes (4, catálogo final del PO 2026-07-12), plan recomendado destacado con borde degradado y badge; precio en grande, lista de incluye, CTA por card. Aclarar moneda (USD/CRC) por el público LATAM.
@@ -444,9 +566,11 @@ Patrón *Before–After Transformation* (optimizado a conversión para servicios
 
 **Flotante:** botón de WhatsApp fijo (`position: fixed`, inferior derecha, 56×56px mínimo, `#25D366`, icono oficial blanco, `aria-label="Escribir por WhatsApp"`), separado del borde con safe-area y sin tapar CTAs.
 
-*(v2 no reordena ni agrega secciones aquí — el rollout de Dirección A restylea las
-secciones existentes por fases, no cambia la arquitectura de información. El banner del
-programa (HU-12) se mantiene entre Hero y Barra de confianza, como ya fijó Sprint 3.)*
+*(Ni v2 ni v2.1 reordenan ni agregan secciones aquí — el rollout restylea secciones
+existentes por fases, no cambia la arquitectura de información. El banner del programa
+(HU-12) se mantiene entre Hero y Barra de confianza, como ya fijó Sprint 3; con la
+landing de vuelta a superficie clara, su fondo Verde Tinte deja de ser un "respiro"
+entre bloques negros y vuelve a ser, simplemente, la sección destacada que ya era en v1.)*
 
 ---
 
@@ -468,12 +592,24 @@ el contenido queda visible al instante, sin excepción.
 | **Tinte al Tacto** | color/fondo + glow o sombra-tinte + `translateY(-2px)`/`scale(0.97)` en respuesta a hover/press | `--na-dur-fast` (150ms) / `--na-dur-base` (250ms) | `--na-ease-out` | No es animación de entrada; el motion de transform igual respeta el media query |
 | **Barra de Impulso Luminosa** | `scaleX(0→1)` con `transform-origin: left`, dispara una sola vez al entrar en viewport | `--na-dur-impulso` (1100ms) | `--na-ease-out` | Nace llena (`scaleX(1)` inmediato) |
 
-**Dónde se usa cada uno:**
-- *Encendido* → la foto del hero (6.4a, implementado); el aro con el "90" de `/programa` (6.4b, pendiente).
-- *Ascenso Escalonado* → el bloque de texto del hero (kicker, H1, lead, CTA), siempre como preludio de un Encendido.
-- *Revelado en Cascada* → evolución nombrada del reveal genérico que el sitio ya usa (`data-reveal`/`reveal.js`) fuera de la apertura: servicios, testimonios, secciones oscuras del rollout.
-- *Tinte al Tacto* → ya nombrado en DESIGN.md §4; hover de botones y cards. Sobre superficie oscura el tinte es glow (box-shadow verde) en vez de elevación con sombra gris.
-- *Barra de Impulso Luminosa* → la banda de módulos de `/programa` (6.4c, pendiente); evolución de "La Barra de Impulso" (DESIGN.md) para secuencias de datos reales, no solo el kicker de un h2.
+**Dónde se usa cada uno (v2.1 — el vocabulario sigue siendo del sitio entero, pero
+Encendido y Ascenso Escalonado en la práctica solo tienen candidatos en `/programa`
+ahora que la landing volvió a superficie clara y retiró su Encendido, 6.4a):**
+- *Encendido* → sin uso confirmado hoy (el del hero de la landing se retiró, 6.4a). Si
+  el contador/tablero de 6.4b termina necesitando una entrada con clímax, este es el
+  patrón candidato — a decidir en el bloque de implementación.
+- *Ascenso Escalonado* → sin dueño fijo tras retirar 6.4a; sigue disponible para
+  cualquier bloque de texto de `/programa` que quiera un preludio escalonado antes de
+  un Encendido.
+- *Revelado en Cascada* → el reveal genérico que el sitio entero usa desde HU-01
+  (`data-reveal`/`reveal.js`), en ambos territorios: landing clara y `/programa` oscuro.
+- *Tinte al Tacto* → ya nombrado en DESIGN.md §4; hover de botones y cards, en ambos
+  territorios. Sobre superficie oscura el tinte es glow (box-shadow verde) en vez de
+  elevación con sombra gris; sobre superficie clara, sigue siendo la sombra-tinte + rise
+  de siempre.
+- *Barra de Impulso Luminosa* → la banda de módulos de `/programa` (6.4c, implementado);
+  evolución de "La Barra de Impulso" (DESIGN.md) para secuencias de datos reales, no
+  solo el kicker de un h2.
 
 ### 8.2 Interacción → especificación
 
@@ -483,7 +619,7 @@ el contenido queda visible al instante, sin excepción.
 | Press/tap botón | `transform: scale(0.97)`, `150ms`; feedback visual < 100ms | Tinte al Tacto |
 | Hover card | Elevación a `--na-shadow-card-hover` (tinte verde) + `translateY(-4px)`, `250ms` | Tinte al Tacto |
 | Entrada de secciones al scroll | Fade + `translateY(16px→0)`, stagger de 40ms entre cards (IntersectionObserver vanilla, una sola vez) | Revelado en Cascada |
-| Entrada del hero | Ver 8.1 — Ascenso Escalonado + Encendido | Ascenso Escalonado + Encendido |
+| Entrada del hero de la landing | Revelado en Cascada genérico, como el resto de v1 (v2.1 retiró el Encendido, 6.4a) | Revelado en Cascada |
 | Cifras del "trust bar" / tablero de números | Count-up al entrar en viewport, ≤ 1s, una sola vez, valores reales del PO | — (sin nombre propio; regla compartida con Barra de Impulso Luminosa: nunca en loop) |
 | Reveal before–after | Slider o crossfade controlado por el usuario — nunca autoplay | — |
 | Botón WhatsApp | Sutil pulse del anillo cada ~6s (opacity/transform only); se detiene tras la primera interacción | — |
@@ -518,7 +654,7 @@ el contenido queda visible al instante, sin excepción.
 - [ ] Imágenes WebP con dimensiones declaradas; lazy load bajo el fold; CLS < 0.1 (excepción documentada: `andres-hero.jpeg` con `loading="eager"` por ser LCP del hero — pendiente de conversión a WebP, ver `docs/pendientes.md`)
 - [ ] Sin scroll horizontal en 375px; body ≥ 16px en móvil
 - [ ] `prefers-reduced-motion` respetado en los 5 patrones de 8.1, sin excepción
-- [ ] **Presupuesto de Glow respetado**: ninguna sección apila más de un `--na-glow-*` sobre el mismo elemento (6.6)
+- [ ] **Presupuesto de Glow respetado** (territorio `/programa`): ninguna sección apila más de un `--na-glow-*` sobre el mismo elemento (6.6); la landing no usa glow verde en absoluto (6.3-bis)
 - [ ] **Salas Iluminadas intactas**: `/agendar` y su confirmación siguen en superficie clara aunque la sección que las precede sea oscura (6.6)
 - [ ] Probado en 375 / 768 / 1024 / 1440px
 
@@ -526,3 +662,4 @@ el contenido queda visible al instante, sin excepción.
 
 *Generado con la skill `ui-ux-pro-max` (patrón Before–After Transformation + estilo Vibrant & Block-based + tipografía Barlow) el 2026-07-10. Paleta muestreada del logo real.*
 *Actualizado a v2 el 2026-07-21: Dirección A "Neón de Madrugada" elegida por el PO (D-21, Sprint 4). Overrides por página: crear `design-system/pages/<pagina>.md`.*
+*Actualizado a v2.1 el 2026-07-23: el PO acota la Dirección A a `/programa`; la landing vuelve a superficie clara con la foto de Andrés en el aro del hero; el "90" pasa de vivir en el aro a un contador/tablero tipo calendario (D-21 actualizado, Sprint 4).*
