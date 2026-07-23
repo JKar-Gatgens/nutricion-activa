@@ -13,7 +13,7 @@
         <div class="container">
 
             <div class="text-center mb-5">
-                <h1 class="mb-3" data-reveal>Agendá tu cita</h1>
+                <h1 class="na-section-title mb-3" data-reveal>Agendá tu cita</h1>
                 <p class="na-lead na-measure mx-auto mb-3" data-reveal data-reveal-delay="40">
                     Elegí tu servicio, la fecha y el horario que mejor te acomode. Confirmamos al instante.
                 </p>
@@ -28,13 +28,37 @@
                 </p>
             </div>
 
+            <!-- Indicador de pasos (Bloque 6, MASTER §6.6 "Salas Iluminadas"): el
+                 estado de cada paso viene directo del modelo, no de JS — Revelado en
+                 Cascada al cargar, sin dependencia de scroll. -->
+            <ol class="na-stepper" aria-label="Progreso de la reserva" data-reveal>
+                <li class="na-stepper-item"
+                    th:classappend="${servicioSeleccionado != null} ? 'is-done' : 'is-current'"
+                    th:attr="aria-current=${servicioSeleccionado == null} ? 'step'">
+                    <span class="na-stepper-dot" aria-hidden="true">1</span>
+                    <span class="na-stepper-label">Servicio</span>
+                </li>
+                <li class="na-stepper-item"
+                    th:classappend="${fechaSeleccionada != null} ? 'is-done' : (${servicioSeleccionado != null} ? 'is-current' : 'is-upcoming')"
+                    th:attr="aria-current=${servicioSeleccionado != null and fechaSeleccionada == null} ? 'step'">
+                    <span class="na-stepper-dot" aria-hidden="true">2</span>
+                    <span class="na-stepper-label">Fecha</span>
+                </li>
+                <li class="na-stepper-item"
+                    th:classappend="${servicioSeleccionado != null and fechaSeleccionada != null} ? 'is-current' : 'is-upcoming'"
+                    th:attr="aria-current=${servicioSeleccionado != null and fechaSeleccionada != null} ? 'step'">
+                    <span class="na-stepper-dot" aria-hidden="true">3</span>
+                    <span class="na-stepper-label">Horario y datos</span>
+                </li>
+            </ol>
+
             <div th:if="${errorGeneral}" class="alert alert-danger na-agendar-alerta" role="alert" data-reveal>
                 <span th:text="${errorGeneral}">No se pudo completar la reserva.</span>
             </div>
 
             <!-- ========== PASO 1: servicio ========== -->
             <div class="na-step" data-reveal>
-                <h2 class="na-step-title"><span class="na-step-num" aria-hidden="true">1</span> Elegí tu servicio</h2>
+                <h2 class="na-step-title">Elegí tu servicio</h2>
                 <div class="na-servicio-picker" role="list">
                     <a th:each="s : ${serviciosAgendables}"
                        role="listitem"
@@ -50,7 +74,7 @@
 
             <!-- ========== PASO 2: fecha (solo con servicio elegido) ========== -->
             <div class="na-step" th:if="${servicioSeleccionado != null}" data-reveal>
-                <h2 class="na-step-title"><span class="na-step-num" aria-hidden="true">2</span> Elegí la fecha</h2>
+                <h2 class="na-step-title">Elegí la fecha</h2>
                 <form method="get" th:action="@{/agendar}" class="na-fecha-form row g-3 align-items-end">
                     <input type="hidden" name="servicio" th:value="${servicioSeleccionado.id}">
                     <div class="col-12 col-sm-auto">
@@ -72,7 +96,7 @@
 
             <!-- ========== PASO 3: horario y datos (solo con servicio + fecha) ========== -->
             <div class="na-step" th:if="${servicioSeleccionado != null and fechaSeleccionada != null}" data-reveal>
-                <h2 class="na-step-title"><span class="na-step-num" aria-hidden="true">3</span> Horario y tus datos</h2>
+                <h2 class="na-step-title">Horario y tus datos</h2>
 
                 <div th:if="${slotsDisponibles == null or #lists.isEmpty(slotsDisponibles)}" class="na-sin-horarios">
                     <p class="mb-0">

@@ -28,12 +28,16 @@
                     <strong th:text="${servicio != null ? servicio.nombre : cita.servicioId}">Consulta de nutrición</strong>.
                 </p>
 
+                <!-- Jerarquía nueva (Bloque 6): fecha y horario son el dato accionable
+                     (Cifra Protagonista), "a nombre de" es confirmación de contexto y
+                     queda subordinado, separado por un hairline. Mismos dt/dd, mismo
+                     texto, mismos valores — solo cambia el peso visual (styles.css). -->
                 <dl class="na-confirmacion-resumen mb-0">
-                    <div>
+                    <div class="na-confirmacion-fecha">
                         <dt>Fecha</dt>
                         <dd th:text="${fechaFormateada}">lunes 20 de julio de 2026</dd>
                     </div>
-                    <div>
+                    <div class="na-confirmacion-fecha na-confirmacion-hora">
                         <dt>Horario (Costa Rica, GMT-6)</dt>
                         <dd th:text="|${horaInicio} – ${horaFin}|">14:00 – 15:30</dd>
                     </div>

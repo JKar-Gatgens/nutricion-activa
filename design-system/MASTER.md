@@ -5,6 +5,37 @@
 
 ---
 
+## v2.5 — 2026-07-23: `/agendar` y su confirmación pasan a la estética actualizada (nuevo 6.1-bis)
+
+Sprint 4, Bloque 6. `/agendar` (el formulario de 3 pasos) y `/agendar/confirmacion/{token}`
+no habían recibido ningún trabajo visual desde que se construyeron en Sprint 2 (HU-04) —
+seguían con la estética previa al rollout, aunque ya vivían en territorio claro por
+"Salas Iluminadas" (§6.6). Este bloque los actualiza sin tocar esa regla: **en un
+formulario, la claridad manda** — la energía visual entra por el marco (encabezados,
+indicador de pasos, pills de horario, CTA), nunca por los campos.
+
+- **Nuevo componente con nombre: el indicador de pasos (`.na-stepper`)** — dots
+  conectados por una línea que se llena con el degradado de marca solo cuando ese
+  tramo ya se completó; estado derivado directo del modelo (qué servicio/fecha ya se
+  eligieron), no de scroll ni de JS. Reemplaza al número inline que cada paso llevaba
+  suelto (quedaba redundante una vez que el overview lo muestra arriba).
+- **Encabezados del formulario**: el `<h1>` y cada `<h2>` de paso pasan a compartir la
+  firma `.na-section-title` (barra de degradado) que ya usa el resto del sitio — antes
+  eran texto plano sin relación visual con la landing.
+- **Confirmación: jerarquía nueva del resumen.** Fecha y horario — el dato que el
+  visitante necesita para actuar — pasan a Cifra Protagonista; "a nombre de" queda
+  subordinado tras un hairline. Mismos `dt`/`dd`, mismo copy, mismos valores — el
+  cambio es puramente de peso visual (CSS). El aviso honesto sobre el envío de correo
+  no cambia una palabra.
+- **Sin tokens nuevos, sin glow en ningún punto**: el pill de horario elegido suma
+  `--na-shadow-card` (profundidad de reposo), nunca un glow — territorio claro, no
+  gasta el Presupuesto de Glow porque ese presupuesto ni aplica acá (§6.6 lo acota a
+  `/programa`; la landing y `/agendar` sencillamente no usan glow verde).
+- **Todo esto se documenta en 6.1-bis (nueva)**, junto a 6.1: ambas páginas del
+  formulario son, igual que la landing, territorio claro sin excepción.
+
+---
+
 ## v2.4 — 2026-07-23: el PO descarta el tablero — el "90" vuelve al aro (corrige 6.4b)
 
 v2.3 había redefinido el "90" de `/programa` como contador/tablero tipo calendario
@@ -485,6 +516,53 @@ cambió en ningún momento del rollout:
 - **Cifras protagonistas**: métricas de resultados en Barlow Condensed gigante — el corazón del patrón before–after.
 - **Formas geométricas de acento**: el aro degradado es la firma decorativa (máx. 1–2 por sección) — en el hero, a partir de v2.1, enmarca la foto real de Andrés en vez del logo (6.3-bis).
 
+### 6.1-bis `/agendar` y su confirmación (territorio claro, nuevo en v2.5)
+
+`/agendar` (formulario de 3 pasos) y `/agendar/confirmacion/{token}` viven en el mismo
+territorio claro que la landing — así lo fija Salas Iluminadas (§6.6): sin importar que
+`/programa` sea oscuro, un formulario nunca lo es. Regla superior a cualquier otra
+decisión de esta sección: **en un formulario, la claridad manda**. La energía visual
+entra por el marco — encabezados, indicador de pasos, pills de horario, CTA — nunca
+por los campos: inputs, labels y mensajes de validación quedan sin ningún tratamiento
+que les reste legibilidad (Bootstrap `.form-control` de siempre, foco con anillo sólido
+`--na-green-dark`, §9).
+
+- **El indicador de pasos (`.na-stepper`), componente nuevo del sistema.** Una fila de
+  3 dots numerados conectados por una línea: gris por defecto, degradado de marca
+  (`--na-gradient-brand`) en el tramo ya completado. El estado (hecho / actual /
+  pendiente) sale directo del modelo — `servicioSeleccionado`, `fechaSeleccionada` —
+  nunca de JS ni de scroll, así que no depende de ningún patrón de `data-reveal`; el
+  único movimiento que lleva es la transición de color al navegar entre pasos (color,
+  no transform — `prefers-reduced-motion` lo conserva igual, ver 8.3). Cada paso
+  expone su estado también por `aria-current="step"`, no solo por color. Reemplaza al
+  número inline que cada `<h2>` de paso llevaba suelto (`.na-step-num`, retirada): con
+  el overview arriba, repetirlo en cada encabezado era redundante.
+- **Encabezados que comparten la firma del sitio.** El `<h1>` de la página y el `<h2>`
+  de cada paso (`.na-step-title`) pasan a llevar la misma barra de degradado que
+  `.na-section-title` en el resto de la landing — antes eran texto plano sin relación
+  visual con las demás secciones.
+- **Paso 1 (servicio)**: las cards de `.na-servicio-opcion` adoptan el mismo Tinte al
+  Tacto que `.na-service-card` — rise de 4px + `--na-shadow-card-hover` al pasar el
+  mouse — para que el marco del formulario se sienta del mismo sistema que Servicios.
+- **Paso 3 (horario)**: el pill elegido (`.na-slot input:checked + span`) suma
+  `--na-shadow-card` como profundidad de reposo. **Nunca un glow** — no porque gaste el
+  Presupuesto de Glow (ese presupuesto ni aplica: está acotado a `/programa`, §6.6),
+  sino porque ningún elemento de superficie clara usa glow verde, con o sin
+  presupuesto de por medio.
+- **Confirmación: jerarquía nueva del resumen.** Fecha y horario — el dato que el
+  visitante necesita para actuar (agendarlo en su propio calendario) — pasan a **Cifra
+  Protagonista**: Barlow 700, el horario en `--na-green-dark` (Regla del Verde
+  Legible: profundo sobre blanco). "A nombre de" queda con el tamaño chico de siempre,
+  separado por un hairline (`--na-gray-200`) — es confirmación de contexto, no el dato
+  accionable. Mismos `dt`/`dd` que antes, mismo copy, mismos valores: el cambio es
+  puramente de peso visual, vía CSS (`.na-confirmacion-fecha`, `.na-confirmacion-hora`).
+  **El aviso honesto sobre el envío de correo no cambia una palabra** — sigue
+  reflejando que el envío es best-effort y no bloquea la reserva (HU-05,
+  `docs/product-backlog.md`).
+- **Sin tokens nuevos.** Todo lo de arriba reutiliza tokens y componentes que ya
+  existían (`--na-gradient-brand`, `--na-shadow-card`, `--na-green-dark`,
+  `.na-section-title`) — Bloque 6 no introduce ninguna variable ni color.
+
 ### 6.2 `/programa`: mood y decisiones de superficie (territorio oscuro)
 
 El fondo dominante es negro de marca en toda la página. El verde deja de ser "color de
@@ -715,7 +793,8 @@ heredadas de v1 son del sitio entero, sin importar el territorio.
   formulario, la claridad manda sobre la estética. No es una excepción vergonzosa a la
   dirección: es la mitigación de riesgo que el brief pidió desde el diseño. (Con la
   landing también clara desde v2.1, esta regla queda relevante sobre todo para
-  diferenciar `/agendar` de `/programa`, que sí es oscuro.)
+  diferenciar `/agendar` de `/programa`, que sí es oscuro.) Ver 6.1-bis para el
+  detalle de cómo se actualizó su estética sin salir de este territorio.
 - **Performance.** CSS/JS vanilla, sin librerías nuevas. Imágenes reales optimizadas
   (WebP cuando sea posible); el tratamiento duotono es 100% CSS (`filter` +
   `mix-blend-mode`), cero peso adicional de imagen por variante de color. Rige en
@@ -731,7 +810,7 @@ heredadas de v1 son del sitio entero, sin importar el territorio.
 Patrón *Before–After Transformation* (optimizado a conversión para servicios de transformación física):
 
 1. **Navbar** (sticky, blanca, logo izquierda) — enlaces: Servicios · Resultados · Precios · CTA "Agendar cita" (btn-primary, siempre visible).
-2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. **Fondo claro (v1). Pieza nueva: la foto real de Andrés dentro del aro, con duotono suave de marca (6.3-bis/6.3-ter) y Revelado del Aro como clímax de entrada tras el Ascenso Escalonado del texto (6.4a). Implementado — Sprint 4, Bloque 6.**
+2. **Hero** — H1 con la promesa ("Alimenta tu potencial: pierde grasa, gana músculo"), subtítulo con especificidad (deportistas, online, toda LATAM), CTA primario "Agendar mi cita" + CTA secundario WhatsApp. **Fondo claro (v1). Pieza nueva: la foto real de Andrés dentro del aro, con duotono suave de marca (6.3-bis/6.3-ter) y Revelado del Aro como clímax de entrada tras el Ascenso Escalonado del texto (6.4a). Implementado — v2.2/v2.3.**
 3. **Barra de confianza** — cifras rápidas: años de experiencia, clientes transformados, países atendidos. Fondo negro de v1 (acento puntual, no territorio oscuro) — el hairline que le agregó v2 como transición de la apertura oscura ya no aplica; revertir junto con el hero.
 4. **Transformaciones (before–after)** — comparativas reales con métricas concretas; antes en gris desaturado, después a color con acentos verdes. La sección de mayor peso visual (fondo negro).
 5. **Cómo funciona** — 3 pasos: 1) Agenda tu evaluación → 2) Recibe tu plan personalizado → 3) Seguimiento y ajustes. Iconos + números grandes.
@@ -835,7 +914,7 @@ territorios, cada uno con la variante que le corresponde, 6.4a):**
 - [ ] Sin scroll horizontal en 375px; body ≥ 16px en móvil
 - [ ] `prefers-reduced-motion` respetado en los 6 patrones de 8.1 (incluye Revelado del Aro y el count-up de `countup.js`), sin excepción
 - [ ] **Presupuesto de Glow respetado** (territorio `/programa`): ninguna sección apila más de un `--na-glow-*` sobre el mismo elemento (6.6); la landing no usa glow verde en absoluto (6.3-bis)
-- [ ] **Salas Iluminadas intactas**: `/agendar` y su confirmación siguen en superficie clara aunque la sección que las precede sea oscura (6.6)
+- [ ] **Salas Iluminadas intactas**: `/agendar` y su confirmación siguen en superficie clara aunque la sección que las precede sea oscura (6.6, estética actualizada en 6.1-bis)
 - [ ] Probado en 375 / 768 / 1024 / 1440px
 
 ---
@@ -846,3 +925,4 @@ territorios, cada uno con la variante que le corresponde, 6.4a):**
 *Actualizado a v2.2 el 2026-07-23: el PO corrige su propia instrucción sobre la foto del hero — pieza de diseño, no foto cruda; nueva receta de imaginería en territorio claro (6.3-ter).*
 *Actualizado a v2.3 el 2026-07-23: se implementan el momento (a) reincorporado (Revelado del Aro, territorio claro) y el momento (b) redefinido (el "90" como contador/tablero, territorio oscuro).*
 *Actualizado a v2.4 el 2026-07-23: el PO prueba el tablero del "90" y pide volver al aro degradado de Bloque 4 — se revierte esa parte de v2.3, conservando el count-up dentro del aro.*
+*Actualizado a v2.5 el 2026-07-23: `/agendar` y su confirmación pasan a la estética actualizada (Sprint 4, Bloque 6) — indicador de pasos nuevo (`.na-stepper`) y jerarquía nueva del resumen de la confirmación, ambos en territorio claro bajo Salas Iluminadas (6.1-bis, nueva).*
