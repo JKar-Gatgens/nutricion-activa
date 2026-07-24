@@ -301,7 +301,7 @@ El aro degradado es el North Star del sistema hecho componente — y es delibera
 
 ### Foto duotono — fondo atmosférico de `/programa`
 
-Distinto de El Aro: esto no es un marco, es el fondo de pantalla completa detrás del hero de `/programa` (`gym-ambiente.jpg`). Es el duotono de **alto contraste** del territorio oscuro (Duotono Neón) — la receta opuesta en intensidad a la del hero de la landing:
+Distinto de El Aro: esto no es un marco, es el fondo de pantalla completa detrás del hero de `/programa` (`gym-ambiente.webp`). Es el duotono de **alto contraste** del territorio oscuro (Duotono Neón) — la receta opuesta en intensidad a la del hero de la landing:
 
 - **Desaturación total** (`grayscale(1) contrast(1.15) brightness(0.7)`, no parcial como en la landing).
 - **Tinte de marca a intensidad alta** (`mix-blend-mode: color`, opacidad 0.85, no 0.16).

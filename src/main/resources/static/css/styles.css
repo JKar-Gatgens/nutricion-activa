@@ -1416,7 +1416,7 @@ button:focus-visible,
   box-shadow: var(--na-glow-cta);
 }
 
-/* Fondo atmosférico (static/img/gym-ambiente.jpg). Ajuste tras feedback del
+/* Fondo atmosférico (static/img/gym-ambiente.webp). Ajuste tras feedback del
    PO: el oscurecido uniforme anterior no dejaba ver nada (ni la figura en
    la caminadora). Ahora es un SCRIM DIRECCIONAL (::before, más abajo): muy
    oscuro donde vive el texto (columna izquierda), notablemente más claro

@@ -574,7 +574,7 @@ progresivamente el resto del sitio" — v2.1 la acota a `/programa`.)*
 
 ### 6.3 `/programa`: tratamiento de imaginería — Duotono Neón (territorio oscuro)
 
-Toda foto real del PO que viva **en `/programa`** (hoy: `gym-ambiente.jpg` como fondo
+Toda foto real del PO que viva **en `/programa`** (hoy: `gym-ambiente.webp` como fondo
 atmosférico del hero) se integra a la paleta oscura con tratamiento CSS — grayscale +
 contraste para desaturar el original, un overlay que tiñe con el degradado de marca, y
 un scrim que protege el contraste del texto sin apagar la foto por completo (ajustado
@@ -601,7 +601,7 @@ donde vive el texto, más claro donde la foto debe leerse de verdad):
   opacity: 0.85;
 }
 /* Hunde el ruido de fondo: el sujeto queda al centro de la luz.
-   Para fondos atmosféricos (sin sujeto que preservar, p. ej. gym-ambiente.jpg)
+   Para fondos atmosféricos (sin sujeto que preservar, p. ej. gym-ambiente.webp)
    este scrim puede ser direccional (gradiente lineal) en vez de radial parejo —
    ver la implementación real en styles.css para el ejemplo vigente. */
 .foto-duotono::before {
@@ -910,7 +910,7 @@ territorios, cada uno con la variante que le corresponde, 6.4a):**
 - [ ] Focus visible en todos los interactivos: anillo sólido `#007D3C` (3px) sobre superficies claras — el translúcido `rgba(0,192,80,.4)` rendía ~1.4:1 y falla WCAG 1.4.11; **sobre superficies oscuras el anillo pasa a blanco** (verde-profundo rinde ~3.7:1 sobre negro, insuficiente) — no eliminar outline
 - [ ] Un solo H1 (hero); jerarquía h1→h2→h3 sin saltos
 - [ ] `alt` descriptivo en fotos de transformaciones; `aria-label` en botones de solo icono
-- [ ] Imágenes WebP con dimensiones declaradas; lazy load bajo el fold; CLS < 0.1 (excepción documentada: `andres-hero.jpeg` con `loading="eager"` por ser LCP del hero — pendiente de conversión a WebP, ver `docs/pendientes.md`)
+- [x] Imágenes WebP con dimensiones declaradas; lazy load bajo el fold; CLS < 0.1 (`andres-hero.webp`/`gym-ambiente.webp` llevan `loading="eager"` por ser el LCP de su hero — es la única excepción a lazy load, documentada, no un pendiente)
 - [ ] Sin scroll horizontal en 375px; body ≥ 16px en móvil
 - [ ] `prefers-reduced-motion` respetado en los 6 patrones de 8.1 (incluye Revelado del Aro y el count-up de `countup.js`), sin excepción
 - [ ] **Presupuesto de Glow respetado** (territorio `/programa`): ninguna sección apila más de un `--na-glow-*` sobre el mismo elemento (6.6); la landing no usa glow verde en absoluto (6.3-bis)
