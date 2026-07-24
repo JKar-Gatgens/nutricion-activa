@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-12T15:30:00Z",
+  "generatedAt": "2026-07-23T00:00:00Z",
   "title": "Design System: Nutrición Activa",
   "extensions": {
     "colorMeta": {
@@ -19,6 +19,10 @@
       "headline": { "displayName": "Headline", "purpose": "Títulos de sección (h2)." },
       "title": { "displayName": "Title", "purpose": "Títulos de card/plan (h3), con reserva de 2 líneas en grillas." },
       "price": { "displayName": "Cifra Protagonista", "purpose": "Precios y resultados: tabular-nums, nowrap, el héroe del patrón before–after." },
+      "display-dark": { "displayName": "Display Oscuro", "purpose": "H1 del hero de /programa (territorio oscuro), escala póster, mayúsculas + tracking 0.01em." },
+      "stat-hero": { "displayName": "Cifra Protagonista (aro)", "purpose": "El \"90\" dentro del aro del hero de /programa — la cifra más grande del sitio." },
+      "stat": { "displayName": "Cifra de Tablero", "purpose": "Cifras del tablero \"El programa, en números\" (90 / 3 / 6), territorio oscuro." },
+      "stat-price": { "displayName": "Cifra de Tablero (precio)", "purpose": "Variante del tablero para el precio completo — mismo peso visual, clamp más contenido por tener más caracteres." },
       "body": { "displayName": "Body", "purpose": "Cuerpo Barlow 400, ≥16px móvil, máx. 65ch." },
       "label": { "displayName": "Label", "purpose": "Captions, metadatos, chips." }
     },

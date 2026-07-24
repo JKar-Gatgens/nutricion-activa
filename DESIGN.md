@@ -38,6 +38,26 @@ typography:
     fontSize: "clamp(2rem, 3.5vw, 2.75rem)"
     fontWeight: 700
     lineHeight: 1.1
+  display-dark:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "clamp(3.5rem, 8vw, 6rem)"
+    fontWeight: 700
+    lineHeight: 1.15
+  stat-hero:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "clamp(6rem, 16vw, 11rem)"
+    fontWeight: 700
+    lineHeight: 1
+  stat:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "clamp(3rem, 8vw, 5rem)"
+    fontWeight: 700
+    lineHeight: 1
+  stat-price:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "clamp(2.25rem, 6vw, 3.75rem)"
+    fontWeight: 700
+    lineHeight: 1
   lead:
     fontFamily: "Barlow, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.25rem"
@@ -146,16 +166,22 @@ Paleta muestreada del logo real: un verde de salida sobre blanco y negro absolut
 **Character:** una sola superfamilia en dos anchos — la condensada empuja como dorsal de competencia, la regular acompaña con claridad clínica. El contraste viene del ancho y el peso, no de mezclar familias.
 
 ### Hierarchy
-- **Display** (700, clamp(2.5rem, 6vw, 4.5rem), 1.15): H1 del hero, mayúsculas opcionales. Uno por página.
+- **Display** (700, clamp(2.5rem, 6vw, 4.5rem), 1.15): H1 del hero de la landing (territorio claro), mayúsculas opcionales. Uno por página.
 - **Headline** (700, clamp(2rem, 4vw, 3rem), 1.15): títulos de sección (h2).
 - **Title** (700, 1.5rem, 1.2): títulos de card y plan (h3), con reserva de 2 líneas en grillas para mantener los rieles.
-- **Price** (700, clamp(2rem, 3.5vw, 2.75rem), 1.1, `tabular-nums`, `nowrap`): cifras de precio y resultado. La cifra es el héroe del patrón before–after.
+- **Price** (700, clamp(2rem, 3.5vw, 2.75rem), 1.1, `tabular-nums`, `nowrap`): cifras de precio y resultado en la landing. La cifra es el héroe del patrón before–after.
 - **Lead** (400, 1.25rem, 1.6): subtítulo del hero y entradas de sección, en Gris Secundario sobre blanco.
 - **Body** (400, 1rem, 1.6): cuerpo, nunca menor de 16px en móvil, máximo 65ch de línea.
 - **Label** (600, 0.875rem): captions, metadatos de card, chips.
 
+**Territorio oscuro (`/programa`, Sprint 4) — escala póster.** Mismas dos familias, un peldaño más grande: la Cifra Protagonista aquí no compite con precios en una card, compite con una foto de gimnasio a toda pantalla.
+- **Display-dark** (700, clamp(3.5rem, 8vw, 6rem), 1.15, `--na-fs-display`): H1 del hero de `/programa`, mayúsculas + tracking 0.01em.
+- **Stat-hero** (700, clamp(6rem, 16vw, 11rem), 1, `tabular-nums`): el "90" dentro del aro del hero de `/programa` — la cifra más grande del sitio.
+- **Stat** (700, clamp(3rem, 8vw, 5rem), 1, `tabular-nums`): cifras del tablero "El programa, en números" (90 / 3 / 6).
+- **Stat-price** (700, clamp(2.25rem, 6vw, 3.75rem), 1, `tabular-nums`, `nowrap`): variante del tablero para el precio completo (₡105.000) — más caracteres que 90/3/6, mismo peso visual, clamp más contenido.
+
 ### Named Rules
-**La Regla de la Cifra Protagonista.** Todo número que importa (precio, kg, semanas) se compone en Barlow Condensed 700 con `tabular-nums`, en tamaño Price o mayor. Los números no se esconden en el párrafo.
+**La Regla de la Cifra Protagonista.** Todo número que importa (precio, kg, semanas) se compone en Barlow Condensed 700 con `tabular-nums`, en tamaño Price o mayor — en territorio oscuro, en tamaño Stat o mayor. Los números no se esconden en el párrafo.
 
 **La Regla del Tracking en Caps.** Todo texto en MAYÚSCULAS lleva tracking por token: `--na-tracking-caps` (0.06em) a tamaño title y mayores, `--na-tracking-caps-sm` (0.08em) a tamaño label. Única excepción, declarada: el display del hero (condensado gigante) usa 0.01em para no romper la condensación.
 

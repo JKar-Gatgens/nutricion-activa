@@ -444,7 +444,7 @@ button:focus-visible,
   width: min(360px, 76vw);
   aspect-ratio: 1;
   margin-inline: auto;
-  padding: 4px;
+  padding: var(--na-space-1);
   border-radius: 50%;
   background: var(--na-gradient-brand);
   box-shadow: var(--na-shadow-card);
@@ -677,7 +677,7 @@ button:focus-visible,
    logo) sobre esquinas de card. width 100% + height auto mantiene proporción. */
 .na-photo-frame {
   background: var(--na-gradient-brand);
-  padding: 4px;
+  padding: var(--na-space-1);
   border-radius: var(--na-radius-md);
   box-shadow: var(--na-shadow-card);
 }
@@ -686,7 +686,9 @@ button:focus-visible,
   display: block;
   width: 100%;
   height: auto;
-  border-radius: calc(var(--na-radius-md) - 4px);
+  /* Radio interior = radio del marco menos su propio padding, para que las
+     dos esquinas queden concéntricas (nunca un valor mágico suelto). */
+  border-radius: calc(var(--na-radius-md) - var(--na-space-1));
 }
 
 /* ------------------------------------------------------------
