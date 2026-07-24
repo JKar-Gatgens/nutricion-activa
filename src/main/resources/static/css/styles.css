@@ -900,7 +900,7 @@ button:focus-visible,
   transform: scale(1);
 }
 
-/* Tinte al Tacto (DESIGN.md §4): variante para superficies oscuras — el
+/* Tinte al Tacto (DESIGN.md §5): variante para superficies oscuras — el
    tinte es glow (box-shadow verde), no elevación con sombra gris. Utilidad
    para futuras cards/hovers sobre fondo negro (p. ej. el tablero de
    números o los módulos de /programa). */
@@ -1264,7 +1264,7 @@ button:focus-visible,
   color: var(--na-gray-700);
 }
 
-/* Foco de campos de formulario: anillo sólido de marca (DESIGN.md §5) */
+/* Foco de campos de formulario: anillo sólido de marca (DESIGN.md §7) */
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {

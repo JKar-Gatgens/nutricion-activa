@@ -860,7 +860,7 @@ territorios, cada uno con la variante que le corresponde, 6.4a):**
   de su clímax respectivo (Revelado del Aro / Encendido).
 - *Revelado en Cascada* → el reveal genérico que el sitio entero usa desde HU-01
   (`data-reveal`/`reveal.js`), en ambos territorios: landing clara y `/programa` oscuro.
-- *Tinte al Tacto* → ya nombrado en DESIGN.md §4; hover de botones y cards, en ambos
+- *Tinte al Tacto* → ya nombrado en DESIGN.md §5 (Elevation & Depth); hover de botones y cards, en ambos
   territorios. Sobre superficie oscura el tinte es glow (box-shadow verde) en vez de
   elevación con sombra gris; sobre superficie clara, sigue siendo la sombra-tinte + rise
   de siempre.
