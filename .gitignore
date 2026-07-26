@@ -39,9 +39,3 @@ __pycache__/
 # Contiene la contrasena real de MySQL local; el repo solo versiona el
 # .example sin credenciales (ver docs/arquitectura-agendamiento.md).
 application-dev.properties
-.impeccable/
-CLAUDE.md/
-design-system/
-docs/
-DESIGN.md
-PRODUCT.md

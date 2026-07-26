@@ -415,7 +415,11 @@ button:focus-visible,
 .na-programa-hero .btn:focus-visible,
 .na-programa-precio a:focus-visible,
 .na-programa-precio .btn:focus-visible,
-.na-superficie-oscura a:focus-visible {
+.na-superficie-oscura a:focus-visible,
+.na-cierre a:focus-visible,
+.na-cierre .btn:focus-visible,
+.na-cierre-claro a:focus-visible,
+.na-cierre-claro .btn:focus-visible {
   outline-color: var(--na-white);
 }
 
