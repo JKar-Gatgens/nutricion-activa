@@ -5,6 +5,34 @@
 
 ---
 
+## v2.6 — 2026-07-25: el anillo del "90" en `/programa` es una variante intencional de territorio (aclara 6.4b)
+
+El critique final de Sprint 4 (`.impeccable/critique/2026-07-24T13-11-24Z__sitio-completo-index-agendar-programa.md`)
+señaló que el aro que enciende el "90" de `/programa` (`.na-programa-cifra::before`, `mask` de ~19-20px)
+es sensiblemente más grueso que el resto de las apariciones de El Aro en el sitio (el marco del hero de
+la landing y el de "Sobre mí", ambos ~4px vía `--na-space-1`) — y que DESIGN.md, generado del código,
+describía el Aro como "el mismo anillo de 4px" en las cuatro apariciones, lo cual ya no era cierto para
+esta.
+
+Se mostró la comparación lado a lado (4px spec vs. ~19px actual, con el degradado y el glow reales) al
+PO y al equipo de desarrollo: **se aprueba el grosor actual como variante intencional de `/programa`, no
+como una desviación a corregir.** Razón: dentro del aro compite con una foto de gimnasio a pantalla
+completa detrás (`gym-ambiente.webp`), no con una card blanca como en la landing — un anillo de 4px se
+pierde contra ese fondo oscuro de alto contraste; el grosor mayor es lo que sostiene el "90" como la
+pieza más protagonista del hero oscuro.
+
+- **6.4(b) se actualiza** (abajo) para documentar el grosor propio del aro del "90" como variante de
+  territorio oscuro — el resto de las apariciones de El Aro (landing, "Sobre mí") sigue en 4px, sin
+  cambios.
+- **Sin cambios de código.** Esta versión documenta el estado ya implementado (Bloque 4); no hay ningún
+  bloque de implementación pendiente por esta decisión.
+- **DESIGN.md queda desactualizado en este punto hasta su próxima regeneración** (`/impeccable
+  document`): hoy sigue describiendo un único grosor de 4px para las cuatro apariciones de El Aro. No es
+  urgente corregirlo aparte — la próxima regeneración lo toma directo del código, ya con esta ley del
+  MASTER como contexto.
+
+---
+
 ## v2.5 — 2026-07-23: `/agendar` y su confirmación pasan a la estética actualizada (nuevo 6.1-bis)
 
 Sprint 4, Bloque 6. `/agendar` (el formulario de 3 pasos) y `/agendar/confirmacion/{token}`
@@ -746,6 +774,15 @@ directamente en su valor final. Con `prefers-reduced-motion` o sin
 `IntersectionObserver`, el HTML ya trae el valor final en texto, así que se lee
 estático desde el primer render.
 
+**Grosor del aro — variante intencional de territorio (v2.6).** Este aro usa
+`mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% -
+19px))`, un anillo de ~19-20px — **no** los 4px (`--na-space-1`) que enmarcan la foto
+del hero de la landing y la de "Sobre mí". No es una desviación: es una variante de
+territorio aprobada por el PO y el equipo, con motivo compositivo — este aro compite
+con `gym-ambiente.webp` a pantalla completa detrás, no con una card blanca, y a 4px se
+pierde contra ese fondo. Cualquier otra aparición de El Aro en el sitio sigue en 4px;
+esta es la única excepción, y vive únicamente en `.na-programa-cifra::before`.
+
 **(c) La banda de módulos como progreso luminoso.** Sin cambios por v2.1. La secuencia
 "Día 1–30 / 31–60 / 61–90" se dibuja como una barra de progreso con el degradado de
 marca que se llena al hacer scroll — patrón Barra de Impulso Luminosa (§8.1),
@@ -926,3 +963,4 @@ territorios, cada uno con la variante que le corresponde, 6.4a):**
 *Actualizado a v2.3 el 2026-07-23: se implementan el momento (a) reincorporado (Revelado del Aro, territorio claro) y el momento (b) redefinido (el "90" como contador/tablero, territorio oscuro).*
 *Actualizado a v2.4 el 2026-07-23: el PO prueba el tablero del "90" y pide volver al aro degradado de Bloque 4 — se revierte esa parte de v2.3, conservando el count-up dentro del aro.*
 *Actualizado a v2.5 el 2026-07-23: `/agendar` y su confirmación pasan a la estética actualizada (Sprint 4, Bloque 6) — indicador de pasos nuevo (`.na-stepper`) y jerarquía nueva del resumen de la confirmación, ambos en territorio claro bajo Salas Iluminadas (6.1-bis, nueva).*
+*Actualizado a v2.6 el 2026-07-25: el anillo del "90" de `/programa` (~19-20px) se documenta como variante intencional de territorio, aprobada por el PO tras revisar la comparación 4px vs. actual — no se corrige a 4px (aclara 6.4b).*
