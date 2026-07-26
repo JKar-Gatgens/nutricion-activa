@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Programa Fuerte y Definido — Nutrición Activa')}">
+<head th:replace="~{fragments/layout :: head(
+        pageTitle='Programa Fuerte y Definido — Nutrición Activa',
+        pageDescription='El programa Fuerte y Definido: 90 días, 3 módulos, plan nutricional y de entrenamiento con seguimiento de Andrés.',
+        pageImage='/img/gym-ambiente.webp',
+        pagePath='/programa')}">
     <title>Programa Fuerte y Definido — Nutrición Activa</title>
 </head>
 <body>
