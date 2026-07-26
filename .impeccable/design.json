@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-12T15:30:00Z",
+  "generatedAt": "2026-07-23T12:00:00Z",
   "title": "Design System: Nutrición Activa",
   "extensions": {
     "colorMeta": {
@@ -10,28 +10,41 @@
       "negro-marca": { "role": "neutral", "displayName": "Negro Marca", "canonical": "#0A0A0A", "tonalRamp": ["oklch(13% 0.003 160)", "oklch(25% 0.004 160)", "oklch(37% 0.005 160)", "oklch(50% 0.005 160)", "oklch(63% 0.005 160)", "oklch(76% 0.005 160)", "oklch(89% 0.004 160)", "oklch(97% 0.002 160)"] },
       "gris-cuerpo": { "role": "neutral", "displayName": "Gris Cuerpo", "canonical": "#3D4440", "tonalRamp": ["oklch(18% 0.006 160)", "oklch(28% 0.007 160)", "oklch(38% 0.008 160)", "oklch(48% 0.008 160)", "oklch(60% 0.008 160)", "oklch(72% 0.007 160)", "oklch(85% 0.006 160)", "oklch(95% 0.004 160)"] },
       "gris-superficie": { "role": "neutral", "displayName": "Gris Superficie", "canonical": "#F4F7F5", "tonalRamp": ["oklch(20% 0.004 165)", "oklch(32% 0.005 165)", "oklch(45% 0.006 165)", "oklch(58% 0.006 165)", "oklch(70% 0.006 165)", "oklch(82% 0.005 165)", "oklch(91% 0.005 165)", "oklch(97% 0.004 165)"] },
+      "hairline-oscuro": { "role": "neutral", "displayName": "Hairline Oscuro", "canonical": "rgba(255, 255, 255, 0.08)", "tonalRamp": ["oklch(15% 0 0)", "oklch(28% 0 0)", "oklch(40% 0 0)", "oklch(52% 0 0)", "oklch(64% 0 0)", "oklch(76% 0 0)", "oklch(88% 0 0)", "oklch(97% 0 0)"] },
       "verde-whatsapp": { "role": "tertiary", "displayName": "Verde WhatsApp (intocable)", "canonical": "#25D366", "tonalRamp": ["oklch(25% 0.09 152)", "oklch(36% 0.13 152)", "oklch(48% 0.16 152)", "oklch(60% 0.19 152)", "oklch(76% 0.20 152)", "oklch(84% 0.15 152)", "oklch(91% 0.09 152)", "oklch(96% 0.04 152)"] },
       "ambar-tinte": { "role": "tertiary", "displayName": "Ámbar Tinte (chip .na-pending)", "canonical": "#FFF3CD", "tonalRamp": ["oklch(25% 0.06 85)", "oklch(38% 0.09 85)", "oklch(50% 0.11 85)", "oklch(62% 0.12 85)", "oklch(75% 0.11 85)", "oklch(85% 0.09 85)", "oklch(92% 0.07 85)", "oklch(97% 0.04 85)"] },
       "ambar-tinta": { "role": "tertiary", "displayName": "Ámbar Tinta (texto .na-pending)", "canonical": "#7A4A08", "tonalRamp": ["oklch(20% 0.05 70)", "oklch(30% 0.07 70)", "oklch(40% 0.09 70)", "oklch(50% 0.10 70)", "oklch(62% 0.11 70)", "oklch(74% 0.10 70)", "oklch(86% 0.07 70)", "oklch(94% 0.04 70)"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "H1 del hero, Barlow Condensed 700, mayúsculas opcionales. Uno por página." },
-      "headline": { "displayName": "Headline", "purpose": "Títulos de sección (h2)." },
+      "display": { "displayName": "Display", "purpose": "H1 del hero de la landing (territorio claro), Barlow Condensed 700, mayúsculas opcionales. Uno por página." },
+      "headline": { "displayName": "Headline", "purpose": "Títulos de sección (h2), en ambos territorios." },
       "title": { "displayName": "Title", "purpose": "Títulos de card/plan (h3), con reserva de 2 líneas en grillas." },
-      "price": { "displayName": "Cifra Protagonista", "purpose": "Precios y resultados: tabular-nums, nowrap, el héroe del patrón before–after." },
+      "price": { "displayName": "Cifra Protagonista", "purpose": "Precios y resultados en la landing: tabular-nums, nowrap, el héroe del patrón before–after." },
+      "display-dark": { "displayName": "Display Oscuro", "purpose": "H1 del hero de /programa (territorio oscuro), escala póster, mayúsculas + tracking 0.01em." },
+      "stat-hero": { "displayName": "Cifra Protagonista (aro)", "purpose": "El \"90\" dentro del aro del hero de /programa — la cifra más grande del sitio." },
+      "stat": { "displayName": "Cifra de Tablero", "purpose": "Cifras del tablero \"El programa, en números\" (90 / 3 / 6), territorio oscuro." },
+      "stat-price": { "displayName": "Cifra de Tablero (precio)", "purpose": "Variante del tablero para el precio completo — mismo peso visual, clamp más contenido por tener más caracteres." },
       "body": { "displayName": "Body", "purpose": "Cuerpo Barlow 400, ≥16px móvil, máx. 65ch." },
       "label": { "displayName": "Label", "purpose": "Captions, metadatos, chips." }
     },
     "shadows": [
-      { "name": "reposo", "value": "0 4px 16px rgba(10, 10, 10, 0.08)", "purpose": "Cards y marcos en estado base: susurro ambiental." },
-      { "name": "respuesta", "value": "0 10px 28px rgba(0, 192, 80, 0.18)", "purpose": "Hover de card con tinte verde + translateY(-4px), 250ms. La Regla del Tinte al Tacto." },
-      { "name": "flotante", "value": "0 6px 20px rgba(37, 211, 102, 0.35)", "purpose": "Exclusiva del FAB de WhatsApp." }
+      { "name": "reposo", "value": "0 4px 16px rgba(10, 10, 10, 0.08)", "purpose": "Cards y marcos en estado base, territorio claro: susurro ambiental." },
+      { "name": "respuesta", "value": "0 10px 28px rgba(0, 192, 80, 0.18)", "purpose": "Hover de card con tinte verde + translateY(-4px), 250ms, territorio claro. La Regla del Tinte al Tacto." },
+      { "name": "flotante", "value": "0 6px 20px rgba(37, 211, 102, 0.35)", "purpose": "Exclusiva del FAB de WhatsApp, en cualquier territorio." },
+      { "name": "glow-cta", "value": "0 0 32px rgba(0, 192, 80, 0.35)", "purpose": "Único glow del botón primario sobre fondo oscuro de /programa — \"el botón emite luz\". Presupuesto de Glow: máximo uno por elemento." },
+      { "name": "glow-foto", "value": "0 0 48px rgba(0, 192, 80, 0.45)", "purpose": "Glow de marcos de fotografía sobre fondo oscuro de /programa (Duotono Neón), si la composición lo pide." },
+      { "name": "glow-aro", "value": "0 0 44px rgba(0, 192, 80, 0.45)", "purpose": "El glow del aro que enciende el \"90\" del hero de /programa — única sombra de ese elemento." }
     ],
     "motion": [
-      { "name": "ease-out-marca", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Ease-out fuerte para entradas y estados." },
-      { "name": "dur-fast", "value": "150ms", "purpose": "Press, subrayado de navbar, hovers de botón." },
-      { "name": "dur-base", "value": "250ms", "purpose": "Hover de cards, cambios de color." },
-      { "name": "reveal", "value": "280ms, translateY(16px)→0 + fade, stagger 40ms", "purpose": "Entrada al scroll, una sola vez, progresiva (sin JS nada se oculta)." }
+      { "name": "ease-out-marca", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Ease-out fuerte, único easing del sistema en cualquier territorio o patrón." },
+      { "name": "dur-fast", "value": "150ms", "purpose": "Tinte al Tacto: press, subrayado de navbar, hovers de botón." },
+      { "name": "dur-base", "value": "250ms", "purpose": "Tinte al Tacto: hover de cards, cambios de color/borde del stepper." },
+      { "name": "revelado-en-cascada", "value": "280ms, translateY(16px)→0 + fade, stagger 40ms", "purpose": "El reveal genérico de secciones al scroll, en ambos territorios — dispara una sola vez vía IntersectionObserver; sin JS o con reduced-motion, el contenido nace visible." },
+      { "name": "ascenso-escalonado", "value": "550ms, translateY(32px)→0, stagger ~120ms entre elementos", "purpose": "El texto de ambos heros (landing y /programa) como preludio de su clímax respectivo." },
+      { "name": "encendido", "value": "850ms, opacity + scale desde 0.92", "purpose": "Clímax del hero de /programa — el aro con el \"90\" enciende; el glow ya puesto en reposo aparece junto con la opacidad, nunca animado aparte." },
+      { "name": "revelado-del-aro", "value": "700ms, aro opacity+scale desde 0.86, foto adentro opacity+scale desde 1.18 con 120ms de rezago propio", "purpose": "Clímax del hero de la landing (territorio claro) — equivalente sin glow de Encendido: el drama es puro movimiento, en dos tiempos." },
+      { "name": "barra-de-impulso-luminosa", "value": "1100ms, scaleX(0→1), transform-origin: left", "purpose": "La banda de módulos de /programa se llena al entrar en viewport, una sola vez; nace llena bajo reduced-motion." },
+      { "name": "count-up", "value": "900ms, 0→valor real, una sola vez, nunca en loop", "purpose": "La cifra del \"90\" cuenta hacia arriba al entrar en viewport (countup.js); con reduced-motion o sin IntersectionObserver, el HTML ya trae el valor final en texto." }
     ],
     "breakpoints": [
       { "name": "sm", "value": "576px" },
@@ -46,7 +59,7 @@
       "name": "Botón primario",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "CTA principal: píldora Verde Arranque con texto negro; hover a Verde Profundo con texto blanco y empuje.",
+      "description": "CTA principal en cualquier territorio: píldora Verde Arranque con texto negro; hover a Verde Profundo con texto blanco y empuje. En /programa suma el Glow CTA (no incluido en este snippet, que es la versión de territorio claro).",
       "html": "<button class=\"ds-btn-primary\">Agendar mi cita</button>",
       "css": ".ds-btn-primary { background: var(--na-green, #00C050); color: var(--na-black, #0A0A0A); font-family: Barlow, Arial, sans-serif; font-weight: 600; font-size: 1rem; padding: 0.75rem 2rem; border: 1px solid var(--na-green, #00C050); border-radius: 999px; cursor: pointer; transition: background-color 250ms cubic-bezier(0.16,1,0.3,1), color 250ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: var(--na-green-dark, #007D3C); border-color: var(--na-green-dark, #007D3C); color: #fff; transform: translateY(-2px); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 3px solid #007D3C; outline-offset: 2px; }"
     },
@@ -54,15 +67,23 @@
       "name": "Botón secundario",
       "kind": "button",
       "refersTo": "button-outline",
-      "description": "Acción secundaria: outline negro que invierte a sólido en hover.",
+      "description": "Acción secundaria sobre superficie clara: outline negro que invierte a sólido en hover.",
       "html": "<button class=\"ds-btn-outline\">Escribime por WhatsApp</button>",
       "css": ".ds-btn-outline { background: transparent; color: var(--na-black, #0A0A0A); font-family: Barlow, Arial, sans-serif; font-weight: 600; font-size: 1rem; padding: 0.75rem 2rem; border: 1px solid var(--na-black, #0A0A0A); border-radius: 999px; cursor: pointer; transition: background-color 250ms, color 250ms; } .ds-btn-outline:hover { background: var(--na-black, #0A0A0A); color: #fff; } .ds-btn-outline:focus-visible { outline: 3px solid #007D3C; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botón secundario oscuro",
+      "kind": "button",
+      "refersTo": "button-outline-dark",
+      "description": "Acción secundaria sobre superficie oscura o cualquier franja negra (el cierre de la landing, el hero de /programa): outline blanco, el negro sería invisible ahí.",
+      "html": "<div class=\"ds-dark-stage\"><button class=\"ds-btn-outline-dark\">Ver cómo funciona</button></div>",
+      "css": ".ds-dark-stage { background: #0A0A0A; padding: 32px; border-radius: 16px; } .ds-btn-outline-dark { background: transparent; color: #fff; font-family: Barlow, Arial, sans-serif; font-weight: 600; font-size: 1rem; padding: 0.75rem 2rem; border: 1px solid #fff; border-radius: 999px; cursor: pointer; transition: background-color 250ms, color 250ms; } .ds-btn-outline-dark:hover { background: #fff; color: #0A0A0A; } .ds-btn-outline-dark:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }"
     },
     {
       "name": "Chip / eslogan",
       "kind": "chip",
       "refersTo": "chip-eyebrow",
-      "description": "Chip de marca: eslogan del hero y badge Recomendado. No es gramática de sección.",
+      "description": "Chip de marca: eslogan del hero y badge Recomendado. Exclusivo de territorio claro. No es gramática de sección.",
       "html": "<span class=\"ds-chip\">Alimenta tu potencial</span>",
       "css": ".ds-chip { display: inline-block; background: var(--na-green-tint, #E6F9EE); color: var(--na-green-dark, #007D3C); font-family: Barlow, Arial, sans-serif; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 999px; padding: 4px 16px; }"
     },
@@ -70,15 +91,23 @@
       "name": "Card de servicio (destacada)",
       "kind": "card",
       "refersTo": "card",
-      "description": "Card de plan con barra superior del aro degradado, cifra protagonista y elevación que responde.",
+      "description": "Card de plan, territorio claro: barra superior del aro degradado, cifra protagonista y elevación que responde.",
       "html": "<article class=\"ds-card ds-card-featured\"><span class=\"ds-chip\" style=\"align-self:flex-start;margin-bottom:16px;\">Recomendado</span><h3 class=\"ds-card-title\">Consulta de nutrición</h3><p class=\"ds-card-desc\">Evaluación inicial completa para construir tu plan personalizado.</p><p class=\"ds-card-price\">₡30 000</p><button class=\"ds-btn-primary\" style=\"margin-top:16px;\">Agendar</button></article>",
-      "css": ".ds-card { position: relative; display: flex; flex-direction: column; background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(10,10,10,0.08); padding: 24px; max-width: 300px; overflow: hidden; font-family: Barlow, Arial, sans-serif; transition: transform 250ms cubic-bezier(0.16,1,0.3,1), box-shadow 250ms cubic-bezier(0.16,1,0.3,1); } .ds-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,192,80,0.18); } .ds-card-featured::before { content: \"\"; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #00A870 0%, #00C050 100%); } .ds-card-title { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 1.5rem; line-height: 1.2; color: #0A0A0A; margin: 0 0 8px; } .ds-card-desc { color: #6B736E; font-size: 1rem; line-height: 1.6; margin: 0 0 16px; } .ds-card-price { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 2.25rem; line-height: 1.1; color: #0A0A0A; font-variant-numeric: tabular-nums; white-space: nowrap; margin: auto 0 0; }"
+      "css": ".ds-card { position: relative; display: flex; flex-direction: column; background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(10,10,10,0.08); padding: 24px; max-width: 300px; overflow: hidden; font-family: Barlow, Arial, sans-serif; transition: transform 250ms cubic-bezier(0.16,1,0.3,1), box-shadow 250ms cubic-bezier(0.16,1,0.3,1); } .ds-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,192,80,0.18); } .ds-card-featured::before { content: \"\"; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #00A870 0%, #00C050 100%); } .ds-card-title { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 1.5rem; line-height: 1.2; color: #0A0A0A; margin: 0 0 8px; } .ds-card-desc { color: #6B736E; font-size: 1rem; line-height: 1.6; margin: 0 0 16px; } .ds-card-price { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 2.25rem; line-height: 1.1; color: #0A0A0A; font-variant-numeric: tabular-nums; white-space: nowrap; margin: auto 0 0; } .ds-btn-primary { background: var(--na-green, #00C050); color: var(--na-black, #0A0A0A); font-family: Barlow, Arial, sans-serif; font-weight: 600; font-size: 1rem; padding: 0.75rem 2rem; border: 1px solid var(--na-green, #00C050); border-radius: 999px; cursor: pointer; }"
+    },
+    {
+      "name": "Card de módulo (oscura)",
+      "kind": "card",
+      "refersTo": "card-oscura",
+      "description": "Card de /programa (territorio oscuro): fondo negro, hairline en vez de sombra, número en círculo degradado (eco del aro). La secuencia Día 1–30/31–60/61–90 es contenido real, no un adorno.",
+      "html": "<div class=\"ds-dark-stage\"><article class=\"ds-modulo-card\"><span class=\"ds-modulo-num\">1</span><h3 class=\"ds-modulo-nombre\">Fundamentos</h3><p class=\"ds-modulo-dias\">Día 1–30</p></article></div>",
+      "css": ".ds-dark-stage { background: #0A0A0A; padding: 32px; border-radius: 16px; } .ds-modulo-card { height: 100%; background: #0A0A0A; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 32px 24px; text-align: center; font-family: Barlow, Arial, sans-serif; } .ds-modulo-num { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: var(--na-gradient-brand, linear-gradient(135deg,#00A870,#00C050)); color: #0A0A0A; font-family: 'Barlow Condensed', Arial, sans-serif; font-weight: 700; font-size: 1.5rem; margin-bottom: 16px; } .ds-modulo-nombre { font-size: 1.5rem; margin-bottom: 4px; color: #fff; font-family: 'Barlow Condensed', Arial, sans-serif; font-weight: 700; } .ds-modulo-dias { color: #00C050; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0; }"
     },
     {
       "name": "Enlace de navbar",
       "kind": "nav",
       "refersTo": "navbar-link",
-      "description": "Enlace con subrayado animado izquierda→derecha en Verde Arranque (150ms).",
+      "description": "Enlace con subrayado animado izquierda→derecha en Verde Arranque (150ms). La navbar no cambia entre territorios.",
       "html": "<a href=\"#\" class=\"ds-nav-link\">Servicios</a>",
       "css": ".ds-nav-link { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--na-black, #0A0A0A); font-family: Barlow, Arial, sans-serif; font-weight: 500; font-size: 1rem; text-decoration: none; } .ds-nav-link::after { content: \"\"; position: absolute; left: 8px; right: 8px; bottom: 6px; height: 2px; background: var(--na-green, #00C050); transform: scaleX(0); transform-origin: left; transition: transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-nav-link:hover::after, .ds-nav-link:focus-visible::after { transform: scaleX(1); }"
     },
@@ -86,52 +115,90 @@
       "name": "FAB de WhatsApp",
       "kind": "custom",
       "refersTo": "whatsapp-fab",
-      "description": "Botón flotante 56×56 en Verde WhatsApp intocable; hover con escala sutil, press físico.",
+      "description": "Botón flotante 56×56 en Verde WhatsApp intocable; hover con escala sutil, press físico. No cambia entre territorios.",
       "html": "<a href=\"#\" class=\"ds-whatsapp-fab\" aria-label=\"Escribir por WhatsApp\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"28\" height=\"28\" fill=\"currentColor\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232\"/></svg></a>",
       "css": ".ds-whatsapp-fab { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 999px; background: #25D366; color: #fff; box-shadow: 0 6px 20px rgba(37,211,102,0.35); transition: transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-whatsapp-fab:hover { transform: scale(1.06); color: #fff; } .ds-whatsapp-fab:active { transform: scale(0.95); } .ds-whatsapp-fab:focus-visible { outline: 3px solid #007D3C; outline-offset: 2px; }"
     },
     {
-      "name": "Input de formulario (previsto /agendar)",
+      "name": "Input de formulario",
       "kind": "input",
       "refersTo": "input-field",
-      "description": "Campo con label visible, borde Gris Borde y focus ring verde. Base para el formulario de citas.",
+      "description": "Campo de /agendar: label visible, borde Gris Borde, focus ring verde. Sin ningún tratamiento decorativo — en un formulario, la claridad manda (Salas Iluminadas).",
       "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-email\">Correo electrónico</label><input class=\"ds-field-input\" type=\"email\" id=\"ds-email\" placeholder=\"vos@correo.com\"></div>",
       "css": ".ds-field { display: flex; flex-direction: column; gap: 4px; font-family: Barlow, Arial, sans-serif; max-width: 320px; } .ds-field-label { font-size: 0.875rem; font-weight: 600; color: var(--na-gray-700, #3D4440); } .ds-field-input { font-size: 1rem; color: var(--na-gray-700, #3D4440); background: #fff; border: 1px solid var(--na-gray-200, #DEE4E0); border-radius: 8px; padding: 12px 16px; } .ds-field-input:focus-visible { outline: 3px solid #007D3C; outline-offset: 1px; border-color: var(--na-green-dark, #007D3C); }"
+    },
+    {
+      "name": "Pill de horario",
+      "kind": "input",
+      "refersTo": "slot-pill",
+      "description": "Radio disfrazado de pill en el paso 3 de /agendar: 44px de alto mínimo (target táctil), seleccionado = fondo verde + sombra de reposo (nunca un glow, territorio claro no lo admite).",
+      "html": "<div class=\"ds-slots\"><label class=\"ds-slot\"><input type=\"radio\" name=\"ds-horario\" checked><span>08:00</span></label><label class=\"ds-slot\"><input type=\"radio\" name=\"ds-horario\"><span>08:30</span></label><label class=\"ds-slot\"><input type=\"radio\" name=\"ds-horario\"><span>09:00</span></label></div>",
+      "css": ".ds-slots { display: flex; gap: 8px; flex-wrap: wrap; } .ds-slot { position: relative; display: inline-block; cursor: pointer; } .ds-slot input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; } .ds-slot span { display: inline-flex; align-items: center; justify-content: center; min-width: 88px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--na-gray-200, #DEE4E0); background: #fff; font-weight: 600; font-variant-numeric: tabular-nums; font-family: Barlow, Arial, sans-serif; transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), border-color 150ms cubic-bezier(0.16,1,0.3,1), color 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-slot:hover span { border-color: var(--na-green-dark, #007D3C); } .ds-slot:active span { transform: scale(0.97); } .ds-slot input:checked + span { background: var(--na-green, #00C050); border-color: var(--na-green, #00C050); color: #0A0A0A; box-shadow: 0 4px 16px rgba(10,10,10,0.08); } .ds-slot input:focus-visible + span { outline: 3px solid #007D3C; outline-offset: 2px; }"
+    },
+    {
+      "name": "El indicador de pasos",
+      "kind": "custom",
+      "refersTo": "stepper",
+      "description": "Componente nuevo (Sprint 4 Bloque 6), exclusivo de /agendar: overview de los 3 pasos, estado derivado del modelo (no de scroll/JS), línea conectora que se llena con el degradado cuando el tramo se completó.",
+      "html": "<ol class=\"ds-stepper\"><li class=\"ds-stepper-item is-done\"><span class=\"ds-stepper-dot\">1</span><span class=\"ds-stepper-label\">Servicio</span></li><li class=\"ds-stepper-item is-current\"><span class=\"ds-stepper-dot\">2</span><span class=\"ds-stepper-label\">Fecha</span></li><li class=\"ds-stepper-item\"><span class=\"ds-stepper-dot\">3</span><span class=\"ds-stepper-label\">Horario y datos</span></li></ol>",
+      "css": ".ds-stepper { display: flex; list-style: none; margin: 0; padding: 0; max-width: 420px; } .ds-stepper-item { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; font-family: Barlow, Arial, sans-serif; } .ds-stepper-item:not(:last-child)::after { content: \"\"; position: absolute; top: 17px; left: 50%; width: 100%; height: 2px; background: var(--na-gray-200, #DEE4E0); z-index: 0; } .ds-stepper-item.is-done:not(:last-child)::after { background: var(--na-gradient-brand, linear-gradient(135deg,#00A870,#00C050)); } .ds-stepper-dot { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; font-family: 'Barlow Condensed', Arial, sans-serif; font-weight: 700; background: #fff; border: 2px solid var(--na-gray-200, #DEE4E0); color: var(--na-gray-500, #6B736E); transition: background-color 250ms cubic-bezier(0.16,1,0.3,1), border-color 250ms cubic-bezier(0.16,1,0.3,1), color 250ms cubic-bezier(0.16,1,0.3,1); } .ds-stepper-item.is-done .ds-stepper-dot { background: var(--na-gradient-brand, linear-gradient(135deg,#00A870,#00C050)); border-color: transparent; color: #0A0A0A; } .ds-stepper-item.is-current .ds-stepper-dot { border-color: var(--na-green-dark, #007D3C); color: var(--na-green-dark, #007D3C); } .ds-stepper-label { margin-top: 8px; font-size: 0.875rem; font-weight: 600; color: var(--na-gray-500, #6B736E); } .ds-stepper-item.is-done .ds-stepper-label, .ds-stepper-item.is-current .ds-stepper-label { color: #0A0A0A; }"
+    },
+    {
+      "name": "El Aro — foto (territorio claro)",
+      "kind": "custom",
+      "refersTo": "aro-foto",
+      "description": "Signature Component, versión landing: el aro degradado enmarca una foto real con duotono suave (desaturación parcial + tinte de marca a baja intensidad + viñeta clara). Placeholder de silueta en vez de foto real — el tratamiento es lo que se documenta, no la foto de Andrés.",
+      "html": "<div class=\"ds-aro-foto\"><span class=\"ds-aro-foto-frame\"><svg class=\"ds-aro-foto-placeholder\" viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><rect width=\"100\" height=\"100\" fill=\"#9aa39c\"/><circle cx=\"50\" cy=\"38\" r=\"18\" fill=\"#5c645f\"/><ellipse cx=\"50\" cy=\"88\" rx=\"32\" ry=\"26\" fill=\"#5c645f\"/></svg></span></div>",
+      "css": ".ds-aro-foto { position: relative; width: 180px; aspect-ratio: 1; margin-inline: auto; padding: 4px; border-radius: 50%; background: var(--na-gradient-brand, linear-gradient(135deg,#00A870,#00C050)); box-shadow: 0 4px 16px rgba(10,10,10,0.08); } .ds-aro-foto-frame { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; border-radius: 50%; } .ds-aro-foto-placeholder { display: block; width: 100%; height: 100%; filter: grayscale(0.45) contrast(1.1) saturate(0.9); } .ds-aro-foto-frame::after { content: \"\"; position: absolute; inset: 0; background: var(--na-gradient-brand, linear-gradient(135deg,#00A870,#00C050)); mix-blend-mode: color; opacity: 0.16; } .ds-aro-foto-frame::before { content: \"\"; position: absolute; inset: 0; z-index: 1; background: radial-gradient(circle at 50% 24%, transparent 45%, rgba(255,255,255,0.7) 100%); }"
+    },
+    {
+      "name": "El Aro — cifra (territorio oscuro)",
+      "kind": "custom",
+      "refersTo": "aro-cifra",
+      "description": "Signature Component, versión /programa: el mismo aro, ahora hueco (máscara radial) con el \"90\" adentro y su único glow. Cuenta hacia arriba una sola vez al cargar (countup.js) — este snippet estático muestra el valor final.",
+      "html": "<div class=\"ds-dark-stage\"><div class=\"ds-aro-cifra\"><span class=\"ds-aro-cifra-num\">90</span><span class=\"ds-aro-cifra-label\">días · 3 módulos</span></div></div>",
+      "css": ".ds-dark-stage { background: #0A0A0A; padding: 32px; border-radius: 16px; } .ds-aro-cifra { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 220px; aspect-ratio: 1; margin-inline: auto; padding: 24px; background: radial-gradient(circle, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0) 68%); font-family: Barlow, Arial, sans-serif; } .ds-aro-cifra::before { content: \"\"; position: absolute; inset: 0; border-radius: 50%; background: var(--na-gradient-brand, linear-gradient(135deg,#00A870,#00C050)); mask: radial-gradient(farthest-side, transparent calc(100% - 12px), #000 calc(100% - 11px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 12px), #000 calc(100% - 11px)); filter: drop-shadow(0 0 44px rgba(0,192,80,0.45)); } .ds-aro-cifra-num { position: relative; font-family: 'Barlow Condensed', Arial, sans-serif; font-weight: 700; font-variant-numeric: tabular-nums; font-size: 4rem; line-height: 1; color: #fff; } .ds-aro-cifra-label { position: relative; color: #00C050; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; }"
     }
   ],
   "narrative": {
     "northStar": "El Aro de Impulso",
-    "overview": "Todo el sistema orbita el aro degradado del logo: momentum circular que rodea contenido clínicamente limpio. La energía es física — verde de arranque, negro de figura atlética, tipografía condensada que empuja — pero el rigor es de consulta profesional: contraste impecable, aire generoso, datos concretos en grande. La página se estructura en bloques de entrenamiento que alternan blanco → gris superficie → negro, y el aro reaparece como acento medido: máximo 1–2 formas por sección, nunca decoración gratuita.",
+    "overview": "Todo el sistema orbita el aro degradado del logo: momentum circular que rodea contenido clínicamente limpio. La energía es física — verde de arranque, negro de figura atlética, tipografía condensada que empuja — pero el rigor es de consulta profesional: contraste impecable, aire generoso, datos concretos en grande. El sistema vivió una migración completa a fondo oscuro y el PO, ya viendo el sitio entero así, la acotó a mitad de camino: la landing y /agendar son territorio claro (el original, sin polaridad invertida) y /programa es territorio oscuro (el gimnasio a las 5 de la mañana, negro dominante, el verde como única luz). No son dos sistemas: son la misma paleta, tipografía y aro, resueltos con polaridad opuesta — el aro mismo cambia de contenido y tratamiento según el territorio en el que aparece.",
     "keyCharacteristics": [
-      "Bloques de alto contraste (blanco/gris/negro) con 64–96px de aire vertical",
-      "Verde brillante reservado para acción y para brillar sobre negro",
-      "Cifras protagonistas en Barlow Condensed gigante (precios, resultados)",
-      "Movimiento corto y con propósito (≤300ms, solo transform/opacity)",
-      "El aro degradado como única firma decorativa"
+      "Territorio claro (landing, /agendar): bloques de alto contraste (blanco/gris/negro) con 64–96px de aire vertical; sombra ambiental que se tiñe de verde al responder al tacto.",
+      "Territorio oscuro (/programa): negro como escenario por defecto, verde brillante como única fuente de luz, superficies planas con hairline en vez de sombra.",
+      "Cifras protagonistas en Barlow Condensed gigante en ambos territorios — más grandes aún en el oscuro.",
+      "Movimiento corto y con propósito: 150–300ms para toda interacción cotidiana; hasta 1100ms solo en las secuencias cinematográficas declaradas del hero.",
+      "El aro degradado como única firma decorativa — nunca más de 1–2 formas por sección.",
+      "En un formulario, la claridad manda: /agendar y su confirmación son territorio claro sin excepción (Salas Iluminadas)."
     ],
     "rules": [
-      { "name": "La Regla del Verde Legible", "body": "#00C050 nunca es texto sobre blanco. Texto verde = Verde Profundo, siempre. Sobre negro, el brillante sí pasa — ahí es donde debe lucirse.", "section": "colors" },
-      { "name": "La Regla del Botón Negro", "body": "El botón primario es verde con texto NEGRO (8.6:1). Texto blanco sobre Verde Arranque está prohibido; el blanco llega solo con el hover a Verde Profundo.", "section": "colors" },
-      { "name": "La Regla del Aro", "body": "El degradado de marca (135°, #00A870 → #00C050) vive en formas y acentos: aros, bordes de 4px, marcos. Jamás como fondo de texto corrido.", "section": "colors" },
-      { "name": "La Regla de la Cifra Protagonista", "body": "Todo número que importa (precio, kg, semanas) se compone en Barlow Condensed 700 con tabular-nums, en tamaño Price o mayor. Los números no se esconden en el párrafo.", "section": "typography" },
-      { "name": "La Regla del Tracking en Caps", "body": "Todo texto en MAYÚSCULAS lleva tracking por token: 0.06em a tamaño title y mayores, 0.08em a tamaño label. Excepción declarada: el display condensado del hero usa 0.01em.", "section": "typography" },
-      { "name": "La Barra de Impulso", "body": "El kicker de sección es una barra píldora de 48×4px con el degradado del aro bajo el h2 — nunca un chip rotulador. El chip queda reservado al eslogan del hero y al badge Recomendado.", "section": "typography" },
-      { "name": "La Regla del Tinte al Tacto", "body": "La sombra de interacción siempre lleva el verde de marca en su color. Una sombra gris que crece es genérica; una que verdea es Nutrición Activa.", "section": "elevation" }
+      { "name": "La Regla del Verde Legible (extendida)", "body": "Sobre fondo claro, texto verde = Verde Profundo, siempre. Sobre fondo oscuro, texto verde = Verde Arranque brillante, siempre. Nunca al revés en ningún territorio.", "section": "colors" },
+      { "name": "La Regla del Botón Negro", "body": "El botón primario es verde con texto NEGRO (8.6:1), en cualquier territorio. Texto blanco sobre Verde Arranque está prohibido; el blanco llega solo con el hover a Verde Profundo.", "section": "colors" },
+      { "name": "La Regla del Aro", "body": "El degradado de marca vive en formas y acentos: aros, bordes de 4px, marcos, glow. Jamás como fondo de texto corrido. El aro es polimórfico — enmarca logo, foto o cifra según la sección — pero sigue siendo un único degradado.", "section": "colors" },
+      { "name": "El Presupuesto de Glow", "body": "Máximo una sombra verde (glow) por elemento, nunca dos apiladas. Cero text-shadow en cuerpo de texto. Cero efectos cyberpunk. El glow es exclusivo de /programa — territorio claro no usa glow verde en ningún punto.", "section": "colors" },
+      { "name": "La Regla de la Cifra Protagonista", "body": "Todo número que importa se compone en Barlow Condensed 700 con tabular-nums, en tamaño Price o mayor en territorio claro, en tamaño Stat o mayor en territorio oscuro. Los números no se esconden en el párrafo.", "section": "typography" },
+      { "name": "La Regla del Tracking en Caps", "body": "Todo texto en MAYÚSCULAS lleva tracking por token: 0.06em a tamaño title y mayores, 0.08em a tamaño label. Excepción declarada: el display del hero (condensado gigante, cualquier territorio) usa 0.01em.", "section": "typography" },
+      { "name": "La Barra de Impulso", "body": "El kicker de sección es una barra píldora de 48×4px con el degradado del aro bajo el h2 — nunca un chip rotulador. El chip queda reservado al eslogan del hero y al badge Recomendado. No confundir con la Barra de Impulso Luminosa, un patrón de movimiento distinto.", "section": "typography" },
+      { "name": "La Regla del Tinte al Tacto", "body": "La elevación de interacción siempre lleva el verde de marca: en territorio claro es una sombra que crece y se tiñe de verde; en territorio oscuro es un glow que se enciende. Nunca los dos a la vez.", "section": "elevation" }
     ],
     "dos": [
-      "Do componer texto verde sobre blanco únicamente con Verde Profundo (#007D3C) — La Regla del Verde Legible.",
-      "Do usar el degradado del aro como firma: una forma o borde por sección, máximo dos.",
-      "Do animar solo transform y opacity, 150–300ms, con el ease-out fuerte (cubic-bezier(0.16, 1, 0.3, 1)), y respetar prefers-reduced-motion en CSS y JS.",
+      "Do componer texto verde sobre blanco únicamente con Verde Profundo, y sobre negro únicamente con Verde Arranque brillante — La Regla del Verde Legible, en cualquier dirección de superficie.",
+      "Do usar el degradado del aro como firma: una forma o borde por sección, máximo dos — puede enmarcar logo, foto o cifra, nunca ser fondo de texto corrido.",
+      "Do animar solo transform y opacity (más color/box-shadow en Tinte al Tacto), 150–300ms con el ease-out fuerte, salvo las secuencias cinematográficas declaradas del hero (hasta 1100ms). Respetar prefers-reduced-motion en CSS y JS, sin excepción, en los seis patrones nombrados.",
       "Do mostrar datos reales del PO (precios en colones, horario GMT-6, voseo); los datos que faltan llevan marcador .na-pending, jamás valores inventados.",
-      "Do mantener los rieles de las grillas: alturas derivadas de tokens y líneas de texto (em), nunca píxeles mágicos."
+      "Do mantener los rieles de las grillas y los radios: alturas derivadas de tokens, radios interiores calculados desde el radio del marco — nunca píxeles mágicos sueltos.",
+      "Do mantener /agendar y su confirmación en territorio claro sin importar que /programa sea oscuro — Salas Iluminadas: en un formulario, la claridad manda."
     ],
     "donts": [
-      "Don't — texto blanco sobre Verde Arranque, ni #00C050 como texto sobre blanco. Prohibido sin excepción.",
+      "Don't — texto blanco sobre Verde Arranque, ni #00C050 como texto sobre blanco, ni Verde Profundo como texto sobre negro. Prohibido sin excepción.",
       "Don't — \"fitness agresivo de suplementos\": antes/después exagerados, promesas milagro, tipografía de gimnasio a gritos.",
       "Don't — \"clínica fría\" ni \"coach genérico de Instagram\": tono hospitalario, frases motivacionales vacías, stock sonriente.",
       "Don't — \"plantilla SaaS genérica\": hero de métricas infladas, grid de features intercambiable.",
-      "Don't — chip eyebrow encima de cada sección: es andamiaje de IA, no voz. El chip pertenece al eslogan del hero y al badge Recomendado; las secciones jerarquizan con la Barra de Impulso.",
-      "Don't — recolorear el verde de WhatsApp, usar emojis como iconos, franjas laterales de color en cards, gradient text, glassmorphism, sombras apiladas o efectos 3D.",
+      "Don't — chip eyebrow encima de cada sección: es andamiaje de IA, no voz. El chip pertenece al eslogan del hero y al badge Recomendado.",
+      "Don't — apilar más de un glow por elemento, ni usar glow fuera de /programa.",
+      "Don't — efectos cyberpunk en /programa: cero scanlines, glitch o parpadeo.",
+      "Don't — recolorear el verde de WhatsApp, usar emojis como iconos, franjas laterales de color en cards, gradient text, glassmorphism, sombras apiladas o efectos 3D, en ningún territorio.",
+      "Don't — aplicar el duotono de imagen (de ningún territorio) a la foto de \"Sobre mí\": es prueba social documental, no composición.",
       "Don't — inventar prueba social: sin material real del PO no hay testimonios, ni transformaciones, ni credenciales — \"Sin prueba, sin promesa\"."
     ]
   }

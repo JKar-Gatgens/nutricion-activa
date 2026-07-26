@@ -27,7 +27,10 @@
   /* Tipografía */
   --na-font-heading: "Barlow Condensed", "Arial Narrow", sans-serif;
   --na-font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
-  --na-fs-display: clamp(2.5rem, 6vw, 4.5rem);
+  /* Escala póster (MASTER v2 §3/§5): el Bloque 1 difirió esta subida hasta
+     que el hero tuviera fondo oscuro que la sostenga — Bloque 2 lo migra,
+     así que el cambio de valor ya es seguro. */
+  --na-fs-display: clamp(3.5rem, 8vw, 6rem);
   --na-fs-h2: clamp(2rem, 4vw, 3rem);
   --na-fs-h3: 1.5rem;
   --na-fs-lead: 1.25rem;
@@ -57,10 +60,28 @@
   --na-shadow-card: 0 4px 16px rgba(10, 10, 10, 0.08);
   --na-shadow-card-hover: 0 10px 28px rgba(0, 192, 80, 0.18);
 
-  /* Movimiento */
+  /* Dirección A "Neón de Madrugada" (MASTER v2 §2.5/§5) — superficies
+     oscuras y glow. Fundaciones del Sprint 4 Bloque 1: disponibles para que
+     los próximos bloques del rollout restyleen cada sección; ninguna
+     plantilla los consume todavía. Presupuesto de glow: 1 sombra verde por
+     elemento, nunca apiladas (MASTER §6.6). */
+  --na-dark-bg: var(--na-black);
+  --na-dark-ink: var(--na-gray-200);
+  --na-hairline: rgba(255, 255, 255, 0.08);
+  --na-glow-cta: 0 0 32px rgba(0, 192, 80, 0.35);
+  --na-glow-photo: 0 0 48px rgba(0, 192, 80, 0.45);
+  --na-glow-ring: 0 0 44px rgba(0, 192, 80, 0.45);
+
+  /* Movimiento — vocabulario con nombre (MASTER §8.1), ver más abajo */
   --na-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --na-dur-fast: 150ms;
-  --na-dur-base: 250ms;
+  --na-dur-fast: 150ms;       /* Tinte al Tacto: press */
+  --na-dur-base: 250ms;       /* Tinte al Tacto: hover */
+  --na-dur-cascada: 280ms;    /* Revelado en Cascada: reveal genérico de secciones */
+  --na-dur-ascenso: 550ms;    /* Ascenso Escalonado: texto que precede un clímax
+                                 (Encendido en /programa, Revelado del Aro en la landing) */
+  --na-dur-encendido: 850ms;  /* Encendido: clímax foto/aro en /programa (oscuro) */
+  --na-dur-revelado: 700ms;   /* Revelado del Aro: clímax foto/aro en la landing (claro) */
+  --na-dur-impulso: 1100ms;   /* Barra de Impulso Luminosa: relleno de progreso */
 
   /* Overrides de Bootstrap 5 */
   --bs-primary: #00C050;
@@ -256,11 +277,15 @@ button:focus-visible,
    Footer — sección oscura de marca
    ------------------------------------------------------------ */
 
+/* Ya era negro desde v1 (footer, como la trustbar, nació alineado con la
+   Dirección A por accidente) — Bloque 3 solo le suma el hairline que
+   marca el límite con el cierre, coherente con el resto del cuerpo. */
 .na-footer {
   background-color: var(--na-black);
   color: var(--na-gray-200);
   padding-top: var(--na-space-7);
   padding-bottom: var(--na-space-5);
+  border-top: 1px solid var(--na-hairline);
 }
 
 .na-footer h2 {
@@ -298,7 +323,7 @@ button:focus-visible,
 }
 
 .na-footer .na-footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid var(--na-hairline);
   margin-top: var(--na-space-6);
   padding-top: var(--na-space-4);
   font-size: var(--na-fs-small);
@@ -322,8 +347,11 @@ button:focus-visible,
   }
 }
 
+/* v2.1: la landing vuelve a la escala v1 (territorio claro) — valor literal
+   en vez de --na-fs-display porque ese token sigue en escala póster para
+   el H1 de /programa (territorio oscuro, no se toca). */
 .na-hero h1 {
-  font-size: var(--na-fs-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   text-transform: uppercase;
   letter-spacing: 0.01em; /* excepción deliberada: display condensado, tracking mínimo */
 }
@@ -366,40 +394,120 @@ button:focus-visible,
   overflow: hidden;
 }
 
-/* Composición decorativa: aro con el degradado de marca que ecoa el
-   círculo del logo, con el logo real al centro (máx. 2 formas, MASTER §6) */
-.na-hero-visual {
+/* Territorio oscuro únicamente (/programa): el badge "Recomendado" de
+   Servicios volvió a superficie clara con el resto de la landing (v2.1),
+   así que sale de este selector — el chip mint de siempre le sirve otra
+   vez. Solo el kicker del hero de /programa sigue necesitando el rótulo
+   desnudo sobre negro. */
+.na-programa-hero .na-eyebrow {
+  background: none;
+  color: var(--na-green);
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Foco visible sobre negro — territorio /programa únicamente (v2.1): la
+   landing volvió a superficie clara y usa el anillo verde-profundo de
+   siempre (5.2:1 sobre blanco). --na-footer sigue acá porque el footer es
+   negro en todas las páginas desde v1, no es parte del rollout. */
+.na-footer a:focus-visible,
+.na-programa-hero a:focus-visible,
+.na-programa-hero .btn:focus-visible,
+.na-programa-precio a:focus-visible,
+.na-programa-precio .btn:focus-visible,
+.na-superficie-oscura a:focus-visible,
+.na-cierre a:focus-visible,
+.na-cierre .btn:focus-visible,
+.na-cierre-claro a:focus-visible,
+.na-cierre-claro .btn:focus-visible {
+  outline-color: var(--na-white);
+}
+
+/* El outline-dark normal (borde/texto negro) sería invisible sobre fondo
+   negro — .na-cierre-claro es la landing (vuelve a v1, pero el cierre YA
+   era negro en v1 también, así que sigue necesitando el outline claro). */
+.na-cierre .btn-outline-light,
+.na-cierre-claro .btn-outline-light,
+.na-programa-hero .btn-outline-light {
+  --bs-btn-color: var(--na-white);
+  --bs-btn-border-color: var(--na-white);
+  --bs-btn-hover-bg: var(--na-white);
+  --bs-btn-hover-border-color: var(--na-white);
+  --bs-btn-hover-color: var(--na-black);
+  --bs-btn-padding-y: 0.875rem;
+  --bs-btn-padding-x: 2.5rem;
+}
+
+/* El aro del hero (territorio claro, MASTER §6.3-bis): la foto real de
+   Andrés reemplaza al logo dentro del aro. El aro degradado es el marco
+   (padding + fondo, como .na-photo-frame de Sobre mí), no un overlay; la
+   sombra es la ambiental de reposo del sistema (--na-shadow-card), nunca
+   un glow verde — única sombra del elemento (Presupuesto de Glow, §6.6). */
+.na-hero-photo {
   position: relative;
-  width: min(340px, 72vw);
+  width: min(360px, 76vw);
   aspect-ratio: 1;
   margin-inline: auto;
-}
-
-.na-hero-ring {
-  position: absolute;
-  inset: 0;
+  padding: var(--na-space-1);
   border-radius: 50%;
   background: var(--na-gradient-brand);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
+  box-shadow: var(--na-shadow-card);
 }
 
-.na-hero-visual img {
+/* Recorta el círculo de la foto por separado del aro (MASTER §6.3-ter): si
+   el tinte/viñeta viviera en .na-hero-photo, cubrirían también la banda de
+   4px del marco y la lavarían. Este span solo existe para alojar el
+   duotono suave — el marco no lo necesita. */
+.na-hero-photo-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+/* La fuente es un retrato alto (750×1280) con mucho aire arriba de la
+   cabeza y piso abajo. object-position sola (cover) dejaba a Andrés chico
+   compitiendo con el gimnasio de fondo — el scale + su transform-origin
+   cerca de la cara cierran el recorte para que domine el círculo de pecho
+   para arriba (encuadre ya validado, se conserva tal cual).
+   filter: duotono suave de marca (MASTER §6.3-ter) — desaturación PARCIAL
+   (no grayscale(1) como en /programa, §6.3) + contraste leve para que no
+   se vea lavada sobre blanco. El tinte de color vive en el ::after de abajo. */
+.na-hero-photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+  transform: scale(2.2);
+  transform-origin: 50% 20%;
+  filter: grayscale(0.45) contrast(1.1) saturate(0.9);
+}
+
+/* Tiñe con el degradado de marca a BAJA intensidad (0.16 vs. 0.85 en
+   /programa, §6.3) — suficiente para leerse como pieza diseñada sin
+   perder a Andrés como protagonista reconocible. */
+.na-hero-photo-frame::after {
+  content: "";
   position: absolute;
   inset: 0;
-  margin: auto;
-  width: 48%;
-  height: auto;
+  background: var(--na-gradient-brand);
+  mix-blend-mode: color;
+  opacity: 0.16;
 }
 
-.na-hero-dot {
+/* Viñeta CLARA (opuesto a la viñeta oscura de /programa, §6.3): aclara
+   hacia los bordes en vez de oscurecer, hundiendo el ruido del gimnasio
+   (pelotas, bandas) hacia el blanco de la página en vez de hacia el negro.
+   z-index 1 para quedar por encima del tinte, igual que el scrim de /programa. */
+.na-hero-photo-frame::before {
+  content: "";
   position: absolute;
-  top: 4%;
-  right: 10%;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--na-green);
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 24%, transparent 45%, rgba(255, 255, 255, 0.7) 100%);
 }
 
 /* Títulos de sección (MASTER §3) con la Barra de Impulso: el kicker del
@@ -573,7 +681,7 @@ button:focus-visible,
    logo) sobre esquinas de card. width 100% + height auto mantiene proporción. */
 .na-photo-frame {
   background: var(--na-gradient-brand);
-  padding: 4px;
+  padding: var(--na-space-1);
   border-radius: var(--na-radius-md);
   box-shadow: var(--na-shadow-card);
 }
@@ -582,7 +690,9 @@ button:focus-visible,
   display: block;
   width: 100%;
   height: auto;
-  border-radius: calc(var(--na-radius-md) - 4px);
+  /* Radio interior = radio del marco menos su propio padding, para que las
+     dos esquinas queden concéntricas (nunca un valor mágico suelto). */
+  border-radius: calc(var(--na-radius-md) - var(--na-space-1));
 }
 
 /* ------------------------------------------------------------
@@ -634,33 +744,52 @@ button:focus-visible,
 
 /* ------------------------------------------------------------
    CTA de cierre — franja negra antes del footer (MASTER §7.9)
+   .na-cierre (/programa, oscuro, sin tocar) y .na-cierre-claro (landing,
+   vuelve a v1) comparten esta base: la franja de cierre YA era negra en
+   v1 en ambos territorios — lo único que difiere son los acentos
+   cinematográficos que Bloque 3 sumó, ahora exclusivos de /programa.
    ------------------------------------------------------------ */
 
-.na-cierre {
+.na-cierre,
+.na-cierre-claro {
   background: var(--na-black);
   color: var(--na-white);
   text-align: center;
 }
 
-.na-cierre .na-section-title {
+.na-cierre .na-section-title,
+.na-cierre-claro .na-section-title {
   color: var(--na-white);
 }
 
-.na-cierre .na-lead {
+/* .text-center (Bootstrap) centra la barra de impulso bajo el h2; el
+   cierre centra por su propio text-align, así que se repite acá la regla
+   — en ambos territorios, es una corrección de layout, no de estética. */
+.na-cierre .na-section-title::after,
+.na-cierre-claro .na-section-title::after {
+  margin-inline: auto;
+}
+
+.na-cierre .na-lead,
+.na-cierre-claro .na-lead {
   color: var(--na-gray-200);
   margin-inline: auto;
 }
 
-/* Outline claro para el CTA secundario sobre fondo negro: el outline-dark
-   normal (borde/texto negro) sería invisible acá. */
-.na-cierre .btn-outline-light {
-  --bs-btn-color: var(--na-white);
-  --bs-btn-border-color: var(--na-white);
-  --bs-btn-hover-bg: var(--na-white);
-  --bs-btn-hover-border-color: var(--na-white);
-  --bs-btn-hover-color: var(--na-black);
-  --bs-btn-padding-y: 0.875rem;
-  --bs-btn-padding-x: 2.5rem;
+/* Exclusivo de /programa (territorio oscuro, v2.1): hairline de transición,
+   mayúsculas + tracking (eco del H1 póster) y el glow único del CTA. La
+   landing (.na-cierre-claro) no los usa — volvió a v1. */
+.na-cierre {
+  border-top: 1px solid var(--na-hairline);
+}
+
+.na-cierre .na-section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.na-cierre .btn-primary {
+  box-shadow: var(--na-glow-cta);
 }
 
 /* Marcador visible de dato pendiente. Único uso vivo: el [PRECIO PENDIENTE]
@@ -679,21 +808,154 @@ button:focus-visible,
 }
 
 /* ------------------------------------------------------------
-   Animación de entrada al scroll (fade + rise)
-   El JS agrega .na-reveal antes de observar: sin JS nada queda oculto.
-   Solo transform/opacity, < 300ms, una sola vez.
+   Vocabulario de movimiento (MASTER v2 §8.1) — 5 patrones con nombre.
+   Fundaciones del Sprint 4 Bloque 1: clases disponibles para que los
+   próximos bloques del rollout las apliquen sección por sección. Hoy
+   ninguna plantilla usa las nuevas todavía — salvo Revelado en Cascada,
+   que YA es el reveal genérico que el sitio usa desde HU-01 (data-reveal +
+   reveal.js), acá solo formalizado con su nombre.
+
+   Los 5 solo animan transform/opacity y comparten un único mecanismo:
+   reveal.js agrega la clase .na-reveal a todo elemento [data-reveal] antes
+   de observarlo, y agrega .is-in cuando entra en viewport (una sola vez).
+   Bajo prefers-reduced-motion (o sin IntersectionObserver) reveal.js
+   retorna antes de agregar ninguna clase — así que ninguno de estos
+   patrones llega a aplicarse nunca: el contenido queda visible al
+   instante, sin excepción.
    ------------------------------------------------------------ */
 
+/* Revelado en Cascada: el reveal genérico de secciones al hacer scroll,
+   stagger vía data-reveal-delay. */
 .na-reveal {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 280ms var(--na-ease-out),
-              transform 280ms var(--na-ease-out);
+  transition: opacity var(--na-dur-cascada) var(--na-ease-out),
+              transform var(--na-dur-cascada) var(--na-ease-out);
 }
 
 .na-reveal.is-in {
   opacity: 1;
   transform: none;
+}
+
+/* Ascenso Escalonado: el texto que precede un clímax (Encendido o Revelado
+   del Aro) — rise más notorio (32px) y más lento que la Cascada genérica.
+   Se combina con data-reveal + data-reveal-delay para el stagger entre
+   elementos (kicker → H1 → lead → CTA). El estado final se fija con
+   selector de 3 clases (.is-in incluido): con la misma especificidad que
+   la regla genérica .na-reveal.is-in, el orden de declaración en el
+   archivo decide el empate, y dejarlo implícito es frágil ante reordenes
+   futuros — así el reposo en transform:none no depende de eso. */
+.na-ascenso.na-reveal {
+  transform: translateY(32px);
+  transition: opacity var(--na-dur-ascenso) var(--na-ease-out),
+              transform var(--na-dur-ascenso) var(--na-ease-out);
+}
+
+.na-ascenso.na-reveal.is-in {
+  transform: none;
+}
+
+/* Encendido: el clímax de una secuencia (foto o aro) — opacity + scale
+   desde 0.92, nunca desde 0. El glow del elemento (--na-glow-photo /
+   --na-glow-ring) no se anima aparte: ya está puesto en reposo y aparece
+   junto con la opacidad. Mismo motivo que Ascenso Escalonado arriba para
+   fijar el estado final con selector de 3 clases. */
+.na-encendido.na-reveal {
+  transform: scale(0.92);
+  transition: opacity var(--na-dur-encendido) var(--na-ease-out),
+              transform var(--na-dur-encendido) var(--na-ease-out);
+}
+
+.na-encendido.na-reveal.is-in {
+  transform: none;
+}
+
+/* Revelado del Aro (MASTER §6.4a-claro, territorio claro): el equivalente
+   del Encendido para fondo blanco — en superficie clara el glow no sirve
+   (Regla del Verde Legible), así que el clímax es puro movimiento, en dos
+   tiempos. 1) El aro (.na-hero-photo) escala a su lugar como el resto de
+   los patrones opacity+scale. 2) La foto adentro (.na-hero-photo-frame) se
+   revela con un rezago propio de 120ms fijo (no data-reveal-delay: es
+   coreografía interna del elemento, no stagger de entrada entre elementos
+   distintos) para leerse como "el aro encaja, después la foto aparece".
+   Ambos estados "abiertos" se fijan con selector de 3 clases para no
+   depender del orden de declaración frente a la regla genérica
+   .na-reveal.is-in (misma especificidad, ambigua por orden de fuente). */
+.na-revelado-aro.na-reveal {
+  transform: scale(0.86);
+  transition: opacity var(--na-dur-revelado) var(--na-ease-out),
+              transform var(--na-dur-revelado) var(--na-ease-out);
+}
+
+.na-revelado-aro.na-reveal.is-in {
+  transform: none;
+}
+
+.na-revelado-aro.na-reveal .na-hero-photo-frame {
+  opacity: 0;
+  transform: scale(1.18);
+  transition: opacity var(--na-dur-revelado) var(--na-ease-out) 120ms,
+              transform var(--na-dur-revelado) var(--na-ease-out) 120ms;
+}
+
+.na-revelado-aro.na-reveal.is-in .na-hero-photo-frame {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Tinte al Tacto (DESIGN.md §5): variante para superficies oscuras — el
+   tinte es glow (box-shadow verde), no elevación con sombra gris. Utilidad
+   para futuras cards/hovers sobre fondo negro (p. ej. el tablero de
+   números o los módulos de /programa). */
+.na-tinte-oscuro {
+  transition: box-shadow var(--na-dur-base) var(--na-ease-out),
+              border-color var(--na-dur-base) var(--na-ease-out),
+              transform var(--na-dur-base) var(--na-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .na-tinte-oscuro:hover {
+    border-color: var(--na-green);
+    box-shadow: var(--na-glow-cta);
+    transform: translateY(-4px);
+  }
+}
+
+/* Barra de Impulso Luminosa: relleno del degradado que pasa de 0 a 1, una
+   sola vez al entrar en viewport. El contenedor (.na-impulso-pista) no se
+   desvanece — no es una Cascada, solo dispara vía reveal.js el relleno de
+   su hijo; sin JS (o con reduced-motion) el hijo nace lleno. */
+.na-impulso-pista {
+  position: relative;
+  height: 8px;
+  border-radius: var(--na-radius-pill);
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.na-impulso-pista.na-reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.na-impulso-luz {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--na-gradient-brand);
+  transform-origin: left;
+  transform: scaleX(1); /* estado por defecto: sin JS, nace llena */
+  transition: transform var(--na-dur-impulso) var(--na-ease-out);
+}
+
+.na-impulso-pista.na-reveal .na-impulso-luz {
+  transform: scaleX(0);
+}
+
+.na-impulso-pista.na-reveal.is-in .na-impulso-luz {
+  transform: scaleX(1);
 }
 
 /* ------------------------------------------------------------
@@ -765,36 +1027,120 @@ button:focus-visible,
   margin-bottom: var(--na-space-6);
 }
 
-.na-step {
-  max-width: 760px;
-  margin-inline: auto;
-  margin-bottom: var(--na-space-6);
-}
-
-.na-step-title {
+/* Indicador de pasos (Bloque 6): dónde está el visitante en el flujo de 3
+   pasos — la pieza de "energía en el marco" que reemplaza al número inline
+   de cada bloque (§8, Revelado en Cascada al cargar la página). Estado
+   derivado directamente de los datos ya presentes (servicio/fecha
+   elegidos), no de scroll ni de JS: solo transiciones de color, que
+   `prefers-reduced-motion` conserva (no son movimiento). */
+.na-stepper {
   display: flex;
-  align-items: center;
-  gap: var(--na-space-3);
-  font-size: var(--na-fs-h3);
-  margin-bottom: var(--na-space-4);
+  list-style: none;
+  max-width: 620px;
+  margin: 0 auto var(--na-space-6);
+  padding: 0;
 }
 
-.na-step-num {
-  flex-shrink: 0;
+.na-stepper-item {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Línea conectora: gris por defecto, degradado una vez que el paso previo
+   quedó resuelto. Se dibuja del centro de un dot al centro del siguiente. */
+.na-stepper-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--na-gray-200);
+  z-index: 0;
+}
+
+.na-stepper-item.is-done:not(:last-child)::after {
+  background: var(--na-gradient-brand);
+}
+
+.na-stepper-dot {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--na-gradient-brand);
-  color: var(--na-black);
   font-family: var(--na-font-heading);
   font-weight: 700;
   font-size: var(--na-fs-body);
+  background: var(--na-white);
+  border: 2px solid var(--na-gray-200);
+  color: var(--na-gray-500);
+  transition: background-color var(--na-dur-base) var(--na-ease-out),
+              border-color var(--na-dur-base) var(--na-ease-out),
+              color var(--na-dur-base) var(--na-ease-out);
 }
 
-/* Paso 1: selector de servicio (tarjetas-enlace, navegación por GET) */
+.na-stepper-item.is-done .na-stepper-dot {
+  background: var(--na-gradient-brand);
+  border-color: transparent;
+  color: var(--na-black);
+}
+
+.na-stepper-item.is-current .na-stepper-dot {
+  border-color: var(--na-green-dark);
+  color: var(--na-green-dark);
+}
+
+.na-stepper-label {
+  margin-top: var(--na-space-2);
+  font-size: var(--na-fs-small);
+  font-weight: 600;
+  color: var(--na-gray-500);
+  transition: color var(--na-dur-base) var(--na-ease-out);
+}
+
+.na-stepper-item.is-current .na-stepper-label,
+.na-stepper-item.is-done .na-stepper-label {
+  color: var(--na-black);
+}
+
+.na-step {
+  max-width: 760px;
+  margin-inline: auto;
+  margin-bottom: var(--na-space-6);
+}
+
+/* El número inline (1/2/3) se retiró de acá: el .na-stepper de arriba ya
+   comunica en qué paso está el visitante. El título de cada paso pasa a
+   compartir la firma visual de .na-section-title (barra de degradado) para
+   que el "marco" del formulario tenga la misma energía que el resto del
+   sitio, sin tocar los inputs. */
+.na-step-title {
+  font-size: var(--na-fs-h3);
+  margin-bottom: var(--na-space-4);
+}
+
+.na-step-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 4px;
+  margin-top: var(--na-space-2);
+  border-radius: var(--na-radius-pill);
+  background: var(--na-gradient-brand);
+}
+
+/* Paso 1: selector de servicio (tarjetas-enlace, navegación por GET).
+   Mismo lenguaje de Tinte al Tacto que .na-service-card (rise + sombra de
+   marca al hover), para que el marco del formulario luzca coherente con
+   el resto de la landing. */
 .na-servicio-picker {
   display: grid;
   gap: var(--na-space-3);
@@ -809,14 +1155,17 @@ button:focus-visible,
   padding: var(--na-space-4);
   text-decoration: none;
   color: inherit;
+  box-shadow: var(--na-shadow-card);
   transition: border-color var(--na-dur-base) var(--na-ease-out),
               box-shadow var(--na-dur-base) var(--na-ease-out),
-              transform var(--na-dur-fast) var(--na-ease-out);
+              transform var(--na-dur-base) var(--na-ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .na-servicio-opcion:hover {
     border-color: var(--na-green);
+    box-shadow: var(--na-shadow-card-hover);
+    transform: translateY(-4px);
   }
 }
 
@@ -901,6 +1250,10 @@ button:focus-visible,
   background: var(--na-green);
   border-color: var(--na-green);
   color: var(--na-black);
+  /* Profundidad de reposo (--na-shadow-card), nunca un glow: territorio
+     claro, "Salas Iluminadas" (MASTER §6.6) — el pill elegido se lee como
+     elevado, no como iluminado. */
+  box-shadow: var(--na-shadow-card);
 }
 
 .na-slot input:focus-visible + span {
@@ -915,7 +1268,7 @@ button:focus-visible,
   color: var(--na-gray-700);
 }
 
-/* Foco de campos de formulario: anillo sólido de marca (DESIGN.md §5) */
+/* Foco de campos de formulario: anillo sólido de marca (DESIGN.md §7) */
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {
@@ -979,10 +1332,11 @@ button:focus-visible,
 
 .na-confirmacion-resumen {
   display: grid;
-  gap: var(--na-space-3);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--na-space-4) var(--na-space-3);
   background: var(--na-gray-100);
   border-radius: var(--na-radius-sm);
-  padding: var(--na-space-4);
+  padding: var(--na-space-5) var(--na-space-4);
   margin-bottom: var(--na-space-4);
 }
 
@@ -999,6 +1353,30 @@ button:focus-visible,
   font-weight: 500;
 }
 
+/* Jerarquía nueva (Bloque 6): fecha y horario son el dato que el visitante
+   necesita para actuar (agendarlo en su propio calendario) — pasan a
+   Cifra Protagonista. "A nombre de" es confirmación de contexto, no algo
+   que se vaya a releer, así que queda en el tamaño chico de siempre (mismo
+   dt/dd de arriba, sin clase extra) y se separa con un hairline. Ni el
+   texto ni los campos cambian — mismos dt/dd, mismos valores. */
+.na-confirmacion-fecha dd {
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-size: var(--na-fs-h3);
+  color: var(--na-black);
+}
+
+.na-confirmacion-hora dd {
+  color: var(--na-green-dark); /* Regla del Verde Legible: profundo sobre blanco */
+  font-variant-numeric: tabular-nums;
+}
+
+.na-confirmacion-resumen > div:last-child {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--na-gray-200);
+  padding-top: var(--na-space-3);
+}
+
 .na-confirmacion-aviso {
   color: var(--na-gray-500);
   font-size: var(--na-fs-small);
@@ -1010,6 +1388,94 @@ button:focus-visible,
    Estructural dentro del MASTER actual; la temática gym llega en
    Sprint 4 (D-18).
    ------------------------------------------------------------ */
+
+/* Momento wow (b) — hook activado en Bloque 1, vestido en Bloque 4 (MASTER
+   §6.4b): fondo negro con la foto de ambiente de gimnasio hundida detrás,
+   el "90" en su aro encendido al frente. */
+.na-programa-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+}
+
+.na-programa-hero h1 {
+  color: var(--na-white);
+  /* El H1 de /programa recupera jerarquía por tamaño bruto (MASTER §3): la
+     escala póster no es solo del hero del index — migra acá también. */
+  font-size: var(--na-fs-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* El contenido vive sobre la foto de ambiente (más abajo): necesita su
+   propio nivel de apilamiento por encima de ella. */
+.na-programa-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* El CTA primario emite luz: única sombra verde de este elemento. */
+.na-programa-hero .btn-primary {
+  box-shadow: var(--na-glow-cta);
+}
+
+/* Fondo atmosférico (static/img/gym-ambiente.webp). Ajuste tras feedback del
+   PO: el oscurecido uniforme anterior no dejaba ver nada (ni la figura en
+   la caminadora). Ahora es un SCRIM DIRECCIONAL (::before, más abajo): muy
+   oscuro donde vive el texto (columna izquierda), notablemente más claro
+   hacia la columna derecha, donde el gimnasio y la persona entrenando
+   deben leerse de verdad. El brillo base de la foto sube bastante (antes
+   0.35) porque ahora es el scrim, no el filter, el que protege el texto.
+   Cero glow acá — el presupuesto de este bloque lo gasta el aro. */
+.na-programa-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Encuadre: la fuente es un retrato alto (688×1529, con barras negras de
+   letterbox propias del archivo) y el contenedor es ancho y bajo — cover
+   solo puede mostrar una franja horizontal delgada. object-position ubica
+   esa franja sobre la persona (centro real ≈54% del alto de la foto); el
+   scale + transform-origin en el borde izquierdo empuja a la persona hacia
+   la derecha (de ≈54% a ≈70% del ancho visible), lejos de la columna de
+   texto y hacia la zona clara del scrim. */
+.na-programa-hero-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 54%;
+  transform: scale(1.25);
+  transform-origin: 0 50%;
+  filter: grayscale(0.3) brightness(0.85) contrast(1.05);
+}
+
+/* Tiñe el azul del gimnasio hacia el verde de marca */
+.na-programa-hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--na-gradient-brand);
+  mix-blend-mode: color;
+  opacity: 0.3;
+}
+
+/* Scrim direccional: casi opaco sobre la columna de texto (izquierda),
+   se aclara notablemente pasada la mitad para que del lado derecho la
+   foto -- gimnasio, luces, la persona -- se vea de verdad. */
+.na-programa-hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg,
+    rgba(10, 10, 10, 0.94) 0%,
+    rgba(10, 10, 10, 0.9) 42%,
+    rgba(10, 10, 10, 0.55) 62%,
+    rgba(10, 10, 10, 0.22) 100%);
+}
 
 /* Banner del index: única sección Verde Tinte de la página (jerarquía de
    producto estrella con tokens existentes). Compacta: presenta y enlaza. */
@@ -1023,26 +1489,59 @@ button:focus-visible,
   color: var(--na-gray-700);
 }
 
-/* Cifra Protagonista del hero de /programa (MASTER §3): el 90 es el dato
-   central del producto, compuesto en condensada gigante con tabular-nums. */
+/* Momento wow (b) — "Encendido" (MASTER §6.4b): el aro degradado se
+   enciende con el "90" brillando adentro sobre negro. Aro HUECO (mask),
+   a diferencia del disco sólido del hero del index: acá el hueco nunca se
+   lee vacío porque la Cifra Protagonista llena el centro. Composición de
+   Bloque 4 (commit 3aa7ae9), recuperada tras probar y descartar la
+   variante de tablero/calendario — el PO prefirió el aro. Suma count-up
+   (countup.js) sobre `.na-programa-cifra-num`, sin cambios de marco. */
 .na-programa-cifra {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  width: min(420px, 84vw);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  padding: var(--na-space-5);
+  /* El interior del aro es hueco (ver ::before): sin esto, el "90" queda
+     directamente sobre la foto de fondo, que ahora es más clara de este
+     lado (scrim direccional). Este wash es independiente del scrim
+     exterior -- garantiza el contraste del número sin importar qué tan
+     clara quede la foto detrás. No es un glow verde: no cuenta contra el
+     presupuesto de sombra del elemento (eso lo sigue gastando el aro). */
+  background: radial-gradient(circle, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0) 68%);
+}
+
+.na-programa-cifra::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--na-gradient-brand);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
+  filter: drop-shadow(var(--na-glow-ring)); /* única sombra de este elemento */
 }
 
 .na-programa-cifra-num {
+  position: relative;
   font-family: var(--na-font-heading);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   font-size: clamp(6rem, 16vw, 11rem);
   line-height: 1;
-  color: var(--na-black);
+  color: var(--na-white);
 }
 
+/* Regla del Verde Legible: verde profundo se hunde sobre negro — la
+   etiqueta bajo el "90" usa el verde brillante. */
 .na-programa-cifra-label {
-  color: var(--na-green-dark);
+  position: relative;
+  color: var(--na-green);
   font-weight: 600;
   font-size: var(--na-fs-h3);
   font-family: var(--na-font-heading);
@@ -1050,21 +1549,83 @@ button:focus-visible,
   letter-spacing: var(--na-tracking-caps);
 }
 
-/* Módulos: secuencia temporal real (30+30+30) — el número porta información */
-.na-programa-modulos {
-  background: var(--na-gray-100);
+/* Utilidad compartida: secciones de /programa que solo necesitan el fondo
+   negro + hairline + h2 blanco de la Dirección A, sin nada más específico
+   (Qué incluye, el tablero de números). */
+.na-superficie-oscura {
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
 }
 
+.na-superficie-oscura .na-section-title {
+  color: var(--na-white);
+}
+
+/* Módulos: secuencia temporal real (30+30+30) — el número porta información */
+.na-programa-modulos {
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
+}
+
+.na-programa-modulos .na-section-title {
+  color: var(--na-white);
+}
+
+/* Momento wow (c) — Barra de Impulso Luminosa (MASTER §6.4c/§8.1): la
+   secuencia 30+30+30=90 dibujada como progreso que se llena al entrar en
+   viewport, una sola vez. Vive ARRIBA de las 3 cards (que no cambian su
+   contrato: mismo texto, misma clase na-modulo-card) como resumen. */
+.na-progreso-modulos {
+  max-width: 900px;
+  margin: 0 auto var(--na-space-6);
+}
+
+.na-progreso-marcas {
+  display: flex;
+  margin-top: var(--na-space-3);
+}
+
+.na-progreso-marcas li {
+  flex: 1;
+  text-align: center;
+  border-left: 1px solid var(--na-hairline);
+  padding: var(--na-space-2) var(--na-space-2) 0;
+}
+
+.na-progreso-marcas li:first-child {
+  border-left: none;
+}
+
+.na-progreso-num {
+  display: block;
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-size: var(--na-fs-h3);
+  color: var(--na-white);
+}
+
+.na-progreso-dias {
+  color: var(--na-green);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps-sm);
+}
+
+/* Superficie plana con hairline (MASTER §6.2), igual que Servicios: sin
+   sombra en reposo, la card se lee por su borde. */
 .na-modulo-card {
   height: 100%;
-  background: var(--na-white);
+  background: var(--na-dark-bg);
+  border: 1px solid var(--na-hairline);
   border-radius: var(--na-radius-md);
-  box-shadow: var(--na-shadow-card);
   padding: var(--na-space-5) var(--na-space-4);
   text-align: center;
 }
 
-/* Círculo degradado del sistema (eco de .na-step-num de /agendar), tamaño
+/* Círculo degradado del sistema (eco de .na-stepper-dot de /agendar), tamaño
    de módulo: la secuencia es el contenido de la card, no un adorno. */
 .na-modulo-num {
   display: inline-flex;
@@ -1084,10 +1645,12 @@ button:focus-visible,
 .na-modulo-nombre {
   font-size: var(--na-fs-h3);
   margin-bottom: var(--na-space-1);
+  color: var(--na-white); /* el h3 global fuerza negro (invisible sobre la card oscura) */
 }
 
+/* Regla del Verde Legible: verde profundo se hunde sobre negro. */
 .na-modulo-dias {
-  color: var(--na-green-dark);
+  color: var(--na-green);
   font-weight: 600;
   font-size: var(--na-fs-small);
   text-transform: uppercase;
@@ -1098,7 +1661,7 @@ button:focus-visible,
 /* Solo existe cuando el PO ya diseñó el módulo (D-19): con descripcion null
    la card termina en los días — sin placeholder, el margen no se reserva. */
 .na-modulo-desc {
-  color: var(--na-gray-500);
+  color: var(--na-dark-ink); /* Gris Secundario solo pasa AA sobre blanco */
   margin: var(--na-space-3) 0 0;
 }
 
@@ -1106,11 +1669,12 @@ button:focus-visible,
   display: grid;
   gap: var(--na-space-2);
   margin: var(--na-space-3) 0 0;
-  color: var(--na-gray-700);
+  color: var(--na-dark-ink);
   font-size: var(--na-fs-small);
 }
 
-/* Qué incluye: icono en círculo tinte + texto, riel horizontal por ítem */
+/* Qué incluye: icono en círculo con hairline + texto, riel horizontal por
+   ítem. El chip tinte (pensado para fondo claro) pasa a contorno hairline. */
 .na-incluye-item {
   display: flex;
   align-items: center;
@@ -1125,33 +1689,40 @@ button:focus-visible,
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--na-green-tint);
-  color: var(--na-green-dark);
+  background: none;
+  border: 1px solid var(--na-hairline);
+  color: var(--na-green);
 }
 
 .na-incluye-texto {
   font-weight: 500;
 }
 
-/* Precio: card blanca con la barra degradada del sistema (na-card-featured);
-   position:relative + overflow para que la barra ::before se recorte igual
-   que en las cards de servicios. */
+/* Precio: card oscura con hairline + la barra degradada del sistema
+   (na-card-featured), igual tratamiento que las cards de Servicios —
+   position:relative + overflow para que la barra ::before se recorte. */
 .na-programa-precio {
-  background: var(--na-gray-100);
+  background: var(--na-dark-bg);
+  color: var(--na-dark-ink);
+  border-top: 1px solid var(--na-hairline);
+}
+
+.na-programa-precio .na-section-title {
+  color: var(--na-white);
 }
 
 .na-programa-precio-card {
   position: relative;
   overflow: hidden;
-  background: var(--na-white);
+  background: var(--na-dark-bg);
+  border: 1px solid var(--na-hairline);
   border-radius: var(--na-radius-md);
-  box-shadow: var(--na-shadow-card);
   padding: var(--na-space-5) var(--na-space-4);
   text-align: center;
 }
 
 .na-programa-precio-label {
-  color: var(--na-gray-500);
+  color: var(--na-dark-ink); /* Gris Secundario solo pasa AA sobre blanco */
   font-weight: 600;
   font-size: var(--na-fs-small);
   text-transform: uppercase;
@@ -1160,11 +1731,68 @@ button:focus-visible,
 
 .na-programa-precio-card .na-price {
   margin-top: 0; /* sin riel de card de servicio: no hereda el ancla al fondo */
+  color: var(--na-white);
 }
 
 .na-programa-precio-detalle {
-  color: var(--na-gray-700);
+  color: var(--na-dark-ink);
   margin-bottom: var(--na-space-4);
+}
+
+/* El CTA primario emite luz: única sombra verde de este elemento. */
+.na-programa-precio-card .btn-primary {
+  box-shadow: var(--na-glow-cta);
+}
+
+/* ------------------------------------------------------------
+   El programa, en números (§6.5 — componente importado de la Dirección B)
+   ------------------------------------------------------------ */
+
+.na-tablero-stats li {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--na-green); /* filete de acento, no es una sombra */
+  padding-top: var(--na-space-3);
+}
+
+.na-tablero-num {
+  font-family: var(--na-font-heading);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(3rem, 8vw, 5rem);
+  line-height: 1;
+  color: var(--na-green);
+}
+
+/* El precio tiene más caracteres que 90/3/6 — clamp más contenido, mismo
+   peso visual (MASTER §6.5): sigue siendo la pieza dominante del ítem. */
+.na-tablero-precio .na-tablero-num {
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  white-space: nowrap;
+}
+
+/* Fix de contraste obligatorio del §6.5: la cata de origen (Dirección B)
+   usaba Gris Secundario para esta etiqueta, ilegible sobre negro (2.4) —
+   acá siempre Gris Borde / --na-dark-ink. */
+.na-tablero-label {
+  display: block;
+  color: var(--na-dark-ink);
+  font-weight: 600;
+  font-size: var(--na-fs-small);
+  text-transform: uppercase;
+  letter-spacing: var(--na-tracking-caps-sm);
+}
+
+/* Jerarquía de precio (§6.5): el equivalente por módulo queda subordinado
+   — nunca al mismo peso que el precio real, para que no se confundan. */
+.na-tablero-sub {
+  display: block;
+  margin-top: var(--na-space-1);
+  color: var(--na-dark-ink);
+  font-weight: 500;
+  font-size: var(--na-fs-small);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 /* ------------------------------------------------------------
@@ -1180,8 +1808,24 @@ button:focus-visible,
     transition-duration: 0.01ms !important;
   }
 
-  /* el JS de reveal ya no corre con reduced-motion; esto es la red de seguridad */
+  /* el JS de reveal ya no corre con reduced-motion; esto es la red de
+     seguridad para los 5 patrones del vocabulario de movimiento (MASTER
+     §8.1) — Cascada, Ascenso Escalonado y Encendido comparten .na-reveal */
   .na-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Barra de Impulso Luminosa: red de seguridad — nace llena */
+  .na-impulso-luz {
+    transform: scaleX(1);
+  }
+
+  /* Revelado del Aro (6.4a-claro): red de seguridad para el segundo tiempo
+     (la foto adentro del aro) — sin esto, sin JS igual queda visible por
+     depender de .na-reveal (arriba), pero se deja explícito por la misma
+     razón que .na-impulso-luz: no depender solo de que la clase nunca llegue. */
+  .na-hero-photo-frame {
     opacity: 1;
     transform: none;
   }

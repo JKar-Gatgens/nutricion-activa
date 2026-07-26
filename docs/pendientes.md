@@ -103,6 +103,23 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       exista. Los meta tags Open Graph (og:url, og:image del preview de WhatsApp)
       exigen URL absoluta; en local cae al default `http://localhost`, que NO sirve
       para compartir en producción. *(Origen: /impeccable harden, 2026-07-13)*
+- [ ] **Agrupar el grid de horarios de `/agendar` (paso 3, `.na-slots`)**: hoy
+      renderiza cada horario disponible como una pill del mismo peso visual, sin
+      agrupar ni topar cantidad — un día de 8am a 6pm con slots por hora puede
+      mostrar 8-10+ opciones simultáneas, por encima del límite de ≤4 opciones por
+      punto de decisión que el resto del sitio respeta (checklist de carga
+      cognitiva). Propuesta: agrupar por mañana/tarde con subtítulos, o topar la
+      vista inicial detrás de un "ver más horarios". Toca el flujo de reserva ya
+      probado (HU-04), así que merece su propio momento en vez de un cambio
+      apurado. *(Origen: /impeccable critique del sitio completo, 2026-07-25)*
+- [ ] **Explicar en las cards de servicios por qué unas dicen "Agendar" y otras
+      "Solicitar por WhatsApp"**: la distinción viene de un flag interno
+      (`agendable`) que nunca se traduce a copy visible — un visitante nuevo no
+      tiene forma de saber de antemano que protocolos/rutinas requieren
+      conversación por WhatsApp mientras las consultas se agendan al instante.
+      Redactar una propuesta de copy corta (p. ej. un caption bajo el botón
+      "Se coordina por WhatsApp") y validarla con el PO antes de tocar
+      `index.html`. *(Origen: /impeccable critique del sitio completo, 2026-07-25)*
 
 ## Backend / base de datos
 
@@ -190,3 +207,13 @@ Tareas anotadas durante el desarrollo que no bloquean el sprint actual.
       validación final en la demo"). El apellido "Herrera" fue pedido y confirmado
       directamente por el PO. *(Origen: code review del paso 7, 2026-07-15. Confirmado
       por el PO el mismo día.)*
+- [ ] **Precios solo en colones para una audiencia de "toda Latinoamérica"**: PRODUCT.md
+      describe la audiencia como deportistas de toda LATAM, pero los precios se muestran
+      únicamente en CRC (con la aclaración "Precios en colones costarricenses (CRC)" una
+      sola vez, en el subtítulo de la sección) sin conversión ni referencia de otra
+      moneda. Un visitante fuera de Costa Rica puede no convertir el monto de inmediato,
+      lo que debilita el peldaño "puedo pagarlo" de la escalera de creencias justo para
+      la audiencia no-CR que el producto dice atender. Es una decisión de producto (¿se
+      agrega una nota de equivalencia aproximada? ¿se deja así a propósito?), no de
+      implementación — validar con el PO. *(Origen: /impeccable critique del sitio
+      completo, 2026-07-25)*

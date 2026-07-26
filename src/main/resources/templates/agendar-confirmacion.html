@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Cita confirmada — Nutrición Activa')}">
+<head th:replace="~{fragments/layout :: head(pageTitle='Cita confirmada — Nutrición Activa', pageDescription=null, pageImage=null, pagePath=null)}">
     <title>Cita confirmada — Nutrición Activa</title>
 </head>
 <body>
@@ -22,18 +22,22 @@
                     </svg>
                 </div>
 
-                <h1 class="text-center mb-3">¡Cita confirmada!</h1>
+                <h1 class="na-section-title text-center mb-3">¡Cita confirmada!</h1>
                 <p class="text-center na-lead mb-4">
                     Quedó reservada tu cita de
                     <strong th:text="${servicio != null ? servicio.nombre : cita.servicioId}">Consulta de nutrición</strong>.
                 </p>
 
+                <!-- Jerarquía nueva (Bloque 6): fecha y horario son el dato accionable
+                     (Cifra Protagonista), "a nombre de" es confirmación de contexto y
+                     queda subordinado, separado por un hairline. Mismos dt/dd, mismo
+                     texto, mismos valores — solo cambia el peso visual (styles.css). -->
                 <dl class="na-confirmacion-resumen mb-0">
-                    <div>
+                    <div class="na-confirmacion-fecha">
                         <dt>Fecha</dt>
                         <dd th:text="${fechaFormateada}">lunes 20 de julio de 2026</dd>
                     </div>
-                    <div>
+                    <div class="na-confirmacion-fecha na-confirmacion-hora">
                         <dt>Horario (Costa Rica, GMT-6)</dt>
                         <dd th:text="|${horaInicio} – ${horaFin}|">14:00 – 15:30</dd>
                     </div>
@@ -44,8 +48,9 @@
                 </dl>
 
                 <p class="na-confirmacion-aviso mt-4">
-                    Te enviamos un correo a <strong th:text="${cita.clienteCorreo}">ana@correo.com</strong> con el
-                    detalle de tu cita. Si necesitás hacer algún cambio, escribinos por WhatsApp.
+                    Te enviaremos un correo a <strong th:text="${cita.clienteCorreo}">ana@correo.com</strong> con el
+                    detalle de tu cita. Si no te llega en unos minutos (revisá spam) o necesitás hacer algún cambio,
+                    escribinos por WhatsApp.
                 </p>
 
                 <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">

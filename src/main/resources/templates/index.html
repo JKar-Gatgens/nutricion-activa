@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Nutrición Activa — Alimenta tu potencial')}">
+<head th:replace="~{fragments/layout :: head(pageTitle='Nutrición Activa — Alimenta tu potencial', pageDescription=null, pageImage=null, pagePath=null)}">
     <title>Nutrición Activa — Alimenta tu potencial</title>
 </head>
 <body>
@@ -14,15 +14,18 @@
         <div class="container">
             <div class="row align-items-center gy-5">
                 <div class="col-12 col-lg-7">
-                    <p class="na-eyebrow mb-0" data-reveal>Alimenta tu potencial</p>
-                    <h1 class="mt-3 mb-3" data-reveal data-reveal-delay="40">
+                    <!-- Ascenso Escalonado (MASTER §8.1): preludio del clímax de la
+                         foto/aro (Revelado del Aro, §6.4a-claro) — mismo stagger que
+                         usa /programa antes de su Encendido. -->
+                    <p class="na-eyebrow mb-0 na-ascenso" data-reveal>Alimenta tu potencial</p>
+                    <h1 class="mt-3 mb-3 na-ascenso" data-reveal data-reveal-delay="120">
                         Perdé grasa y <span class="na-accent">ganá músculo</span> con un plan hecho para vos
                     </h1>
-                    <p class="na-lead mb-4" data-reveal data-reveal-delay="80">
+                    <p class="na-lead mb-4 na-ascenso" data-reveal data-reveal-delay="240">
                         Nutrición deportiva online para deportistas y personas activas
                         de toda Latinoamérica, con seguimiento personalizado.
                     </p>
-                    <div class="d-flex flex-wrap align-items-center gap-3" data-reveal data-reveal-delay="120">
+                    <div class="d-flex flex-wrap align-items-center gap-3 na-ascenso" data-reveal data-reveal-delay="360">
                         <a class="btn btn-primary btn-lg" th:href="@{/agendar}">Agendar mi cita</a>
                         <a class="btn btn-outline-dark btn-lg"
                            th:href="@{https://wa.me/{numero}(numero=${whatsapp.numero}, text=${whatsapp.mensaje})}"
@@ -31,12 +34,20 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-5">
-                    <!-- Composición de marca: aro degradado que ecoa el círculo del logo -->
-                    <div class="na-hero-visual" aria-hidden="true" data-reveal data-reveal-delay="80">
-                        <div class="na-hero-ring"></div>
-                        <img th:src="@{/img/logo.webp}" src="../static/img/logo.webp" alt="" width="320" height="320" loading="eager">
-                        <span class="na-hero-dot"></span>
-                    </div>
+                    <!-- El aro degradado enmarca la foto real de Andrés (MASTER §6.3-bis) —
+                         reemplaza al logo. La foto lleva el duotono suave de territorio
+                         claro (MASTER §6.3-ter): el span interior recorta el círculo y
+                         aloja el tinte/viñeta, separado del aro para no lavar el marco.
+                         Revelado del Aro (MASTER §6.4a-claro): clímax tras el Ascenso
+                         Escalonado del texto — el aro escala a su lugar y la foto se
+                         revela adentro con un instante propio de rezago (ver CSS). -->
+                    <figure class="na-hero-photo na-revelado-aro m-0" data-reveal data-reveal-delay="420">
+                        <span class="na-hero-photo-frame">
+                            <img th:src="@{/img/andres-hero.webp}" src="../static/img/andres-hero.webp"
+                                 alt="Andrés entrenando con mancuernas en el gimnasio"
+                                 width="750" height="1280" loading="eager" decoding="async">
+                        </span>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -255,8 +266,13 @@
         </div>
     </section>
 
-    <!-- ========== CTA DE CIERRE (HU-11) ========== -->
-    <section class="na-section na-cierre">
+    <!-- ========== CTA DE CIERRE (HU-11) ==========
+         na-cierre-claro (no na-cierre: esa clase quedó reservada para /programa,
+         territorio oscuro — MASTER v2.1 §6/nota de implementación). La franja
+         sigue siendo negra en ambos casos (ya lo era en v1), solo difieren los
+         acentos cinematográficos de /programa (mayúsculas, glow), que esta
+         variante no lleva. -->
+    <section class="na-section na-cierre-claro">
         <div class="container">
             <h2 class="na-section-title mb-3" data-reveal>
                 Empezá tu cambio hoy

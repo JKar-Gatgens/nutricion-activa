@@ -4,27 +4,43 @@
 <!-- ============================================================
      Fragmentos de layout — Nutrición Activa
      Uso en páginas:
-       <head th:replace="~{fragments/layout :: head('Título de la página')}">
+       <head th:replace="~{fragments/layout :: head(pageTitle='Título', pageDescription=null, pageImage=null, pagePath=null)}">
        <nav  th:replace="~{fragments/layout :: navbar}">
        <footer th:replace="~{fragments/layout :: footer}">
        <th:block th:replace="~{fragments/layout :: scripts}">
+
+     head() siempre se llama con los 4 parámetros por nombre, ninguno
+     opcional en la llamada: Thymeleaf exige que toda selección de fragmento
+     por nombre incluya cada parámetro declarado en la firma, aunque sea con
+     valor `null` — una llamada con solo `pageTitle` rompe la resolución del
+     fragmento. Los que llegan en `null` caen al genérico vía `?:` dentro
+     del fragmento.
+
+     pageDescription/pageImage/pagePath: pasar un valor real en vez de
+     `null` para previews de enlace por página (WhatsApp es el canal
+     principal del negocio, ver PRODUCT.md):
+       <head th:replace="~{fragments/layout :: head(
+               pageTitle='Título',
+               pageDescription='Descripción propia',
+               pageImage='/img/propia.png',
+               pagePath='/ruta')}">
      ============================================================ -->
 
-<head th:fragment="head(pageTitle)">
+<head th:fragment="head(pageTitle, pageDescription, pageImage, pagePath)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${pageTitle} ?: 'Nutrición Activa — Alimenta tu potencial'">Nutrición Activa</title>
-    <meta name="description" content="Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.">
+    <meta name="description" th:content="${pageDescription} ?: 'Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.'" content="Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.">
 
     <!-- Open Graph: preview del enlace en WhatsApp (canal principal del negocio) y redes.
          og:url y og:image exigen URL absoluta: viene de app.sitio.base-url. -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Nutrición Activa">
-    <meta property="og:title" content="Nutrición Activa — Alimenta tu potencial">
-    <meta property="og:description" content="Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.">
+    <meta property="og:title" th:content="${pageTitle} ?: 'Nutrición Activa — Alimenta tu potencial'" content="Nutrición Activa — Alimenta tu potencial">
+    <meta property="og:description" th:content="${pageDescription} ?: 'Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.'" content="Hábitos sostenibles, no dietas de moda: nutrición deportiva online para deportistas y personas activas de toda Latinoamérica.">
     <meta property="og:locale" content="es_CR">
-    <meta property="og:url" th:content="|${sitio.baseUrl}/|" content="http://localhost/">
-    <meta property="og:image" th:content="|${sitio.baseUrl}/img/og.png|" content="http://localhost/img/og.png">
+    <meta property="og:url" th:content="|${sitio.baseUrl}${pagePath ?: '/'}|" content="http://localhost/">
+    <meta property="og:image" th:content="|${sitio.baseUrl}${pageImage ?: '/img/og.png'}|" content="http://localhost/img/og.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Logo de Nutrición Activa: figura atlética dentro del aro verde, con el eslogan Alimenta tu potencial">
