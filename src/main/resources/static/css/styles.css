@@ -110,9 +110,15 @@
    Base
    ------------------------------------------------------------ */
 
-/* Las anclas (#servicios, #sobre-mi) no deben quedar bajo el navbar sticky (~62px) */
+/* Las anclas (#servicios, #sobre-mi, #paso-2, #paso-3) no deben quedar bajo
+   el navbar sticky. De sm en adelante el navbar mide ~71px (una fila) y
+   5rem alcanzaba, pero bajo ~500px la marca + el CTA + el toggler no caben
+   en una fila y el navbar envuelve a dos (~121px medido) — cualquier ancla
+   quedaba tapada ahí (confirmado con /agendar en 375px). 9rem cubre el
+   caso de dos filas con margen, y de sm en adelante solo dan un poco más
+   de aire del mínimo — nunca tapa nada en ningún ancho. */
 html {
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 9rem;
 }
 
 h1, h2, h3, h4,
@@ -1115,6 +1121,16 @@ button:focus-visible,
   max-width: 760px;
   margin-inline: auto;
   margin-bottom: var(--na-space-6);
+}
+
+/* #paso-2/#paso-3 (agendar.html) son el destino de anclas de fragmento entre
+   pasos: el salto ya se ve por el scroll, así que el anillo de foco de todo
+   el bloque (no es un elemento interactivo) sería ruido visual — mismo
+   criterio que el destino de un skip-link. El foco de teclado/lector de
+   pantalla sí se mueve (eso es lo que arregla el tabindex="-1"); solo se
+   suprime el anillo. */
+.na-step[tabindex="-1"]:focus {
+  outline: none;
 }
 
 /* El número inline (1/2/3) se retiró de acá: el .na-stepper de arriba ya

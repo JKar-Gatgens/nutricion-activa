@@ -52,10 +52,6 @@
                 </li>
             </ol>
 
-            <div th:if="${errorGeneral}" class="alert alert-danger na-agendar-alerta" role="alert" data-reveal>
-                <span th:text="${errorGeneral}">No se pudo completar la reserva.</span>
-            </div>
-
             <!-- ========== PASO 1: servicio ========== -->
             <div class="na-step" data-reveal>
                 <h2 class="na-step-title">Elegí tu servicio</h2>
@@ -64,7 +60,7 @@
                        role="listitem"
                        class="na-servicio-opcion"
                        th:classappend="${servicioSeleccionado != null and servicioSeleccionado.id == s.id} ? 'is-selected'"
-                       th:href="@{/agendar(servicio=${s.id})}"
+                       th:href="|/agendar?servicio=${s.id}#paso-2|"
                        th:attr="aria-current=${servicioSeleccionado != null and servicioSeleccionado.id == s.id} ? 'true'">
                         <h3 th:text="${s.nombre}">Consulta de nutrición</h3>
                         <p th:text="|Sesión de ${s.duracionMinutos} min|">Sesión de 90 min</p>
@@ -72,10 +68,14 @@
                 </div>
             </div>
 
-            <!-- ========== PASO 2: fecha (solo con servicio elegido) ========== -->
-            <div class="na-step" th:if="${servicioSeleccionado != null}" data-reveal>
+            <!-- ========== PASO 2: fecha (solo con servicio elegido) ==========
+                 id + tabindex="-1": el ancla de fragmento del paso 1 aterriza
+                 acá (mejora progresiva, sin JS) y mueve también el foco de
+                 teclado/lector de pantalla, no solo el scroll — el mismo
+                 mecanismo que un skip-link, aplicado a cada paso. -->
+            <div class="na-step" id="paso-2" tabindex="-1" th:if="${servicioSeleccionado != null}" data-reveal>
                 <h2 class="na-step-title">Elegí la fecha</h2>
-                <form method="get" th:action="@{/agendar}" class="na-fecha-form row g-3 align-items-end">
+                <form method="get" th:action="@{/agendar#paso-3}" class="na-fecha-form row g-3 align-items-end">
                     <input type="hidden" name="servicio" th:value="${servicioSeleccionado.id}">
                     <div class="col-12 col-sm-auto">
                         <label class="form-label" for="fecha">Fecha</label>
@@ -94,9 +94,18 @@
                 </form>
             </div>
 
-            <!-- ========== PASO 3: horario y datos (solo con servicio + fecha) ========== -->
-            <div class="na-step" th:if="${servicioSeleccionado != null and fechaSeleccionada != null}" data-reveal>
+            <!-- ========== PASO 3: horario y datos (solo con servicio + fecha) ==========
+                 El form de este paso también apunta su action a #paso-3: si el
+                 POST vuelve a renderizar esta misma vista (spam, validación,
+                 SlotNoDisponibleException — ver AgendarController), el
+                 navegador aterriza y enfoca este paso de nuevo, con el error
+                 ya adentro, sin que la persona tenga que buscarlo. -->
+            <div class="na-step" id="paso-3" tabindex="-1" th:if="${servicioSeleccionado != null and fechaSeleccionada != null}" data-reveal>
                 <h2 class="na-step-title">Horario y tus datos</h2>
+
+                <div th:if="${errorGeneral}" class="alert alert-danger na-agendar-alerta" role="alert" data-reveal>
+                    <span th:text="${errorGeneral}">No se pudo completar la reserva.</span>
+                </div>
 
                 <div th:if="${slotsDisponibles == null or #lists.isEmpty(slotsDisponibles)}" class="na-sin-horarios">
                     <p class="mb-0">
@@ -106,7 +115,7 @@
                 </div>
 
                 <form th:unless="${slotsDisponibles == null or #lists.isEmpty(slotsDisponibles)}"
-                      method="post" th:action="@{/agendar}" th:object="${reservaCitaForm}"
+                      method="post" th:action="@{/agendar#paso-3}" th:object="${reservaCitaForm}"
                       class="na-form-reserva" data-reserva-form novalidate>
 
                     <input type="hidden" th:field="*{servicioId}">
